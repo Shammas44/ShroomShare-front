@@ -1,0 +1,7 @@
+{
+  "name": "shroomshare-front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

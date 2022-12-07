@@ -1,3 +1,11 @@
 <ion-content>
 <p>page Wiki</p>
+<div>
+  <div class="card-specy" *ngFor="let specy of species">
+    <h2>{{specy.name}}</h2> 
+    <p>{{specy.id}}</p> 
+    <p>{{specy.description}}</p> 
+    <p><b>{{specy.usage}}</b></p> 
+  </div>
+</div>
 </ion-content>

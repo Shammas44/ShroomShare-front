@@ -15,15 +15,29 @@ export class WikiPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('init');
     this.api.getSpecies$().subscribe({
       next: (species) => {
-        console.log(species);
+        console.log(1,species);
         this.species = species;
       },
       error: (err) => {
-        console.warn(`Authentication failed: ${err.message}`);
+        console.warn(`${err.message}`);
       },
     });
+    setTimeout(() => {
+      this.api
+        .getSpecies$({
+          currentPage: 2
+        })
+        .subscribe({
+          next: (species) => {
+            console.log(2,species);
+            this.species = species;
+          },
+          error: (err) => {
+            console.warn(`${err.message}`);
+          },
+        });
+    }, 5000);
   }
 }

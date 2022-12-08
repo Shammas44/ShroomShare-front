@@ -13,27 +13,13 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +10 ~/Documents/Prog/ShroomShare/app.js
-badd +3 src/app/layout/layout.page.html
-badd +1 src/app/layout/camera/camera-routing.module.ts
-badd +1 src/app/layout/map/map.page.html
-badd +5 src/app/auth/auth.guard.ts
-badd +19 src/app/app.module.ts
-badd +1 src/app/layout/camera/camera.page.html
-badd +55 src/app/auth/auth.service.ts
-badd +4 src/app/models/user.ts
-badd +1 src/app/models/auth-request.ts
-badd +32 ~/Documents/Prog/ShroomShare/src/schemas/user.js
-badd +9 src/app/app.component.ts
-badd +14 node_modules/rxjs/src/internal/operators/delayWhen.ts
-badd +1 ~/Documents/Prog/shroomshare-front/src/app/layout/mushrooms/mushrooms.page.html
-badd +3 ~/Documents/Prog/shroomshare-front/src/app/layout/wiki/wiki.page.html
-badd +1 ~/Documents/Prog/shroomshare-front/src/app/layout/layout.page.scss
-badd +24 ~/Documents/Prog/shroomshare-front/src/global.scss
+badd +6 src/app/layout/wiki/wiki.page.html
+badd +33 src/app/utils/shroom-share-api.service.ts
+badd +14 ~/Documents/Prog/shroomshare-front/src/app/layout/wiki/wiki.page.ts
 argglobal
 %argdel
 $argadd ./
-edit ~/Documents/Prog/shroomshare-front/src/global.scss
+edit src/app/layout/wiki/wiki.page.html
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -55,7 +41,7 @@ exe 'vert 2resize ' . ((&columns * 142 + 86) / 173)
 argglobal
 enew
 file NvimTree_1
-balt ~/Documents/Prog/shroomshare-front/src/app/layout/layout.page.scss
+balt src/app/utils/shroom-share-api.service.ts
 setlocal fdm=manual
 setlocal fde=
 setlocal fmr={{{,}}}
@@ -66,7 +52,7 @@ setlocal fdn=20
 setlocal nofen
 wincmd w
 argglobal
-balt ~/Documents/Prog/shroomshare-front/src/app/layout/layout.page.scss
+balt src/app/utils/shroom-share-api.service.ts
 setlocal fdm=manual
 setlocal fde=
 setlocal fmr={{{,}}}
@@ -77,12 +63,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 29 - ((28 * winheight(0) + 20) / 41)
+let s:l = 11 - ((10 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 29
-normal! 0
+keepjumps 11
+normal! 03|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 30 + 86) / 173)

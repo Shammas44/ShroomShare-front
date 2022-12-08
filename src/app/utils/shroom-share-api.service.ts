@@ -9,12 +9,12 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Specy } from '../models/specy';
-import { SpeciesResponse } from '../models/species-response';
+import { SpeciesResponse,SpecyResponse } from '../models/species-response';
 
 const API_URL = 'http://localhost:3000/api';
 
 type SpeciesFilter = {
-  page?: Number;
+  currentPage?: Number;
   pageSize?: Number;
   showPicture?: Number;
 };
@@ -46,5 +46,10 @@ export class ShroomShareApiService {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/species${queryParams}`;
     return this.http.get<SpeciesResponse>(url).pipe(map((res) => res.species));
+  }
+
+  getSpecy$(specyId: String): Observable<Specy> {
+    const url = `${API_URL}/species:${specyId}`;
+    return this.http.get<SpecyResponse>(url).pipe(map((res) => res.specy));
   }
 }

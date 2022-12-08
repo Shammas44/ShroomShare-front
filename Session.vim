@@ -13,13 +13,20 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +6 src/app/layout/wiki/wiki.page.html
-badd +33 src/app/utils/shroom-share-api.service.ts
-badd +14 ~/Documents/Prog/shroomshare-front/src/app/layout/wiki/wiki.page.ts
+badd +8 src/app/layout/wiki/wiki.page.html
+badd +109 src/app/utils/shroom-share-api.service.ts
+badd +1 ~/Documents/Prog/shroomshare-front/src/app/layout/wiki/wiki.page.ts
+badd +10 ~/Documents/Prog/shroomshare-front/src/app/models/species.ts
+badd +11 ~/Documents/Prog/shroomshare-front/src/app/models/auth.ts
+badd +28 ~/Documents/Prog/shroomshare-front/src/app/models/users.ts
+badd +5 src/app/models/pictures.ts
+badd +28 ~/Documents/Prog/shroomshare-front/src/app/models/mushrooms.ts
+badd +3 ~/Documents/Prog/shroomshare-front/src/app/models/response.ts
+badd +4 ~/Documents/Prog/shroomshare-front/src/app/models/usages.ts
 argglobal
 %argdel
 $argadd ./
-edit src/app/layout/wiki/wiki.page.html
+edit src/app/utils/shroom-share-api.service.ts
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -52,7 +59,7 @@ setlocal fdn=20
 setlocal nofen
 wincmd w
 argglobal
-balt src/app/utils/shroom-share-api.service.ts
+balt ~/Documents/Prog/shroomshare-front/src/app/models/users.ts
 setlocal fdm=manual
 setlocal fde=
 setlocal fmr={{{,}}}
@@ -63,12 +70,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 11 - ((10 * winheight(0) + 20) / 41)
+let s:l = 116 - ((23 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 11
-normal! 03|
+keepjumps 116
+normal! 015|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 30 + 86) / 173)
@@ -88,6 +95,7 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

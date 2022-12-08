@@ -1,13 +1,9 @@
 import { Picture } from './pictures';
 import {Response} from './response';
 
-export enum Point {
-  point = 'Point',
-}
-
 export type Location = {
-  type: Point;
-  coordinates: Number[];
+  type: 'Point';
+  coordinates: [Number,Number];
 };
 
 export type Mushroom = {

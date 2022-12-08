@@ -15,9 +15,9 @@ export class WikiPage implements OnInit {
   }
 
   ngOnInit() {
-    this.api.getSpecies$().subscribe({
+    this.api.getSpecies$({ showPictures: true }).subscribe({
       next: (species) => {
-        console.log(1,species);
+        console.log(1, species);
         this.species = species;
       },
       error: (err) => {
@@ -27,11 +27,12 @@ export class WikiPage implements OnInit {
     setTimeout(() => {
       this.api
         .getSpecies$({
-          currentPage: 2
+          currentPage: 2,
+          showPictures: true,
         })
         .subscribe({
           next: (species) => {
-            console.log(2,species);
+            console.log(2, species);
             this.species = species;
           },
           error: (err) => {

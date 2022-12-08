@@ -17,7 +17,7 @@ const API_URL = environment.apiUrl;
 type SpeciesFilter = {
   currentPage?: Number;
   pageSize?: Number;
-  showPicture?: Number;
+  showPictures?: Boolean;
 };
 
 type StdObject<T> = {

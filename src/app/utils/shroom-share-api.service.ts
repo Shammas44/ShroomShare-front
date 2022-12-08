@@ -10,8 +10,9 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Specy } from '../models/specy';
 import { SpeciesResponse,SpecyResponse } from '../models/species-response';
+import { environment } from "src/environments/environment";
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = environment.apiUrl;
 
 type SpeciesFilter = {
   currentPage?: Number;

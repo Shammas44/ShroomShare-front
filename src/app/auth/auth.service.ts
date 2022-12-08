@@ -6,9 +6,10 @@ import { Storage } from '@ionic/storage';
 import { AuthResponse } from '../models/auth-response';
 import { User } from '../models/user';
 import { AuthRequest } from '../models/auth-request';
+import { environment } from "src/environments/environment";
 
 // const API_URL = "https://shroom-share.onrender.com/api";
-const API_URL = 'http://localhost:3000/api';
+const API_URL = environment.apiUrl;
 
 /**
  * Authentication service for login/logout.

@@ -8,17 +8,25 @@ import {
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Specy } from '../models/specy';
-import { SpeciesResponse,SpecyResponse } from '../models/species-response';
-import { environment } from "src/environments/environment";
+import {
+  Specy,
+  SpecyResponse,
+  SpeciesResponse,
+  SpeciesFilter,
+} from '../models/species';
+import { environment } from 'src/environments/environment';
+import {
+  Mushroom,
+  MushroomsResponse,
+  MushroomResponse,
+  MushroomsFilter,
+  AddMushroomRequest,
+  ModifyMushroomRequest
+} from '../models/mushrooms';
+import {Response} from '../models/response';
+import { AddUserRequest, ModifyUserRequest, User, UserFilter, UserResponse, UsersResponse } from '../models/users';
 
 const API_URL = environment.apiUrl;
-
-type SpeciesFilter = {
-  currentPage?: Number;
-  pageSize?: Number;
-  showPictures?: Boolean;
-};
 
 type StdObject<T> = {
   [index: string]: T;
@@ -52,5 +60,70 @@ export class ShroomShareApiService {
   getSpecy$(specyId: String): Observable<Specy> {
     const url = `${API_URL}/species:${specyId}`;
     return this.http.get<SpecyResponse>(url).pipe(map((res) => res.specy));
+  }
+
+  getMushrooms$(filter?: MushroomsFilter): Observable<Mushroom[]> {
+    const queryParams = this.setQueryParams(filter || null);
+    const url = `${API_URL}/mushrooms${queryParams}`;
+    return this.http
+      .get<MushroomsResponse>(url)
+      .pipe(map((res) => res.mushrooms));
+  }
+
+  addMushroom$(body: AddMushroomRequest): Observable<Mushroom[]> {
+    const url = `${API_URL}/mushrooms`;
+    return this.http
+      .post<MushroomsResponse>(url, body)
+      .pipe(map((res) => res.mushrooms));
+  }
+
+  deleteMushroom$(mushroomId:String): Observable<String> {
+    const url = `${API_URL}/mushrooms:${mushroomId}`;
+    return this.http
+      .delete<Response>(url)
+      .pipe(map((res) => res.message));
+  }
+
+  modifyMushroom$(mushroomId:String,body:ModifyMushroomRequest): Observable<Mushroom> {
+    const url = `${API_URL}/mushrooms:${mushroomId}`;
+    return this.http
+      .patch<MushroomResponse>(url,body)
+      .pipe(map((res) => res.mushroom));
+  }
+
+  getUsers(filter?: UserFilter): Observable<User[]> {
+    const queryParams = this.setQueryParams(filter || null);
+    const url = `${API_URL}/users${queryParams}`;
+    return this.http
+      .get<UsersResponse>(url)
+      .pipe(map((res) => res.users));
+  }
+
+  getUser(userId:String): Observable<User> {
+    const url = `${API_URL}/users:${userId}`;
+    return this.http
+      .get<UserResponse>(url)
+      .pipe(map((res) => res.user));
+  }
+
+  addUser$(body: AddUserRequest): Observable<User> {
+    const url = `${API_URL}/users`;
+    return this.http
+      .post<UserResponse>(url, body)
+      .pipe(map((res) => res.user));
+  }
+
+  modifyUser$(body: ModifyUserRequest): Observable<User> {
+    const url = `${API_URL}/users`;
+    return this.http
+      .patch<UserResponse>(url, body)
+      .pipe(map((res) => res.user));
+  }
+
+  deleteUser$(userId:String): Observable<String> {
+    const url = `${API_URL}/users:${userId}`;
+    return this.http
+      .delete<UserResponse>(url)
+      .pipe(map((res) => res.message));
   }
 }

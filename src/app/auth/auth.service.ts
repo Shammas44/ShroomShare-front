@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable,from,delayWhen } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
-import { AuthResponse } from '../models/auth-response';
-import { User } from '../models/user';
-import { AuthRequest } from '../models/auth-request';
+import { AuthResponse,AuthRequest } from '../models/auth';
+import { User } from '../models/users';
 import { environment } from "src/environments/environment";
 
 // const API_URL = "https://shroom-share.onrender.com/api";

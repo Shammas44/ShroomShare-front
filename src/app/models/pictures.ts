@@ -1,4 +1,4 @@
-import {CollectionName} from './collection-name'
+import {CollectionName} from './collection-names'
 
 export type Picture = {
   value: String;

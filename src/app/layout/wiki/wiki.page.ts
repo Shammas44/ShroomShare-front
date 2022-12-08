@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Specy } from 'src/app/models/specy';
+import { Specy } from 'src/app/models/species';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 
 @Component({

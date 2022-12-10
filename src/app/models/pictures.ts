@@ -1,9 +1,9 @@
 import {CollectionName} from './collection-names'
 
 export type Picture = {
-  value: String;
-  specy_id: String;
+  value: string;
+  specy_id: string;
   collectionName: CollectionName;
-  date: String;
-  id: String;
+  date: string;
+  id: string;
 };

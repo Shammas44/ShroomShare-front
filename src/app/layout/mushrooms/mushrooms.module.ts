@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MushroomsPageRoutingModule } from './mushrooms-routing.module';
 
 import { MushroomsPage } from './mushrooms.page';
+import {FiltersModule} from '../../filters/filters.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MushroomsPageRoutingModule
+    MushroomsPageRoutingModule,
+    FiltersModule,
   ],
   declarations: [MushroomsPage]
 })

@@ -21,10 +21,18 @@ import {
   MushroomResponse,
   MushroomsFilter,
   AddMushroomRequest,
-  ModifyMushroomRequest
+  ModifyMushroomRequest,
 } from '../models/mushrooms';
-import {Response} from '../models/response';
-import { AddUserRequest, ModifyUserRequest, User, UserFilter, UserResponse, UsersResponse } from '../models/users';
+import { Response } from '../models/response';
+import {
+  AddUserRequest,
+  ModifyUserRequest,
+  User,
+  UserFilter,
+  UserResponse,
+  UsersResponse,
+  PaginatedUsersResponse
+} from '../models/users';
 
 const API_URL = environment.apiUrl;
 
@@ -77,40 +85,35 @@ export class ShroomShareApiService {
       .pipe(map((res) => res.mushrooms));
   }
 
-  deleteMushroom$(mushroomId:String): Observable<String> {
+  deleteMushroom$(mushroomId: String): Observable<String> {
     const url = `${API_URL}/mushrooms:${mushroomId}`;
-    return this.http
-      .delete<Response>(url)
-      .pipe(map((res) => res.message));
+    return this.http.delete<Response>(url).pipe(map((res) => res.message));
   }
 
-  modifyMushroom$(mushroomId:String,body:ModifyMushroomRequest): Observable<Mushroom> {
+  modifyMushroom$(
+    mushroomId: String,
+    body: ModifyMushroomRequest
+  ): Observable<Mushroom> {
     const url = `${API_URL}/mushrooms:${mushroomId}`;
     return this.http
-      .patch<MushroomResponse>(url,body)
+      .patch<MushroomResponse>(url, body)
       .pipe(map((res) => res.mushroom));
   }
 
-  getUsers(filter?: UserFilter): Observable<User[]> {
+  getUsers$(filter?: UserFilter): Observable<PaginatedUsersResponse> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/users${queryParams}`;
-    return this.http
-      .get<UsersResponse>(url)
-      .pipe(map((res) => res.users));
+    return this.http.get<PaginatedUsersResponse>(url);
   }
 
-  getUser(userId:String): Observable<User> {
+  getUser$(userId: String): Observable<User> {
     const url = `${API_URL}/users:${userId}`;
-    return this.http
-      .get<UserResponse>(url)
-      .pipe(map((res) => res.user));
+    return this.http.get<UserResponse>(url).pipe(map((res) => res.user));
   }
 
   addUser$(body: AddUserRequest): Observable<User> {
     const url = `${API_URL}/users`;
-    return this.http
-      .post<UserResponse>(url, body)
-      .pipe(map((res) => res.user));
+    return this.http.post<UserResponse>(url, body).pipe(map((res) => res.user));
   }
 
   modifyUser$(body: ModifyUserRequest): Observable<User> {
@@ -120,10 +123,8 @@ export class ShroomShareApiService {
       .pipe(map((res) => res.user));
   }
 
-  deleteUser$(userId:String): Observable<String> {
+  deleteUser$(userId: String): Observable<String> {
     const url = `${API_URL}/users:${userId}`;
-    return this.http
-      .delete<UserResponse>(url)
-      .pipe(map((res) => res.message));
+    return this.http.delete<UserResponse>(url).pipe(map((res) => res.message));
   }
 }

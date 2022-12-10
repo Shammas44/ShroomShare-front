@@ -3,7 +3,7 @@ import {Picture} from './pictures';
 import {Response} from './response'
 
 export type SpeciesResponse = {
-  message: String;
+  message: string;
   species: Specy[];
 };
 
@@ -12,16 +12,16 @@ export type SpecyResponse = Response & {
 }
 
 export type Specy = {
-  name: String;
-  description: String;
+  name: string;
+  description: string;
   usage: Usage,
-  picture_id: String;
-  id: String;
+  picture_id: string;
+  id: string;
   picture: Picture;
 };
 
 export type SpeciesFilter = {
-  currentPage?: Number;
-  pageSize?: Number;
-  showPictures?: Boolean;
+  currentPage?: number;
+  pageSize?: number;
+  showPictures?: boolean;
 };

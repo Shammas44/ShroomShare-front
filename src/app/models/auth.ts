@@ -1,4 +1,4 @@
-import { User } from "./users";
+import { User } from './users';
 
 export type AuthRequest = {
   username: string;
@@ -9,3 +9,4 @@ export type AuthResponse = {
   token: string;
   user: User;
 };
+

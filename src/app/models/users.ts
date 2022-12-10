@@ -1,4 +1,4 @@
-import {Response} from './response';
+import {Response, PaginatedResponse} from './response';
 export type User = {
   id: string;
   username: string;
@@ -6,11 +6,16 @@ export type User = {
 };
 
 export type UserFilter = {
-  currentPage?: Number;
-  pageSize?: Number;
+  currentPage?: number;
+  pageSize?: number;
+  search?: string;
 }
 
 export type UsersResponse = Response & {
+  users: User[];
+};
+
+export type PaginatedUsersResponse = PaginatedResponse & {
   users: User[];
 };
 
@@ -19,15 +24,15 @@ export type UserResponse = Response & {
 };
 
 export type AddUserRequest = {
-  username: String;
-  password: String;
-  email: String;
-  admin: String;
+  username: string;
+  password: string;
+  email: string;
+  admin: string;
 }
 
 export type ModifyUserRequest = {
-  username?: String;
-  password?: String;
-  email?: String;
-  admin?: Boolean;
+  username?: string;
+  password?: string;
+  email?: string;
+  admin?: boolean;
 }

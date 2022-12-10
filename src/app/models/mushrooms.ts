@@ -7,12 +7,12 @@ export type Location = {
 };
 
 export type Mushroom = {
-  specy_id: String;
-  user_id: String;
-  picture_id: String;
-  description: String;
-  date: String;
-  id: String;
+  specy_id: string;
+  user_id: string;
+  picture_id: string;
+  description: string;
+  date: string;
+  id: string;
   picture: Picture;
   location: Location;
 };
@@ -26,29 +26,29 @@ export type MushroomResponse = Response & {
 };
 
 export type MushroomsFilter = {
-  latitude?: Number;
-  longitude?: Number;
-  specyId?: String;
-  userId?: String;
-  showPictures?: Boolean;
-  from?: String;
-  to?: String;
-  currentPage?: Number;
-  pageSize?: Number;
+  latitude?: number;
+  longitude?: number;
+  specyId?: string;
+  userId?: string;
+  showPictures?: boolean;
+  from?: string;
+  to?: string;
+  currentPage?: number;
+  pageSize?: number;
 };
 
 export type AddMushroomRequest = {
-  specy_id: String;
-  picture: String;
-  description?: String;
-  date: String;
+  specy_id: string;
+  picture: string;
+  description?: string;
+  date: string;
   location: Location;
 };
 
 export type ModifyMushroomRequest = {
-  specy_id?: String;
-  picture?: String;
-  description?: String;
-  date?: String;
+  specy_id?: string;
+  picture?: string;
+  description?: string;
+  date?: string;
   location?: Location;
 };

@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 import { User } from '../../models/users';
-import { Observable, from } from 'rxjs';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 type ChoosenUser = User & {
@@ -17,42 +16,31 @@ class UsersMap extends Map<string, ChoosenUser> {}
 export class PickerComponent implements OnInit {
   @Input() pageSize = 5;
 
-  users: UsersMap;
+  users: ChoosenUser[];
   search: string;
   chips: UsersMap;
-  favorites: UsersMap;
-  allFavorites: UsersMap;
+  favorites: ChoosenUser[];
+  allFavorites: ChoosenUser[];
   currentPage: number;
   lastPage: number;
 
   constructor(private api: ShroomShareApiService) {
-    this.users = new UsersMap();
+    this.users = [];
     this.chips = new UsersMap();
-    this.allFavorites = new UsersMap();
-    this.favorites = new UsersMap();
+    this.allFavorites = [];
+    this.favorites = [];
     this.search = '';
     // this.setFavorites();
     this.currentPage = 1;
     this.lastPage = 1;
   }
 
-  // @HostListener('scroll', ['$event'])
   onIonInfinite(event: Event) {
-    console.log({event})
+    console.log({ event });
     this.addUsers();
     setTimeout(() => {
       (event as InfiniteScrollCustomEvent).target.complete();
     }, 500);
-    // const element = event.target as HTMLDetailsElement;
-    // if (element === null|| this.users.size === 0) return;
-    // if (
-    //   //detect scroll to bottom
-    //   element.offsetHeight + element.scrollTop >=
-    //   element.scrollHeight - 1
-    // ) {
-    //   console.log(event);
-    //   this.addUsers();
-    // }
   }
 
   private addUsers() {
@@ -68,8 +56,10 @@ export class PickerComponent implements OnInit {
         console.log(res);
         for (const user of res.users as ChoosenUser[]) {
           user.checked = false;
-          const favoriteUser = this.favorites.get(user.username);
-          if (!favoriteUser) this.users.set(user.username, user);
+          const favoriteUser = this.favorites.find(
+            (favorite) => favorite.username === user.username
+          );
+          if (!favoriteUser) this.users.push(user);
         }
       },
       error: (err) => {
@@ -86,8 +76,10 @@ export class PickerComponent implements OnInit {
         for (const user of res.users as ChoosenUser[]) {
           const chip = this.chips.get(user.username);
           user.checked = chip ? true : false;
-          const favoriteUser = this.favorites.get(user.username);
-          if (!favoriteUser) this.users.set(user.username, user);
+          const favoriteUser = this.favorites.find(
+            (favorite) => favorite.username === user.username
+          );
+          if (!favoriteUser) this.users.push(user);
         }
         this.lastPage = res.lastPage;
       },
@@ -98,7 +90,7 @@ export class PickerComponent implements OnInit {
   }
 
   private resetUsers() {
-    this.users = new Map();
+    this.users = [];
     this.currentPage = 1;
   }
 
@@ -111,8 +103,8 @@ export class PickerComponent implements OnInit {
         next: (res) => {
           for (const user of res.users as ChoosenUser[]) {
             user.checked = false;
-            this.favorites.set(user.username, user);
-            this.allFavorites.set(user.username, user);
+            this.favorites.push(user);
+            this.allFavorites.push(user);
           }
         },
         error: (err) => {
@@ -133,41 +125,41 @@ export class PickerComponent implements OnInit {
       return;
     }
     this.setUsers();
-    this.users.forEach((user) => {
+    this.users = this.users.filter((user) => {
       const lowerCaseUsername = user.username.toLowerCase();
-      if (!lowerCaseUsername.startsWith(lowerCaseSearch))
-        this.users.delete(user.username);
+      if (lowerCaseUsername.startsWith(lowerCaseSearch)) return user;
+      return;
     });
-    this.favorites.forEach((user) => {
+    this.favorites = this.favorites.filter((user) => {
       const lowerCaseUsername = user.username.toLowerCase();
-      if (!lowerCaseUsername.startsWith(lowerCaseSearch))
-        this.favorites.delete(user.username);
+      if (lowerCaseUsername.startsWith(lowerCaseSearch)) return user;
+      return;
     });
   }
 
   private resetFavorites() {
-    const map = new UsersMap(this.allFavorites);
-    map.forEach((user) => {
-      const existingUser = this.favorites.get(user.username);
-      if (existingUser) map.set(user.username, existingUser);
+    const favorites = [...this.allFavorites];
+    favorites.forEach((user) => {
+      const index = this.favorites.findIndex(
+        (favorite) => user.username === favorite.username
+      );
+      if (index !== -1) favorites[index] = user;
     });
-    this.favorites = map;
+    this.favorites = favorites;
   }
 
   onCheck(e: Event) {
     const event = e as CustomEvent;
     const username = event.detail.value;
     const isChecked = event.detail.checked;
-    const user = this.users.get(username);
-    const favoriteUser = this.favorites.get(username);
-    if (user) {
-      user.checked = isChecked;
-      this.users.set(username, user);
-    }
-    if (favoriteUser) {
-      favoriteUser.checked = isChecked;
-      this.favorites.set(username, favoriteUser);
-    }
+    const userIndex = this.users.findIndex(
+      (user) => user.username === username
+    );
+    const favoriteIndex = this.favorites.findIndex(
+      (user) => user.username === username
+    );
+    if (userIndex !== -1) this.users[userIndex].checked = isChecked;
+    if (favoriteIndex !== -1) this.users[favoriteIndex].checked = isChecked;
     if (isChecked) this.chips.set(username, username);
     if (!isChecked) {
       this.chips.delete(username);
@@ -176,16 +168,14 @@ export class PickerComponent implements OnInit {
 
   onChipClick(username: string) {
     this.chips.delete(username);
-    const user = this.users.get(username);
-    const favoriteUser = this.favorites.get(username);
-    if (user) {
-      user.checked = false;
-      this.users.set(username, user);
-    }
-    if (favoriteUser) {
-      favoriteUser.checked = false;
-      this.favorites.set(username, favoriteUser);
-    }
+    const userIndex = this.users.findIndex(
+      (user) => user.username === username
+    );
+    const favoriteIndex = this.favorites.findIndex(
+      (favorite) => favorite.username === username
+    );
+    if (userIndex !== -1) this.users[userIndex].checked = false;
+    if (favoriteIndex !== -1) this.users[favoriteIndex].checked = false;
   }
 
   onSubmit() {

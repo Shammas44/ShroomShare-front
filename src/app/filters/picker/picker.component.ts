@@ -2,6 +2,7 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 import { User } from '../../models/users';
 import { Observable, from } from 'rxjs';
+import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 type ChoosenUser = User & {
   checked?: boolean;
@@ -30,23 +31,28 @@ export class PickerComponent implements OnInit {
     this.allFavorites = new UsersMap();
     this.favorites = new UsersMap();
     this.search = '';
-    this.setFavorites();
+    // this.setFavorites();
     this.currentPage = 1;
     this.lastPage = 1;
   }
 
-  @HostListener('scroll', ['$event'])
-  onScroll(event: Event) {
-    const element = event.target as HTMLDetailsElement;
-    if (element === null) return;
-    if (
-      //detect scroll to bottom
-      element.offsetHeight + element.scrollTop >=
-      element.scrollHeight - 1
-    ) {
-      console.log(event);
-      this.addUsers();
-    }
+  // @HostListener('scroll', ['$event'])
+  onIonInfinite(event: Event) {
+    console.log({event})
+    this.addUsers();
+    setTimeout(() => {
+      (event as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+    // const element = event.target as HTMLDetailsElement;
+    // if (element === null|| this.users.size === 0) return;
+    // if (
+    //   //detect scroll to bottom
+    //   element.offsetHeight + element.scrollTop >=
+    //   element.scrollHeight - 1
+    // ) {
+    //   console.log(event);
+    //   this.addUsers();
+    // }
   }
 
   private addUsers() {
@@ -59,6 +65,7 @@ export class PickerComponent implements OnInit {
     };
     this.api.getUsers$(option).subscribe({
       next: (res) => {
+        console.log(res);
         for (const user of res.users as ChoosenUser[]) {
           user.checked = false;
           const favoriteUser = this.favorites.get(user.username);
@@ -74,12 +81,6 @@ export class PickerComponent implements OnInit {
   private setUsers() {
     let option = { search: this.search, pageSize: this.pageSize };
     console.log({ search: this.search });
-    if (this.search === '') {
-      this.resetFavorites();
-      this.users = new Map();
-      this.currentPage = 1;
-      return;
-    }
     this.api.getUsers$(option).subscribe({
       next: (res) => {
         for (const user of res.users as ChoosenUser[]) {
@@ -94,6 +95,11 @@ export class PickerComponent implements OnInit {
         console.log({ err });
       },
     });
+  }
+
+  private resetUsers() {
+    this.users = new Map();
+    this.currentPage = 1;
   }
 
   private setFavorites() {
@@ -120,9 +126,13 @@ export class PickerComponent implements OnInit {
     const search: string = event.detail.value;
     const lowerCaseSearch = search.toLowerCase();
     this.search = lowerCaseSearch;
-    this.setUsers();
     this.resetFavorites();
-    if (search === '') return;
+    if (search === '') {
+      console.log('reset');
+      this.resetUsers();
+      return;
+    }
+    this.setUsers();
     this.users.forEach((user) => {
       const lowerCaseUsername = user.username.toLowerCase();
       if (!lowerCaseUsername.startsWith(lowerCaseSearch))

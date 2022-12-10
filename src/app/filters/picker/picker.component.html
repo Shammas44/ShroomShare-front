@@ -17,15 +17,17 @@
   </ion-list>
 </details>
 <!-- All users -->
-<details class="details__all-users">
-  <summary>Tous les utilisateurs</summary>
-  <ion-list (scroll)="onScroll($event)">
+<ion-content>
+  <ion-list>
     <ion-item *ngFor="let user of users|keyvalue">
       <ion-checkbox slot="start" value={{user.value.username}} (ionChange)="onCheck($event)"
         [checked]="user.value.checked"></ion-checkbox>
       <ion-label>{{user.value.username}}</ion-label>
     </ion-item>
   </ion-list>
-</details>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
 
 <ion-button (click)="onSubmit()">Séléctionner</ion-button>

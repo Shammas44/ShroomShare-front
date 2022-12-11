@@ -1,18 +1,23 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
-import { User } from '../../models/users';
+import { UsersMap, ChoosenUser } from '../../models/users';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import {
+  findIndexByProperty,
+  findByProperty,
+} from '../../utils/utility-functions';
 
-type ChoosenUser = User & {
-  checked?: boolean;
-};
-class UsersMap extends Map<string, ChoosenUser> {}
+const dummyData = [
+  { username: 'John', id: '...', admin: false },
+  { username: 'Johnny', id: '...', admin: false },
+  { username: 'Eloise', id: '...', admin: false },
+];
 
 @Component({
   selector: 'app-picker',
   templateUrl: './picker.component.html',
   styleUrls: ['./picker.component.scss'],
-})
+}) //eslint-disable-line
 export class PickerComponent implements OnInit {
   @Input() pageSize = 5;
 
@@ -27,8 +32,8 @@ export class PickerComponent implements OnInit {
   constructor(private api: ShroomShareApiService) {
     this.users = [];
     this.chips = new UsersMap();
-    this.allFavorites = [];
-    this.favorites = [];
+    this.allFavorites = dummyData;
+    this.favorites = dummyData;
     this.search = '';
     // this.setFavorites();
     this.currentPage = 1;
@@ -36,7 +41,6 @@ export class PickerComponent implements OnInit {
   }
 
   onIonInfinite(event: Event) {
-    console.log({ event });
     this.addUsers();
     setTimeout(() => {
       (event as InfiniteScrollCustomEvent).target.complete();
@@ -46,19 +50,16 @@ export class PickerComponent implements OnInit {
   private addUsers() {
     if (this.currentPage >= this.lastPage) return;
     this.currentPage++;
-    let option = {
+    const option = {
       search: this.search,
       pageSize: this.pageSize,
       currentPage: this.currentPage,
     };
     this.api.getUsers$(option).subscribe({
       next: (res) => {
-        console.log(res);
         for (const user of res.users as ChoosenUser[]) {
           user.checked = false;
-          const favoriteUser = this.favorites.find(
-            (favorite) => favorite.username === user.username
-          );
+          const favoriteUser = findByProperty(this.favorites, 'username', user);
           if (!favoriteUser) this.users.push(user);
         }
       },
@@ -69,16 +70,13 @@ export class PickerComponent implements OnInit {
   }
 
   private setUsers() {
-    let option = { search: this.search, pageSize: this.pageSize };
-    console.log({ search: this.search });
+    const option = { search: this.search, pageSize: this.pageSize };
     this.api.getUsers$(option).subscribe({
       next: (res) => {
         for (const user of res.users as ChoosenUser[]) {
           const chip = this.chips.get(user.username);
           user.checked = chip ? true : false;
-          const favoriteUser = this.favorites.find(
-            (favorite) => favorite.username === user.username
-          );
+          const favoriteUser = findByProperty(this.favorites, 'username', user);
           if (!favoriteUser) this.users.push(user);
         }
         this.lastPage = res.lastPage;
@@ -120,7 +118,6 @@ export class PickerComponent implements OnInit {
     this.search = lowerCaseSearch;
     this.resetFavorites();
     if (search === '') {
-      console.log('reset');
       this.resetUsers();
       return;
     }
@@ -140,9 +137,7 @@ export class PickerComponent implements OnInit {
   private resetFavorites() {
     const favorites = [...this.allFavorites];
     favorites.forEach((user) => {
-      const index = this.favorites.findIndex(
-        (favorite) => user.username === favorite.username
-      );
+      const index = findIndexByProperty(this.favorites, 'username', user);
       if (index !== -1) favorites[index] = user;
     });
     this.favorites = favorites;
@@ -152,14 +147,14 @@ export class PickerComponent implements OnInit {
     const event = e as CustomEvent;
     const username = event.detail.value;
     const isChecked = event.detail.checked;
-    const userIndex = this.users.findIndex(
-      (user) => user.username === username
-    );
-    const favoriteIndex = this.favorites.findIndex(
-      (user) => user.username === username
+    const userIndex = findIndexByProperty(this.users, 'username', username);
+    const favoriteIndex = findIndexByProperty(
+      this.favorites,
+      'username',
+      username
     );
     if (userIndex !== -1) this.users[userIndex].checked = isChecked;
-    if (favoriteIndex !== -1) this.users[favoriteIndex].checked = isChecked;
+    if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = isChecked;
     if (isChecked) this.chips.set(username, username);
     if (!isChecked) {
       this.chips.delete(username);
@@ -168,14 +163,14 @@ export class PickerComponent implements OnInit {
 
   onChipClick(username: string) {
     this.chips.delete(username);
-    const userIndex = this.users.findIndex(
-      (user) => user.username === username
-    );
-    const favoriteIndex = this.favorites.findIndex(
-      (favorite) => favorite.username === username
+    const userIndex = findIndexByProperty(this.users, 'username', username);
+    const favoriteIndex = findIndexByProperty(
+      this.favorites,
+      'username',
+      username
     );
     if (userIndex !== -1) this.users[userIndex].checked = false;
-    if (favoriteIndex !== -1) this.users[favoriteIndex].checked = false;
+    if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = false;
   }
 
   onSubmit() {

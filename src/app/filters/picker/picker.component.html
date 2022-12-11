@@ -5,29 +5,40 @@
   <ion-icon name="close" (click)="onChipClick(user.key)"></ion-icon>
 </ion-chip>
 
-<!-- Favorites users -->
-<details class="details__favorites-users">
-  <summary>Les favoris</summary>
-  <ion-list>
-    <ion-item *ngFor="let user of favorites">
-      <ion-checkbox slot="start" value={{user.username}} (ionChange)="onCheck($event)"
-        [checked]="user.checked"></ion-checkbox>
-      <ion-label>{{user.username}}</ion-label>
+<ion-accordion-group>
+  <!-- Favorites users -->
+  <ion-accordion value="first">
+    <ion-item slot="header" color="light">
+      <ion-label>Mes favoris</ion-label>
     </ion-item>
-  </ion-list>
-</details>
-<!-- All users -->
-<ion-content>
-  <ion-list>
-    <ion-item *ngFor="let user of users">
-      <ion-checkbox slot="start" value={{user.username}} (ionChange)="onCheck($event)"
-        [checked]="user.checked"></ion-checkbox>
-      <ion-label>{{user.username}}</ion-label>
+    <ion-list class="ion-padding favorites__list" slot="content">
+      <ion-item *ngFor="let user of favorites">
+        <ion-checkbox slot="start" value={{user.username}} (ionChange)="onCheck($event)" [checked]="user.checked">
+        </ion-checkbox>
+        <ion-label>{{user.username}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-accordion>
+  <!-- All users -->
+  <ion-accordion>
+    <ion-item slot="header" color="light">
+      <ion-label>Tous les utilisateurs</ion-label>
     </ion-item>
-  </ion-list>
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-</ion-content>
+    <div class="ion-padding users__content ion-content-scroll-host" slot="content">
+      <ion-list>
+        <ion-item *ngFor="let user of users">
+          <ion-checkbox slot="start" value={{user.username}} (ionChange)="onCheck($event)" [checked]="user.checked">
+          </ion-checkbox>
+          <ion-label>{{user.username}}</ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+  </ion-accordion>
+
+</ion-accordion-group>
+
 
 <ion-button (click)="onSubmit()">Séléctionner</ion-button>

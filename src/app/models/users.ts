@@ -36,3 +36,10 @@ export type ModifyUserRequest = {
   email?: string;
   admin?: boolean;
 }
+
+export type ChoosenUser = User & {
+  [key: string]: any;
+  checked?: boolean;
+};
+
+export class UsersMap extends Map<string, ChoosenUser> {}

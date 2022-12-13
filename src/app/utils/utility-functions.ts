@@ -1,4 +1,4 @@
-import {KeyString,Primitive} from '../models/standard';
+import { KeyString, Primitive } from '../models/standard';
 
 export function findByProperty<T extends KeyString>(
   array: T[],

@@ -1,11 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 import { UsersMap, ChoosenUser } from '../../models/users';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import {
-  findIndexByProperty,
-  findByProperty,
-} from '../../utils/utility-functions';
+import { findIndexByProperty, findByProperty } from '../../utils/utility-functions';
 
 const dummyData = [
   { username: 'John', id: '...', admin: false },
@@ -20,24 +17,23 @@ const dummyData = [
 }) //eslint-disable-line
 export class PickerComponent implements OnInit {
   @Input() pageSize = 5;
+  @Output() choosenUser = new EventEmitter<ChoosenUser[]>();
 
-  users: ChoosenUser[];
-  search: string;
-  chips: UsersMap;
-  favorites: ChoosenUser[];
-  allFavorites: ChoosenUser[];
-  currentPage: number;
-  lastPage: number;
+  users: ChoosenUser[] = [];
+  search: string = '';
+  chips: UsersMap = new UsersMap();
+  favorites: ChoosenUser[] = [];
+  allFavorites: ChoosenUser[] = [];
+  currentPage: number = 1;
+  lastPage: number = 1;
 
   constructor(private api: ShroomShareApiService) {
-    this.users = [];
-    this.chips = new UsersMap();
-    this.allFavorites = dummyData;
-    this.favorites = dummyData;
-    this.search = '';
-    // this.setFavorites();
-    this.currentPage = 1;
-    this.lastPage = 1;
+    this.setFavorites();
+  }
+
+  emitValues() {
+    const values = Array.from(this.chips.values());
+    this.choosenUser.emit(values);
   }
 
   onIonInfinite(event: Event) {
@@ -93,22 +89,8 @@ export class PickerComponent implements OnInit {
   }
 
   private setFavorites() {
-    this.api
-      .getUsers$({
-        currentPage: 2,
-      })
-      .subscribe({
-        next: (res) => {
-          for (const user of res.users as ChoosenUser[]) {
-            user.checked = false;
-            this.favorites.push(user);
-            this.allFavorites.push(user);
-          }
-        },
-        error: (err) => {
-          console.log({ err });
-        },
-      });
+    this.allFavorites = dummyData;
+    this.favorites = dummyData;
   }
 
   onInputChange(e: Event) {
@@ -117,10 +99,7 @@ export class PickerComponent implements OnInit {
     const lowerCaseSearch = search.toLowerCase();
     this.search = lowerCaseSearch;
     this.resetFavorites();
-    if (search === '') {
-      this.resetUsers();
-      return;
-    }
+    if (search === '') return this.resetUsers();
     this.setUsers();
     this.users = this.users.filter((user) => {
       const lowerCaseUsername = user.username.toLowerCase();
@@ -148,34 +127,23 @@ export class PickerComponent implements OnInit {
     const username = event.detail.value;
     const isChecked = event.detail.checked;
     const userIndex = findIndexByProperty(this.users, 'username', username);
-    const favoriteIndex = findIndexByProperty(
-      this.favorites,
-      'username',
-      username
-    );
+    const favoriteIndex = findIndexByProperty(this.favorites, 'username', username);
     if (userIndex !== -1) this.users[userIndex].checked = isChecked;
     if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = isChecked;
     if (isChecked) this.chips.set(username, username);
     if (!isChecked) {
       this.chips.delete(username);
     }
+    this.emitValues();
   }
 
   onChipClick(username: string) {
     this.chips.delete(username);
     const userIndex = findIndexByProperty(this.users, 'username', username);
-    const favoriteIndex = findIndexByProperty(
-      this.favorites,
-      'username',
-      username
-    );
+    const favoriteIndex = findIndexByProperty(this.favorites, 'username', username);
     if (userIndex !== -1) this.users[userIndex].checked = false;
     if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = false;
-  }
-
-  onSubmit() {
-    const usernames = Array.from(this.chips.values());
-    console.log(usernames);
+    this.emitValues();
   }
 
   ngOnInit() {}

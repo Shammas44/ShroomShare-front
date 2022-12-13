@@ -2,7 +2,7 @@
   "semicolons": true,
   "tabWidth": 2,
   "tabs": false,
-  "printWidth": 80,
+  "printWidth": 100,
   "singleQuote": true,
   "bracketSpacing": true,
   "bracketSameLine": false,

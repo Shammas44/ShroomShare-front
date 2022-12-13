@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>Filtres</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <hr>
+  <ion-title>
+    <h3>Utilisateurs</h3>
+  </ion-title>
+  <app-picker [pageSize]="3" (choosenUser)="onChoosenUser($event)"></app-picker>
+
+  <hr>
+  <ion-title>
+    <h3>Usage</h3>
+  </ion-title>
+  <ion-item>
+    <ion-label>Commestible</ion-label>
+    <ion-checkbox slot="start" [(ngModel)]="usage" value="commestible"></ion-checkbox>
+  </ion-item>
+  <ion-item>
+    <ion-checkbox slot="start" [(ngModel)]="usage" value="non-commestible"></ion-checkbox>
+    <ion-label>Non-commestible</ion-label>
+  </ion-item>
+
+  <hr>
+  <ion-title>
+    <h3>Radius</h3>
+  </ion-title>
+  <ion-range [ticks]="true" [snaps]="true" [min]="0" [max]="10" [(ngModel)]="radius"></ion-range>
+</ion-content>
+

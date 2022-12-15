@@ -1,3 +1,4 @@
+/* eslint indent: 0 */
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -21,8 +22,8 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi:true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
   ],
   bootstrap: [AppComponent],
-})
+})// eslint-disable-line
 export class AppModule {}

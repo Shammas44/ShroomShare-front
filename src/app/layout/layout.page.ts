@@ -13,7 +13,7 @@ declare type PageTab = {
   selector: 'app-layout',
   templateUrl: 'layout.page.html',
   styleUrls: ['layout.page.scss'],
-})
+})// eslint-disable-line
 export class LayoutPage {
   tabs: PageTab[];
 

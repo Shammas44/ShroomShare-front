@@ -10,7 +10,7 @@ import { AuthRequest } from '../../models/auth';
  */
 @Component({
   templateUrl: 'login.page.html',
-})
+}) // eslint-disable-line
 export class LoginPage {
   /**
    * This authentication request object will be updated when the user

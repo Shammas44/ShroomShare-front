@@ -1,12 +1,14 @@
+/* eslint camelcase: 0 */
 import { Picture } from './pictures';
-import {Response} from './response';
+import { Response, PaginatedResponse } from './response';
 
 export type Location = {
   type: 'Point';
-  coordinates: [Number,Number];
+  coordinates: [Number, Number];
 };
 
 export type Mushroom = {
+  name: string;
   specy_id: string;
   user_id: string;
   picture_id: string;
@@ -25,6 +27,10 @@ export type MushroomResponse = Response & {
   mushroom: Mushroom;
 };
 
+export type PaginatedMushroomsResponse = PaginatedResponse & {
+  mushrooms: Mushroom[];
+};
+
 export type MushroomsFilter = {
   latitude?: number;
   longitude?: number;
@@ -35,6 +41,7 @@ export type MushroomsFilter = {
   to?: string;
   currentPage?: number;
   pageSize?: number;
+  radius?: number;
 };
 
 export type AddMushroomRequest = {

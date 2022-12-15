@@ -20,14 +20,14 @@
   <ion-title>
     <h3>Usage</h3>
   </ion-title>
-  <ion-item>
-    <ion-label>Commestible</ion-label>
-    <ion-checkbox slot="start" [(ngModel)]="usage" value="commestible"></ion-checkbox>
-  </ion-item>
-  <ion-item>
-    <ion-checkbox slot="start" [(ngModel)]="usage" value="non-commestible"></ion-checkbox>
-    <ion-label>Non-commestible</ion-label>
-  </ion-item>
+
+  <ion-list class="ion-padding">
+    <ion-item *ngFor="let u of allUsages|keyvalue">
+      <ion-checkbox slot="start" value={{u.value}} (ionChange)="onCheck($event)">
+      </ion-checkbox>
+      <ion-label>{{u.value}}</ion-label>
+    </ion-item>
+  </ion-list>
 
   <hr>
   <ion-title>
@@ -35,4 +35,3 @@
   </ion-title>
   <ion-range [ticks]="true" [snaps]="true" [min]="0" [max]="10" [(ngModel)]="radius"></ion-range>
 </ion-content>
-

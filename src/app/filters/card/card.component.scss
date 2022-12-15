@@ -1,0 +1,9 @@
+.card {
+  display:grid;
+  grid-template-columns: 2fr 6fr;
+}
+
+img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}

@@ -1,29 +1,20 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {
-  Specy,
-  SpecyResponse,
-  SpeciesResponse,
-  SpeciesFilter,
-} from '../models/species';
+import { Specy, SpecyResponse, SpeciesResponse, SpeciesFilter } from '../models/species';
 import { environment } from 'src/environments/environment';
 import {
   Mushroom,
   MushroomsResponse,
   MushroomResponse,
+  PaginatedMushroomsResponse,
   MushroomsFilter,
   AddMushroomRequest,
   ModifyMushroomRequest,
 } from '../models/mushrooms';
-import { Response } from '../models/response';
+import { Response, CountResponse } from '../models/response';
 import {
   AddUserRequest,
   ModifyUserRequest,
@@ -31,8 +22,9 @@ import {
   UserFilter,
   UserResponse,
   UsersResponse,
-  PaginatedUsersResponse
+  PaginatedUsersResponse,
 } from '../models/users';
+import { PaginatedSpeciesResponse } from '../models/species';
 
 const API_URL = environment.apiUrl;
 
@@ -42,7 +34,7 @@ type StdObject<T> = {
 
 @Injectable({
   providedIn: 'root',
-})
+}) // eslint-disable-line
 export class ShroomShareApiService {
   constructor(private http: HttpClient) {}
 
@@ -59,10 +51,15 @@ export class ShroomShareApiService {
     return url;
   }
 
-  getSpecies$(filter?: SpeciesFilter): Observable<Specy[]> {
+  getSpecies$(filter?: SpeciesFilter): Observable<PaginatedSpeciesResponse> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/species${queryParams}`;
-    return this.http.get<SpeciesResponse>(url).pipe(map((res) => res.species));
+    return this.http.get<PaginatedSpeciesResponse>(url);
+  }
+
+  countSpecies$(): Observable<CountResponse> {
+    const url = `${API_URL}/species?count=true`;
+    return this.http.get<CountResponse>(url);
   }
 
   getSpecy$(specyId: String): Observable<Specy> {
@@ -70,19 +67,15 @@ export class ShroomShareApiService {
     return this.http.get<SpecyResponse>(url).pipe(map((res) => res.specy));
   }
 
-  getMushrooms$(filter?: MushroomsFilter): Observable<Mushroom[]> {
+  getMushrooms$(filter?: MushroomsFilter): Observable<PaginatedMushroomsResponse> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/mushrooms${queryParams}`;
-    return this.http
-      .get<MushroomsResponse>(url)
-      .pipe(map((res) => res.mushrooms));
+    return this.http.get<PaginatedMushroomsResponse>(url);
   }
 
   addMushroom$(body: AddMushroomRequest): Observable<Mushroom[]> {
     const url = `${API_URL}/mushrooms`;
-    return this.http
-      .post<MushroomsResponse>(url, body)
-      .pipe(map((res) => res.mushrooms));
+    return this.http.post<MushroomsResponse>(url, body).pipe(map((res) => res.mushrooms));
   }
 
   deleteMushroom$(mushroomId: String): Observable<String> {
@@ -90,14 +83,9 @@ export class ShroomShareApiService {
     return this.http.delete<Response>(url).pipe(map((res) => res.message));
   }
 
-  modifyMushroom$(
-    mushroomId: String,
-    body: ModifyMushroomRequest
-  ): Observable<Mushroom> {
+  modifyMushroom$(mushroomId: String, body: ModifyMushroomRequest): Observable<Mushroom> {
     const url = `${API_URL}/mushrooms:${mushroomId}`;
-    return this.http
-      .patch<MushroomResponse>(url, body)
-      .pipe(map((res) => res.mushroom));
+    return this.http.patch<MushroomResponse>(url, body).pipe(map((res) => res.mushroom));
   }
 
   getUsers$(filter?: UserFilter): Observable<PaginatedUsersResponse> {
@@ -118,9 +106,7 @@ export class ShroomShareApiService {
 
   modifyUser$(body: ModifyUserRequest): Observable<User> {
     const url = `${API_URL}/users`;
-    return this.http
-      .patch<UserResponse>(url, body)
-      .pipe(map((res) => res.user));
+    return this.http.patch<UserResponse>(url, body).pipe(map((res) => res.user));
   }
 
   deleteUser$(userId: String): Observable<String> {

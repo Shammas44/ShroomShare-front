@@ -1,4 +1,5 @@
-import {CollectionName} from './collection-names'
+/* eslint camelcase: 0 */
+import {CollectionName} from './collection-names';
 
 export type Picture = {
   value: string;

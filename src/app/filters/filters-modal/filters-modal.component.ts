@@ -1,13 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ChoosenUser  } from '../../models/users';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChoosenUser } from '../../models/users';
 import { ModalController } from '@ionic/angular';
 import { Usage } from 'src/app/models/usages';
-
-type FilterForm = {
-  favoriteUsers: ChoosenUser[];
-  usage: Usage;
-  radius: number;
-};
+import { FilterForm } from '../../models/standard';
 
 export class UsageMap extends Map<string, Usage> {}
 
@@ -17,6 +12,8 @@ export class UsageMap extends Map<string, Usage> {}
   styleUrls: ['./filters-modal.component.scss'],
 }) // eslint-disable-line
 export class FiltersModalComponent implements OnInit {
+  @Output() filter = new EventEmitter<FilterForm>();
+
   usage: UsageMap = new UsageMap();
   radius: number = 0;
   favoriteUsers: ChoosenUser[] = [];
@@ -31,18 +28,17 @@ export class FiltersModalComponent implements OnInit {
   confirm() {
     const form = {
       favoriteUsers: this.favoriteUsers,
-      usage: this.usage,
+      usage: Array.from(this.usage.values()),
       radius: this.radius,
     };
-    console.log({ form });
-    return this.modalCtrl.dismiss('confirm');
+    return this.modalCtrl.dismiss(form);
   }
 
   onChoosenUser(users: ChoosenUser[]) {
     console.log({ users });
   }
 
-  onCheckboxClick(e: Event) {
+  onCheck(e: Event) {
     const event = e as CustomEvent;
     const usage = event.detail.value;
     const isChecked = event.detail.checked;

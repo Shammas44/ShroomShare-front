@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Observable,from,delayWhen } from 'rxjs';
+import { ReplaySubject, Observable, from, delayWhen } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
-import { AuthResponse,AuthRequest } from '../models/auth';
+import { AuthResponse, AuthRequest } from '../models/auth';
 import { User } from '../models/users';
-import { environment } from "src/environments/environment";
+import { environment } from 'src/environments/environment';
 
 // const API_URL = "https://shroom-share.onrender.com/api";
 const API_URL = environment.apiUrl;
@@ -13,16 +13,18 @@ const API_URL = environment.apiUrl;
 /**
  * Authentication service for login/logout.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+}) //eslint-disable-line
 export class AuthService {
   #auth$: ReplaySubject<AuthResponse | undefined>;
 
   constructor(private http: HttpClient, private storage: Storage) {
     this.#auth$ = new ReplaySubject(1);
-     this.storage.get('auth').then((auth) => {
-    // Emit the loaded value into the observable stream.
-    this.#auth$.next(auth);
-  });
+    this.storage.get('auth').then((auth) => {
+      // Emit the loaded value into the observable stream.
+      this.#auth$.next(auth);
+    });
   }
 
   isAuthenticated$(): Observable<boolean> {
@@ -41,7 +43,7 @@ export class AuthService {
     const authUrl = `${API_URL}/auth`;
     console.log({ authUrl, authRequest });
     return this.http.post<AuthResponse>(authUrl, authRequest).pipe(
-      delayWhen((auth:AuthResponse) => this.saveAuth$(auth)),
+      delayWhen((auth: AuthResponse) => this.saveAuth$(auth)),
       map((auth) => {
         this.#auth$.next(auth);
         console.log(`User ${auth.user.username} logged in`);

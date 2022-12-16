@@ -5,7 +5,6 @@ import { findIndexByProperty, findByProperty } from '../../utils/utility-functio
 // import { ChoosenUser } from '../../models/users';
 // import { ChoosenItem } from '../../models/standard';
 
-
 export type User = {
   id: string;
   username: string;
@@ -26,27 +25,43 @@ export type ChoosenItem = KeyString & {
 
 export class CustomMap<T> extends Map<string, T> {}
 
-const dummyData = [
-  { username: 'John', id: '...', admin: false },
-  { username: 'Johnny', id: '...', admin: false },
-  { username: 'Eloise', id: '...', admin: false },
-] as ChoosenUser[];
-
+function getItem(option) {
+  // if (this.currentPage >= this.lastPage) return;
+  // this.currentPage++;
+  // const option = {
+  //   search: this.search,
+  //   pageSize: this.pageSize,
+  //   currentPage: this.currentPage,
+  // };
+  // this.api.getUsers$(option).subscribe({
+  //   next: (res) => {
+  //     for (const user of res.users as unknown as ChoosenItem[]) {
+  //       user.checked = false;
+  //       const favoriteUser = findByProperty(this.favorites, 'username', user);
+  //       if (!favoriteUser) this.items.push(user);
+  //     }
+  //   },
+  //   error: (err) => {
+  //     console.log({ err });
+  // });
+  //   },
+}
 
 @Component({
   selector: 'app-picker',
   templateUrl: './picker.component.html',
   styleUrls: ['./picker.component.scss'],
 }) //eslint-disable-line
-export abstract class PickerComponent<T extends ChoosenItem> {
+export abstract class PickerComponent {
   @Input() pageSize = 5;
-  @Output() choosenItem = new EventEmitter<T[]>();
+  @input() getItem: Function;
+  @Output() choosenItem = new EventEmitter<ChoosenItem[]>();
 
-  items: T[] = [];
+  items: ChoosenItem[] = [];
   search: string = '';
-  chips: CustomMap<T> = new CustomMap();
-  favorites: T[] = [];
-  allFavorites: T[] = [];
+  chips: CustomMap<ChoosenItem> = new CustomMap();
+  favorites: ChoosenItem[] = [];
+  allFavorites: ChoosenItem[] = [];
   currentPage: number = 1;
   lastPage: number = 1;
 
@@ -76,7 +91,7 @@ export abstract class PickerComponent<T extends ChoosenItem> {
     };
     this.api.getUsers$(option).subscribe({
       next: (res) => {
-        for (const user of res.users as unknown as T[]) {
+        for (const user of res.users as unknown as ChoosenItem[]) {
           user.checked = false;
           const favoriteUser = findByProperty(this.favorites, 'username', user);
           if (!favoriteUser) this.items.push(user);
@@ -92,7 +107,7 @@ export abstract class PickerComponent<T extends ChoosenItem> {
     const option = { search: this.search, pageSize: this.pageSize };
     this.api.getUsers$(option).subscribe({
       next: (res) => {
-        for (const user of res.users as unknown as T[]) {
+        for (const user of res.users as unknown as ChoosenItem[]) {
           const chip = this.chips.get(user['username']);
           user.checked = chip ? true : false;
           const favoriteUser = findByProperty(this.favorites, 'username', user);
@@ -112,6 +127,11 @@ export abstract class PickerComponent<T extends ChoosenItem> {
   }
 
   private setFavorites() {
+    const dummyData: ChoosenItem[] = [
+      { username: 'John', id: '...', admin: false },
+      { username: 'Johnny', id: '...', admin: false },
+      { username: 'Eloise', id: '...', admin: false },
+    ];
     this.allFavorites = dummyData;
     this.favorites = dummyData;
   }

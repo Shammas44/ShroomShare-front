@@ -13,16 +13,19 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +43 src/app/models/users.ts
-badd +18 src/app/models/standard.ts
-badd +33 ~/Documents/Prog/shroomshare-front/src/app/filters/picker/picker.component.ts
-badd +1 ~/Documents/Prog/shroomshare-front/src/app/filters/picker/picker.component.spec.ts
-badd +21 ~/Documents/Prog/shroomshare-front/src/app/filters/picker/basePicker.component.ts
+badd +35 src/app/filters/picker/picker.component.ts
+badd +63 src/app/utils/shroom-share-api.service.ts
+badd +45 src/app/utils/species-provider.service.ts
+badd +26 src/app/models/species.ts
+badd +33 src/app/auth/login/login.page.ts
+badd +21 src/app/layout/wiki/wiki.page.ts
+badd +29 ~/Documents/Prog/shroomshare-front/src/app/layout/mushrooms/mushrooms.page.ts
 argglobal
 %argdel
 $argadd ./
-edit ~/Documents/Prog/shroomshare-front/src/app/filters/picker/basePicker.component.ts
+edit src/app/utils/species-provider.service.ts
 argglobal
+balt src/app/layout/wiki/wiki.page.ts
 setlocal fdm=manual
 setlocal fde=
 setlocal fmr={{{,}}}
@@ -33,12 +36,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 21 - ((20 * winheight(0) + 20) / 41)
+let s:l = 45 - ((23 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 21
-normal! 062|
+keepjumps 45
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -52,7 +55,6 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
-nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

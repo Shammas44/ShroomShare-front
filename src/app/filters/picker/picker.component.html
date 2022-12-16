@@ -12,10 +12,10 @@
       <ion-label>Mes favoris</ion-label>
     </ion-item>
     <ion-list class="ion-padding favorites__list" slot="content">
-      <ion-item *ngFor="let user of favorites">
-        <ion-checkbox slot="start" value={{user.username}} (ionChange)="onCheck($event)" [checked]="user.checked">
+      <ion-item *ngFor="let item of favorites">
+        <ion-checkbox slot="start" value={{item[itemKey]}} (ionChange)="onCheck($event)" [checked]="item.checked">
         </ion-checkbox>
-        <ion-label>{{user.username}}</ion-label>
+        <ion-label>{{item[itemKey]}}</ion-label>
       </ion-item>
     </ion-list>
   </ion-accordion>
@@ -26,10 +26,10 @@
     </ion-item>
     <div class="ion-padding users__content ion-content-scroll-host" slot="content">
       <ion-list>
-        <ion-item *ngFor="let user of users">
-          <ion-checkbox slot="start" value={{user.username}} (ionChange)="onCheck($event)" [checked]="user.checked">
+        <ion-item *ngFor="let item of items">
+          <ion-checkbox slot="start" value={{item[itemKey]}} (ionChange)="onCheck($event)" [checked]="item.checked">
           </ion-checkbox>
-          <ion-label>{{user.username}}</ion-label>
+          <ion-label>{{item[itemKey]}}</ion-label>
         </ion-item>
       </ion-list>
       <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">

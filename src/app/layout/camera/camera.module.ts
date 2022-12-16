@@ -7,16 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { CameraPageRoutingModule } from './camera-routing.module';
 
 import { CameraPage } from './camera.page';
-import {LayoutPageModule} from '../layout.module'
+import { LayoutPageModule } from '../layout.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CameraPageRoutingModule,
-    LayoutPageModule
-  ],
-  declarations: [CameraPage]
-})
+  imports: [CommonModule, FormsModule, IonicModule, CameraPageRoutingModule, LayoutPageModule],
+  declarations: [CameraPage],
+}) // eslint-disable-line
 export class CameraPageModule {}

@@ -27,10 +27,6 @@ export type MushroomResponse = Response & {
   mushroom: Mushroom;
 };
 
-export type PaginatedMushroomsResponse = PaginatedResponse & {
-  mushrooms: Mushroom[];
-};
-
 export type MushroomsFilter = {
   latitude?: number;
   longitude?: number;

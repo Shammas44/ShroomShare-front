@@ -35,7 +35,7 @@ export class MushroomsPage implements OnInit {
     this.api.getMushrooms$(option).subscribe({
       next: (res) => {
         this.mushrooms = [];
-        for (const mushroom of res.mushrooms as Mushroom[]) {
+        for (const mushroom of res.items as Mushroom[]) {
           this.mushrooms.push(mushroom);
         }
       },

@@ -27,7 +27,3 @@ export type SpeciesFilter = {
   showPictures?: boolean;
   count?: boolean;
 };
-
-export type PaginatedSpeciesResponse = PaginatedResponse & {
-  species: Specy[];
-};

@@ -18,10 +18,6 @@ export type UsersResponse = Response & {
   users: User[];
 };
 
-export type PaginatedUsersResponse = PaginatedResponse & {
-  users: User[];
-};
-
 export type UserResponse = Response & {
   user: User;
 };

@@ -2,9 +2,19 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ChoosenUser } from '../../models/users';
 import { ModalController } from '@ionic/angular';
 import { Usage } from 'src/app/models/usages';
-import { FilterForm } from '../../models/standard';
+import { FilterForm, ChoosenItem } from '../../models/standard';
+import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
+import { Observable } from 'rxjs';
+import { User, UserFilter } from '../../models/users';
+import { PaginatedResponse } from '../../models/response';
 
 export class UsageMap extends Map<string, Usage> {}
+
+function getUsers(api: ShroomShareApiService) {
+  return (option: UserFilter): Observable<PaginatedResponse<User>> => {
+    return api.getUsers$(option);
+  };
+}
 
 @Component({
   selector: 'app-filters-modal',
@@ -18,8 +28,13 @@ export class FiltersModalComponent implements OnInit {
   radius: number = 0;
   favoriteUsers: ChoosenUser[] = [];
   allUsages: Usage[] = [Usage.edible, Usage.inedible];
+  getUsers: (option: UserFilter) => Observable<PaginatedResponse<User>>;
 
-  constructor(private modalCtrl: ModalController) {}
+  ngOnInit() {}
+
+  constructor(private modalCtrl: ModalController, private api: ShroomShareApiService) {
+    this.getUsers = getUsers(this.api);
+  }
 
   cancel() {
     return this.modalCtrl.dismiss(null, 'cancel');
@@ -34,7 +49,7 @@ export class FiltersModalComponent implements OnInit {
     return this.modalCtrl.dismiss(form);
   }
 
-  onChoosenUser(users: ChoosenUser[]) {
+  onChoosenUser(users: Event) {
     console.log({ users });
   }
 
@@ -45,6 +60,4 @@ export class FiltersModalComponent implements OnInit {
     if (isChecked) this.usage.set(usage, usage);
     if (!isChecked) this.usage.delete(usage);
   }
-
-  ngOnInit() {}
 }

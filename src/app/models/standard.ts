@@ -17,3 +17,11 @@ export type FilterForm = {
 export type ChoosenItem = KeyString & {
   checked?: boolean;
 };
+
+export type BaseFilter = {
+  currentPage?: number;
+  pageSize?: number;
+  search?: string;
+};
+
+export class CustomMap<T> extends Map<string, T> {}

@@ -3,9 +3,10 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { findIndexByProperty, findByProperty } from '../../utils/utility-functions';
 import { Observable } from 'rxjs';
 import { PaginatedResponse } from '../../models/response';
-import { ChoosenItem } from '../../models/standard';
+import { ChoosenItem, BaseFilter, CustomMap } from '../../models/standard';
 
-export class CustomMap<T> extends Map<string, T> {}
+// TODO: fix thhe following bugs
+// -> when search is done, sometimes 'favorites' is populated with results from 'items'
 
 const dummyData: ChoosenItem[] = [
   { username: 'John', id: '...', admin: false },
@@ -13,32 +14,79 @@ const dummyData: ChoosenItem[] = [
   { username: 'Eloise', id: '...', admin: false },
 ];
 
+type ItemPropertyKeys = {
+  id: string;
+  searchable: string;
+};
+
 @Component({
   selector: 'app-picker',
   templateUrl: './picker.component.html',
   styleUrls: ['./picker.component.scss'],
 }) // eslint-disable-line
 export class PickerComponent implements OnInit {
-  @Input() pageSize = 5;
-  @Input() getItem!: (option: any) => Observable<PaginatedResponse<ChoosenItem>>;
-  @Input() itemKey: string = '';
+  /**
+   * @description Retrieve items by calling the api
+   */
+  @Input() getItem!: (option: BaseFilter) => Observable<PaginatedResponse<ChoosenItem>>;
+  /**
+   * @description Property's keys name:
+   * - id: Used by computer to identify the item
+   * - searchable: Used by User to identify the item
+   */
+  @Input() itemKeys!: ItemPropertyKeys;
+  /**
+   * @description The number of items return by the api at once
+   */
+  @Input() pageSize?: number = 5;
+  /**
+   * @description  Allow to filter items by favorite
+   */
+  @Input() useFavorite?: boolean = false;
+  /**
+   * @description  Emit an event containing all items selected by the user
+   */
   @Output() choosenItem = new EventEmitter<ChoosenItem[]>();
 
+  /**
+   * @description todo
+   */
   items: ChoosenItem[] = [];
+  /**
+   * @description todo
+   */
   search: string = '';
+  /**
+   * @description todo
+   */
   chips: CustomMap<ChoosenItem> = new CustomMap();
+  /**
+   * @description todo
+   */
   favorites: ChoosenItem[] = [];
+  /**
+   * @description todo
+   */
   allFavorites: ChoosenItem[] = [];
+  /**
+   * @description todo
+   */
   currentPage: number = 1;
+  /**
+   * @description todo
+   */
   lastPage: number = 1;
 
-  constructor() {
-    this.setFavorites();
-  }
+  constructor() {}
 
   ngOnInit(): void {
     if (typeof this.getItem !== 'function') throw new Error(`property 'getItem' is not defined.`);
-    if (this.itemKey === '') throw new Error(`property 'itemKey' is not defined.`);
+    if (!this.itemKeys) throw new Error(`property 'itemKeys' is not defined.`);
+    if (this.itemKeys.id === '') throw new Error(`property 'id' from 'itemKeys' is not defined.`);
+    if (this.itemKeys.searchable === '') {
+      throw new Error(`property 'searchableValue' from 'itemKeys' is not defined.`);
+    }
+    if (this.useFavorite) this.setFavorites();
   }
 
   emitValues() {
@@ -56,6 +104,7 @@ export class PickerComponent implements OnInit {
   private addItems() {
     if (this.currentPage >= this.lastPage) return;
     this.currentPage++;
+    const searchableKey = this.itemKeys.searchable;
     const option = {
       search: this.search,
       pageSize: this.pageSize,
@@ -65,7 +114,8 @@ export class PickerComponent implements OnInit {
       next: (res) => {
         for (const item of res.items) {
           item.checked = false;
-          const favoriteItem = findByProperty(this.favorites, this.itemKey, item);
+          let favoriteItem;
+          if (this.useFavorite) favoriteItem = findByProperty(this.favorites, searchableKey, item);
           if (!favoriteItem) this.items.push(item);
         }
       },
@@ -76,13 +126,15 @@ export class PickerComponent implements OnInit {
   }
 
   private setItems() {
+    const searchableKey = this.itemKeys.searchable;
     const option = { search: this.search, pageSize: this.pageSize };
     this.getItem(option).subscribe({
       next: (res) => {
         for (const item of res.items) {
-          const chip = this.chips.get(item[this.itemKey]);
+          const chip = this.chips.get(item[searchableKey]);
           item.checked = chip ? true : false;
-          const favoriteItem = findByProperty(this.favorites, this.itemKey, item);
+          let favoriteItem;
+          if (this.useFavorite) favoriteItem = findByProperty(this.favorites, searchableKey, item);
           if (!favoriteItem) this.items.push(item);
         }
         this.lastPage = res.lastPage;
@@ -108,25 +160,25 @@ export class PickerComponent implements OnInit {
     const search: string = event.detail.value;
     const lowerCaseSearch = search.toLowerCase();
     this.search = lowerCaseSearch;
-    this.resetFavorites();
+    if (this.useFavorite) this.resetFavorites();
     if (search === '') return this.resetItems();
     this.setItems();
-    this.items = this.items.filter((item) => {
-      const lowerCaseKey = item[this.itemKey].toLowerCase();
+
+    const filtering = (item: ChoosenItem) => {
+      const lowerCaseKey = item[this.itemKeys.searchable].toLowerCase();
       if (lowerCaseKey.startsWith(lowerCaseSearch)) return item;
       return;
-    });
-    this.favorites = this.favorites.filter((item) => {
-      const lowerCaseKey = item[this.itemKey].toLowerCase();
-      if (lowerCaseKey.startsWith(lowerCaseSearch)) return item;
-      return;
-    });
+    };
+
+    this.items = this.items.filter(filtering);
+    if (!this.useFavorite) return;
+    this.favorites = this.items.filter(filtering);
   }
 
   private resetFavorites() {
     const favorites = [...this.allFavorites];
     favorites.forEach((item) => {
-      const index = findIndexByProperty(this.favorites, this.itemKey, item);
+      const index = findIndexByProperty(this.favorites, this.itemKeys.searchable, item);
       if (index !== -1) favorites[index] = item;
     });
     this.favorites = favorites;
@@ -134,24 +186,23 @@ export class PickerComponent implements OnInit {
 
   onCheck(e: Event) {
     const event = e as CustomEvent;
-    const key = event.detail.value;
+    const item = event.detail.value;
     const isChecked = event.detail.checked;
-    const itemIndex = findIndexByProperty(this.items, this.itemKey, key);
-    const favoriteIndex = findIndexByProperty(this.favorites, this.itemKey, key);
+    const itemIndex = findIndexByProperty(this.items, this.itemKeys.id, item);
     if (itemIndex !== -1) this.items[itemIndex].checked = isChecked;
+    isChecked ? this.chips.set(item, item) : this.chips.delete(item);
+    if (!this.useFavorite) return this.emitValues();
+    const favoriteIndex = findIndexByProperty(this.favorites, this.itemKeys.searchable, item);
     if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = isChecked;
-    if (isChecked) this.chips.set(key, key);
-    if (!isChecked) {
-      this.chips.delete(key);
-    }
     this.emitValues();
   }
 
   onChipClick(key: string) {
     this.chips.delete(key);
-    const itemIndex = findIndexByProperty(this.items, this.itemKey, key);
-    const favoriteIndex = findIndexByProperty(this.favorites, this.itemKey, key);
+    const itemIndex = findIndexByProperty(this.items, this.itemKeys.searchable, key);
     if (itemIndex !== -1) this.items[itemIndex].checked = false;
+    if (!this.useFavorite) return this.emitValues();
+    const favoriteIndex = findIndexByProperty(this.favorites, this.itemKeys.searchable, key);
     if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = false;
     this.emitValues();
   }

@@ -1,7 +1,8 @@
 /* eslint camelcase: 0*/
 import { Usage } from './usages';
 import { Picture } from './pictures';
-import { Response, PaginatedResponse } from './response';
+import { Response } from './response';
+import { ChoosenItem } from './standard';
 
 export type SpeciesResponse = {
   message: string;
@@ -26,4 +27,7 @@ export type SpeciesFilter = {
   pageSize?: number;
   showPictures?: boolean;
   count?: boolean;
+  search?: string;
 };
+
+export type ChoosenSpecy = Specy & ChoosenItem;

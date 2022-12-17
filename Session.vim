@@ -13,18 +13,18 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +32 src/app/utils/shroom-share-api.service.ts
-badd +32 ~/Documents/Prog/shroomshare-front/src/app/layout/mushrooms/mushrooms.page.ts
-badd +32 ~/Documents/Prog/shroomshare-front/src/app/filters/picker/picker.component.ts
-badd +1 ~/Documents/Prog/shroomshare-front/src/app/filters/filters.module.ts
-badd +32 ~/Documents/Prog/shroomshare-front/src/app/filters/filters-modal/filters-modal.component.ts
-badd +4 ~/Documents/Prog/shroomshare-front/src/app/filters/picker/picker.component.spec.ts
-badd +11 ~/Documents/Prog/shroomshare-front/src/app/filters/picker/basepicker.component.ts
-badd +21 ~/Documents/Prog/shroomshare-front/src/app/filters/filters-modal/filters-modal.component.spec.ts
+badd +22 src/app/layout/mushrooms/mushrooms.page.ts
+badd +33 src/app/filters/picker/picker.component.ts
+badd +33 src/app/filters/filters-modal/filters-modal.component.ts
+badd +1 src/app/filters/picker/picker.component.spec.ts
+badd +1 src/app/filters/picker/basepicker.component.ts
+badd +25 src/app/filters/filters-modal/filters-modal.component.html
+badd +41 src/app/utils/species-provider.service.ts
+badd +5 src/app/filters/picker/picker.component.html
 argglobal
 %argdel
 $argadd ./
-edit ~/Documents/Prog/shroomshare-front/src/app/filters/filters.module.ts
+edit src/app/filters/picker/picker.component.ts
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -41,12 +41,12 @@ set winminheight=0
 set winheight=1
 set winminwidth=0
 set winwidth=1
-exe 'vert 1resize ' . ((&columns * 30 + 75) / 151)
-exe 'vert 2resize ' . ((&columns * 120 + 75) / 151)
+exe 'vert 1resize ' . ((&columns * 30 + 86) / 173)
+exe 'vert 2resize ' . ((&columns * 142 + 86) / 173)
 argglobal
 enew
 file NvimTree_1
-balt ~/Documents/Prog/shroomshare-front/src/app/filters/picker/picker.component.ts
+balt src/app/filters/filters-modal/filters-modal.component.ts
 setlocal fdm=manual
 setlocal fde=
 setlocal fmr={{{,}}}
@@ -57,7 +57,7 @@ setlocal fdn=20
 setlocal nofen
 wincmd w
 argglobal
-balt ~/Documents/Prog/shroomshare-front/src/app/filters/picker/picker.component.spec.ts
+balt src/app/filters/picker/picker.component.spec.ts
 setlocal fdm=manual
 setlocal fde=
 setlocal fmr={{{,}}}
@@ -68,16 +68,16 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 5 - ((4 * winheight(0) + 20) / 40)
+let s:l = 33 - ((32 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 5
-normal! 015|
+keepjumps 33
+normal! 021|
 wincmd w
 2wincmd w
-exe 'vert 1resize ' . ((&columns * 30 + 75) / 151)
-exe 'vert 2resize ' . ((&columns * 120 + 75) / 151)
+exe 'vert 1resize ' . ((&columns * 30 + 86) / 173)
+exe 'vert 2resize ' . ((&columns * 142 + 86) / 173)
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

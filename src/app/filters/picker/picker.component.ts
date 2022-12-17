@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { PaginatedResponse } from '../../models/response';
 import { ChoosenItem, BaseFilter, CustomMap } from '../../models/standard';
 
-// TODO: fix thhe following bugs
+// TODO: fix the following bugs
 // -> when search is done, sometimes 'favorites' is populated with results from 'items'
 
 const dummyData: ChoosenItem[] = [
@@ -40,40 +40,40 @@ export class PickerComponent implements OnInit {
    */
   @Input() pageSize?: number = 5;
   /**
-   * @description  Allow to filter items by favorite
+   * @description Allow to filter items by favorite
    */
   @Input() useFavorite?: boolean = false;
   /**
-   * @description  Emit an event containing all items selected by the user
+   * @description Emit an event containing all items selected by the user
    */
   @Output() choosenItem = new EventEmitter<ChoosenItem[]>();
 
   /**
-   * @description todo
+   * @description Items list selected by the user
    */
   items: ChoosenItem[] = [];
   /**
-   * @description todo
+   * @description Research keyword enter by the user
    */
   search: string = '';
   /**
-   * @description todo
+   * @description List of chips containing items choosen by the user
    */
   chips: CustomMap<ChoosenItem> = new CustomMap();
   /**
-   * @description todo
+   * @description Currently favorite items list selected by the user
    */
   favorites: ChoosenItem[] = [];
   /**
-   * @description todo
+   * @description All favorite items list from the user
    */
   allFavorites: ChoosenItem[] = [];
   /**
-   * @description todo
+   * @description Current page fetched from the item provider api
    */
   currentPage: number = 1;
   /**
-   * @description todo
+   * @description Last available page from the item provider api
    */
   lastPage: number = 1;
 
@@ -87,18 +87,6 @@ export class PickerComponent implements OnInit {
       throw new Error(`property 'searchableValue' from 'itemKeys' is not defined.`);
     }
     if (this.useFavorite) this.setFavorites();
-  }
-
-  emitValues() {
-    const values = Array.from(this.chips.values());
-    this.choosenItem.emit(values);
-  }
-
-  onIonInfinite(event: Event) {
-    this.addItems();
-    setTimeout(() => {
-      (event as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
   }
 
   private addItems() {
@@ -155,13 +143,23 @@ export class PickerComponent implements OnInit {
     this.favorites = dummyData;
   }
 
+  private resetFavorites() {
+    const favorites = [...this.allFavorites];
+    favorites.forEach((item) => {
+      const index = findIndexByProperty(this.favorites, this.itemKeys.searchable, item);
+      if (index !== -1) favorites[index] = item;
+    });
+    this.favorites = favorites;
+  }
+
   onInputChange(e: Event) {
     const event = e as CustomEvent;
     const search: string = event.detail.value;
     const lowerCaseSearch = search.toLowerCase();
     this.search = lowerCaseSearch;
     if (this.useFavorite) this.resetFavorites();
-    if (search === '') return this.resetItems();
+    this.resetItems();
+    if (search === '') return;
     this.setItems();
 
     const filtering = (item: ChoosenItem) => {
@@ -172,16 +170,7 @@ export class PickerComponent implements OnInit {
 
     this.items = this.items.filter(filtering);
     if (!this.useFavorite) return;
-    this.favorites = this.items.filter(filtering);
-  }
-
-  private resetFavorites() {
-    const favorites = [...this.allFavorites];
-    favorites.forEach((item) => {
-      const index = findIndexByProperty(this.favorites, this.itemKeys.searchable, item);
-      if (index !== -1) favorites[index] = item;
-    });
-    this.favorites = favorites;
+    this.favorites = this.favorites.filter(filtering);
   }
 
   onCheck(e: Event) {
@@ -205,5 +194,17 @@ export class PickerComponent implements OnInit {
     const favoriteIndex = findIndexByProperty(this.favorites, this.itemKeys.searchable, key);
     if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = false;
     this.emitValues();
+  }
+
+  emitValues() {
+    const values = Array.from(this.chips.values());
+    this.choosenItem.emit(values);
+  }
+
+  onIonInfinite(event: Event) {
+    this.addItems();
+    setTimeout(() => {
+      (event as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
   }
 }

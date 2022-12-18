@@ -22,7 +22,7 @@ export class MushroomsPage implements OnInit {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     const form: FiltersModalComponent = data;
-    console.log({ data, role });
+    // console.log({ data, role });
     if (data) this.fetchMushrooms(form);
   }
 

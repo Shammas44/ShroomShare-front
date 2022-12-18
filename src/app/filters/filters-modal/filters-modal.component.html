@@ -15,7 +15,7 @@
     <h3>Utilisateurs</h3>
   </ion-title>
   <app-picker [pageSize]="3" (choosenItem)="onChoosenUser($event)" [getItem]="getUsers" [itemKeys]="userKeys"
-    [useFavorite]="true">
+    [useFavorite]="true" [allFavorites]="allFavorites" [state]="states.users">
   </app-picker>
 
   <hr>
@@ -23,7 +23,7 @@
     <h3>Espèces</h3>
   </ion-title>
   <app-picker [pageSize]="3" (choosenItem)="onChoosenSpecies($event)" [getItem]="getSpecies" [itemKeys]="specyKeys"
-    [useFavorite]="false">
+    [useFavorite]="false" [state]="states.species">
   </app-picker>
 
   <hr>

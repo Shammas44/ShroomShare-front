@@ -4,15 +4,7 @@ import { findIndexByProperty, findByProperty } from '../../utils/utility-functio
 import { Observable } from 'rxjs';
 import { PaginatedResponse } from '../../models/response';
 import { ChoosenItem, BaseFilter, CustomMap } from '../../models/standard';
-
-// TODO: fix the following bugs
-// -> when search is done, sometimes 'favorites' is populated with results from 'items'
-
-const dummyData: ChoosenItem[] = [
-  { username: 'John', id: '...', admin: false },
-  { username: 'Johnny', id: '...', admin: false },
-  { username: 'Eloise', id: '...', admin: false },
-];
+import { PickerState } from '../../models/picker';
 
 type ItemPropertyKeys = {
   id: string;
@@ -44,9 +36,17 @@ export class PickerComponent implements OnInit {
    */
   @Input() useFavorite?: boolean = false;
   /**
+   * @description All favorite items list from the user
+   */
+  @Input() allFavorites?: ChoosenItem[] = [];
+  /**
+   * @description State of the component
+   */
+  @Input() state?: Observable<PickerState> | null;
+  /**
    * @description Emit an event containing all items selected by the user
    */
-  @Output() choosenItem = new EventEmitter<ChoosenItem[]>();
+  @Output() choosenItem = new EventEmitter<PickerState>();
 
   /**
    * @description Items list selected by the user
@@ -65,10 +65,6 @@ export class PickerComponent implements OnInit {
    */
   favorites: ChoosenItem[] = [];
   /**
-   * @description All favorite items list from the user
-   */
-  allFavorites: ChoosenItem[] = [];
-  /**
    * @description Current page fetched from the item provider api
    */
   currentPage: number = 1;
@@ -86,7 +82,23 @@ export class PickerComponent implements OnInit {
     if (this.itemKeys.searchable === '') {
       throw new Error(`property 'searchableValue' from 'itemKeys' is not defined.`);
     }
-    if (this.useFavorite) this.setFavorites();
+    if (this.state) {
+      this.state.subscribe({
+        next: (res) => {
+          console.log({ res });
+          if (res.search) this.search = res.search;
+          if (res.chips) this.chips = res.chips;
+          if (res.lastPage) this.lastPage = res.lastPage;
+          if (res.currentPage) this.currentPage = res.currentPage;
+          if (res.items) this.items = res.items;
+          if (!this.allFavorites) return;
+          if (res.favorites) this.favorites = res.favorites;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
+    }
   }
 
   private addItems() {
@@ -139,17 +151,29 @@ export class PickerComponent implements OnInit {
   }
 
   private setFavorites() {
-    this.allFavorites = dummyData;
-    this.favorites = dummyData;
+    if (!this.allFavorites) return;
+    this.favorites = this.allFavorites;
   }
 
   private resetFavorites() {
+    if (!this.allFavorites) return;
     const favorites = [...this.allFavorites];
     favorites.forEach((item) => {
       const index = findIndexByProperty(this.favorites, this.itemKeys.searchable, item);
       if (index !== -1) favorites[index] = item;
     });
     this.favorites = favorites;
+  }
+
+  private getState(): PickerState {
+    return {
+      items: this.items,
+      search: this.search,
+      chips: this.chips,
+      favorites: this.favorites,
+      currentPage: this.currentPage,
+      lastPage: this.lastPage,
+    };
   }
 
   onInputChange(e: Event) {
@@ -197,8 +221,9 @@ export class PickerComponent implements OnInit {
   }
 
   emitValues() {
-    const values = Array.from(this.chips.values());
-    this.choosenItem.emit(values);
+    // const values = Array.from(this.chips.values());
+    const state = this.getState();
+    this.choosenItem.emit(state);
   }
 
   onIonInfinite(event: Event) {

@@ -1,17 +1,35 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Usage } from 'src/app/models/usages';
-import { FilterForm, ChoosenItem } from '../../models/standard';
+import { FilterForm, ChoosenItem, CustomMap } from '../../models/standard';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { User, UserFilter } from '../../models/users';
 import { PaginatedResponse } from '../../models/response';
 import { Specy, SpeciesFilter } from '../../models/species';
 import { PickerState } from '../../models/picker';
 import { Storage } from '@ionic/storage';
-import { from } from 'rxjs';
 
 export class UsageMap extends Map<string, Usage> {}
+
+const defaultState: PickerState = {
+  items: [],
+  search: '',
+  chips: new CustomMap(),
+  favorites: [],
+  currentPage: 1,
+  lastPage: 1,
+};
+
+class State {
+  users: Observable<PickerState> | PickerState;
+  species: Observable<PickerState> | PickerState;
+
+  constructor(private storage: Storage) {
+    this.users = from(this.storage.get(filtersStorageKeys.users)) || defaultState;
+    this.species = from(this.storage.get(filtersStorageKeys.species)) || defaultState;
+  }
+}
 
 function getUsers(api: ShroomShareApiService) {
   return (option: UserFilter): Observable<PaginatedResponse<User>> => {
@@ -28,11 +46,6 @@ function getSpecies(api: ShroomShareApiService) {
 const filtersStorageKeys = {
   users: 'filters-modal-users',
   species: 'filters-modal-species',
-};
-
-type ModalState = {
-  users?: PickerState;
-  species?: PickerState;
 };
 
 @Component({
@@ -58,11 +71,7 @@ export class FiltersModalComponent implements OnInit {
     { username: 'Johnny', id: '...', admin: false },
     { username: 'Eloise', id: '...', admin: false },
   ];
-  states: {
-    [index: string]: any;
-    users: Observable<PickerState> | null;
-    species: Observable<PickerState> | null;
-  };
+  states!: State;
   tmpStates: {
     [index: string]: any;
     users: PickerState | null;
@@ -82,14 +91,11 @@ export class FiltersModalComponent implements OnInit {
   ) {
     this.getUsers = getUsers(this.api);
     this.getSpecies = getSpecies(this.api);
-    this.states = {
-      users: from(this.storage.get(filtersStorageKeys.users)),
-      species: from(this.storage.get(filtersStorageKeys.species)),
-    };
     this.tmpStates = {
       users: null,
       species: null,
     };
+    this.states = new State(storage);
     const iterable = Object.entries(filtersStorageKeys);
     for (const entries of iterable) {
       const [key, value] = [entries[0], entries[1]];
@@ -119,6 +125,7 @@ export class FiltersModalComponent implements OnInit {
   }
 
   onChoosenUser(state: PickerState) {
+    console.log({ userState: state });
     this.tmpStates.users = state;
   }
 

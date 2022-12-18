@@ -1,6 +1,6 @@
-<ion-searchbar (ionChange)="onInputChange($event)" [value]="search"></ion-searchbar>
+<ion-searchbar (ionChange)="onInputChange($event)" [value]="state.search"></ion-searchbar>
 
-<ion-chip *ngFor="let user of chips|keyvalue">
+<ion-chip *ngFor="let user of state.chips|keyvalue">
   <ion-label>{{user.value[itemKeys.searchable]}}</ion-label>
   <ion-icon name="close" (click)="onChipClick(user.key)"></ion-icon>
 </ion-chip>
@@ -12,9 +12,8 @@
       <ion-label>Mes favoris</ion-label>
     </ion-item>
     <ion-list class="ion-padding favorites__list" slot="content">
-      <ion-item *ngFor="let item of favorites">
-        <ion-checkbox slot="start" (ionChange)="onCheck($event)"
-          [checked]="item.checked" [value]="item">
+      <ion-item *ngFor="let item of state.favorites">
+        <ion-checkbox slot="start" (ionChange)="onCheck($event)" [checked]="item.checked" [value]="item">
         </ion-checkbox>
         <ion-label>{{item[itemKeys.searchable]}}</ion-label>
       </ion-item>
@@ -27,9 +26,8 @@
     </ion-item>
     <div class="ion-padding users__content ion-content-scroll-host" slot="content">
       <ion-list>
-        <ion-item *ngFor="let item of items">
-          <ion-checkbox slot="start" (ionChange)="onCheck($event)"
-            [checked]="item.checked" [value]="item">
+        <ion-item *ngFor="let item of state.items">
+          <ion-checkbox slot="start" (ionChange)="onCheck($event)" [checked]="item.checked" [value]="item">
           </ion-checkbox>
           <ion-label>{{item[itemKeys.searchable]}}</ion-label>
         </ion-item>

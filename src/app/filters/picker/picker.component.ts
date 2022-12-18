@@ -42,36 +42,11 @@ export class PickerComponent implements OnInit {
   /**
    * @description State of the component
    */
-  @Input() state?: Observable<PickerState> | null;
+  @Input() state!: PickerState;
   /**
    * @description Emit an event containing all items selected by the user
    */
   @Output() choosenItem = new EventEmitter<PickerState>();
-
-  /**
-   * @description Items list selected by the user
-   */
-  items: ChoosenItem[] = [];
-  /**
-   * @description Research keyword enter by the user
-   */
-  search: string = '';
-  /**
-   * @description List of chips containing items choosen by the user
-   */
-  chips: CustomMap<ChoosenItem> = new CustomMap();
-  /**
-   * @description Currently favorite items list selected by the user
-   */
-  favorites: ChoosenItem[] = [];
-  /**
-   * @description Current page fetched from the item provider api
-   */
-  currentPage: number = 1;
-  /**
-   * @description Last available page from the item provider api
-   */
-  lastPage: number = 1;
 
   constructor() {}
 
@@ -82,41 +57,38 @@ export class PickerComponent implements OnInit {
     if (this.itemKeys.searchable === '') {
       throw new Error(`property 'searchableValue' from 'itemKeys' is not defined.`);
     }
-    if (this.state) {
-      this.state.subscribe({
-        next: (res) => {
-          console.log({ res });
-          if (res.search) this.search = res.search;
-          if (res.chips) this.chips = res.chips;
-          if (res.lastPage) this.lastPage = res.lastPage;
-          if (res.currentPage) this.currentPage = res.currentPage;
-          if (res.items) this.items = res.items;
-          if (!this.allFavorites) return;
-          if (res.favorites) this.favorites = res.favorites;
-        },
-        error: (error) => {
-          console.log(error);
-        },
-      });
+    console.log(this.state);
+    if (!this.state) {
+      const defaultState: PickerState = {
+        items: [],
+        search: '',
+        chips: new CustomMap(),
+        favorites: [],
+        currentPage: 1,
+        lastPage: 1,
+      };
+      this.state = defaultState;
     }
   }
 
   private addItems() {
-    if (this.currentPage >= this.lastPage) return;
-    this.currentPage++;
+    if (this.state.currentPage >= this.state.lastPage) return;
+    this.state.currentPage++;
     const searchableKey = this.itemKeys.searchable;
     const option = {
-      search: this.search,
+      search: this.state.search,
       pageSize: this.pageSize,
-      currentPage: this.currentPage,
+      currentPage: this.state.currentPage,
     };
     this.getItem(option).subscribe({
       next: (res) => {
         for (const item of res.items) {
           item.checked = false;
           let favoriteItem;
-          if (this.useFavorite) favoriteItem = findByProperty(this.favorites, searchableKey, item);
-          if (!favoriteItem) this.items.push(item);
+          if (this.useFavorite) {
+            favoriteItem = findByProperty(this.state.favorites, searchableKey, item);
+          }
+          if (!favoriteItem) this.state.items.push(item);
         }
       },
       error: (err) => {
@@ -125,19 +97,26 @@ export class PickerComponent implements OnInit {
     });
   }
 
+  // TODO: debug this method
+  // hints: chips use 'user' as key
   private setItems() {
     const searchableKey = this.itemKeys.searchable;
-    const option = { search: this.search, pageSize: this.pageSize };
+    const option = { search: this.state.search, pageSize: this.pageSize };
     this.getItem(option).subscribe({
       next: (res) => {
+        console.log(this.state.chips);
         for (const item of res.items) {
-          const chip = this.chips.get(item[searchableKey]);
+          console.log(item[searchableKey]);
+          const chip = this.state.chips.get(item[searchableKey]);
+          console.log({ chip });
           item.checked = chip ? true : false;
           let favoriteItem;
-          if (this.useFavorite) favoriteItem = findByProperty(this.favorites, searchableKey, item);
-          if (!favoriteItem) this.items.push(item);
+          if (this.useFavorite) {
+            favoriteItem = findByProperty(this.state.favorites, searchableKey, item);
+          }
+          if (!favoriteItem) this.state.items.push(item);
         }
-        this.lastPage = res.lastPage;
+        this.state.lastPage = res.lastPage;
       },
       error: (err) => {
         console.log({ err });
@@ -146,41 +125,25 @@ export class PickerComponent implements OnInit {
   }
 
   private resetItems() {
-    this.items = [];
-    this.currentPage = 1;
-  }
-
-  private setFavorites() {
-    if (!this.allFavorites) return;
-    this.favorites = this.allFavorites;
+    this.state.items = [];
+    this.state.currentPage = 1;
   }
 
   private resetFavorites() {
     if (!this.allFavorites) return;
     const favorites = [...this.allFavorites];
     favorites.forEach((item) => {
-      const index = findIndexByProperty(this.favorites, this.itemKeys.searchable, item);
+      const index = findIndexByProperty(this.state.favorites, this.itemKeys.searchable, item);
       if (index !== -1) favorites[index] = item;
     });
-    this.favorites = favorites;
-  }
-
-  private getState(): PickerState {
-    return {
-      items: this.items,
-      search: this.search,
-      chips: this.chips,
-      favorites: this.favorites,
-      currentPage: this.currentPage,
-      lastPage: this.lastPage,
-    };
+    this.state.favorites = favorites;
   }
 
   onInputChange(e: Event) {
     const event = e as CustomEvent;
     const search: string = event.detail.value;
     const lowerCaseSearch = search.toLowerCase();
-    this.search = lowerCaseSearch;
+    this.state.search = lowerCaseSearch;
     if (this.useFavorite) this.resetFavorites();
     this.resetItems();
     if (search === '') return;
@@ -192,38 +155,37 @@ export class PickerComponent implements OnInit {
       return;
     };
 
-    this.items = this.items.filter(filtering);
+    this.state.items = this.state.items.filter(filtering);
     if (!this.useFavorite) return;
-    this.favorites = this.favorites.filter(filtering);
+    this.state.favorites = this.state.favorites.filter(filtering);
   }
 
   onCheck(e: Event) {
+    const searchableKey = this.itemKeys.searchable;
     const event = e as CustomEvent;
     const item = event.detail.value;
     const isChecked = event.detail.checked;
-    const itemIndex = findIndexByProperty(this.items, this.itemKeys.id, item);
-    if (itemIndex !== -1) this.items[itemIndex].checked = isChecked;
-    isChecked ? this.chips.set(item, item) : this.chips.delete(item);
+    const itemIndex = findIndexByProperty(this.state.items, this.itemKeys.id, item);
+    if (itemIndex !== -1) this.state.items[itemIndex].checked = isChecked;
+    isChecked ? this.state.chips.set(item[searchableKey], item) : this.state.chips.delete(item);
     if (!this.useFavorite) return this.emitValues();
-    const favoriteIndex = findIndexByProperty(this.favorites, this.itemKeys.searchable, item);
-    if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = isChecked;
+    const favoriteIndex = findIndexByProperty(this.state.favorites, this.itemKeys.searchable, item);
+    if (favoriteIndex !== -1) this.state.favorites[favoriteIndex].checked = isChecked;
     this.emitValues();
   }
 
   onChipClick(key: string) {
-    this.chips.delete(key);
-    const itemIndex = findIndexByProperty(this.items, this.itemKeys.searchable, key);
-    if (itemIndex !== -1) this.items[itemIndex].checked = false;
+    this.state.chips.delete(key);
+    const itemIndex = findIndexByProperty(this.state.items, this.itemKeys.searchable, key);
+    if (itemIndex !== -1) this.state.items[itemIndex].checked = false;
     if (!this.useFavorite) return this.emitValues();
-    const favoriteIndex = findIndexByProperty(this.favorites, this.itemKeys.searchable, key);
-    if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = false;
+    const favoriteIndex = findIndexByProperty(this.state.favorites, this.itemKeys.searchable, key);
+    if (favoriteIndex !== -1) this.state.favorites[favoriteIndex].checked = false;
     this.emitValues();
   }
 
   emitValues() {
-    // const values = Array.from(this.chips.values());
-    const state = this.getState();
-    this.choosenItem.emit(state);
+    this.choosenItem.emit(this.state);
   }
 
   onIonInfinite(event: Event) {

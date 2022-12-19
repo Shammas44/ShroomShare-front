@@ -104,11 +104,8 @@ export class PickerComponent implements OnInit {
     const option = { search: this.state.search, pageSize: this.pageSize };
     this.getItem(option).subscribe({
       next: (res) => {
-        console.log(this.state.chips);
         for (const item of res.items) {
-          console.log(item[searchableKey]);
           const chip = this.state.chips.get(item[searchableKey]);
-          console.log({ chip });
           item.checked = chip ? true : false;
           let favoriteItem;
           if (this.useFavorite) {
@@ -167,7 +164,9 @@ export class PickerComponent implements OnInit {
     const isChecked = event.detail.checked;
     const itemIndex = findIndexByProperty(this.state.items, this.itemKeys.id, item);
     if (itemIndex !== -1) this.state.items[itemIndex].checked = isChecked;
-    isChecked ? this.state.chips.set(item[searchableKey], item) : this.state.chips.delete(item);
+    isChecked
+      ? this.state.chips.set(item[searchableKey], item)
+      : this.state.chips.delete(item[searchableKey]);
     if (!this.useFavorite) return this.emitValues();
     const favoriteIndex = findIndexByProperty(this.state.favorites, this.itemKeys.searchable, item);
     if (favoriteIndex !== -1) this.state.favorites[favoriteIndex].checked = isChecked;
@@ -175,6 +174,7 @@ export class PickerComponent implements OnInit {
   }
 
   onChipClick(key: string) {
+    console.log({ key });
     this.state.chips.delete(key);
     const itemIndex = findIndexByProperty(this.state.items, this.itemKeys.searchable, key);
     if (itemIndex !== -1) this.state.items[itemIndex].checked = false;

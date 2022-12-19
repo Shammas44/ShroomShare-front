@@ -12,22 +12,28 @@ import { Storage } from '@ionic/storage';
 
 export class UsageMap extends Map<string, Usage> {}
 
-const defaultState: PickerState = {
-  items: [],
-  search: '',
-  chips: new CustomMap(),
-  favorites: [],
-  currentPage: 1,
-  lastPage: 1,
-};
+function getDefaultState(): PickerState {
+  return {
+    items: [],
+    search: '',
+    chips: new CustomMap(),
+    favorites: [],
+    currentPage: 1,
+    lastPage: 1,
+  };
+}
 
 class State {
-  users: Observable<PickerState> | PickerState;
-  species: Observable<PickerState> | PickerState;
+  users: Observable<PickerState>;
+  species: Observable<PickerState>;
 
   constructor(private storage: Storage) {
-    this.users = from(this.storage.get(filtersStorageKeys.users)) || defaultState;
-    this.species = from(this.storage.get(filtersStorageKeys.species)) || defaultState;
+    this.users = from(
+      this.storage.get(filtersStorageKeys.users).then((value) => value || getDefaultState())
+    );
+    this.species = from(
+      this.storage.get(filtersStorageKeys.species).then((value) => value || getDefaultState())
+    );
   }
 }
 
@@ -125,7 +131,6 @@ export class FiltersModalComponent implements OnInit {
   }
 
   onChoosenUser(state: PickerState) {
-    console.log({ userState: state });
     this.tmpStates.users = state;
   }
 

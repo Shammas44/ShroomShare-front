@@ -21,6 +21,7 @@
       ],
       "rules": {
         "no-unused-vars": "off",
+        "operator-linebreak": "off",
         "object-curly-spacing": "off",
         "require-jsdoc": "off",
         "comma-dangle": "off",

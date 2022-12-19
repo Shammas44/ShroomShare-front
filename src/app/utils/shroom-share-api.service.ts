@@ -10,22 +10,18 @@ import {
   Mushroom,
   MushroomsResponse,
   MushroomResponse,
-  PaginatedMushroomsResponse,
   MushroomsFilter,
   AddMushroomRequest,
   ModifyMushroomRequest,
 } from '../models/mushrooms';
-import { Response, CountResponse } from '../models/response';
+import { Response, CountResponse, PaginatedResponse } from '../models/response';
 import {
   AddUserRequest,
   ModifyUserRequest,
   User,
   UserFilter,
   UserResponse,
-  UsersResponse,
-  PaginatedUsersResponse,
 } from '../models/users';
-import { PaginatedSpeciesResponse } from '../models/species';
 
 const API_URL = environment.apiUrl;
 
@@ -52,10 +48,10 @@ export class ShroomShareApiService {
     return url;
   }
 
-  getSpecies$(filter?: SpeciesFilter): Observable<PaginatedSpeciesResponse> {
+  getSpecies$(filter?: SpeciesFilter): Observable<PaginatedResponse<Specy>> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/species${queryParams}`;
-    return this.http.get<PaginatedSpeciesResponse>(url);
+    return this.http.get<PaginatedResponse<Specy>>(url);
   }
 
   countSpecies$(): Observable<CountResponse> {
@@ -68,10 +64,10 @@ export class ShroomShareApiService {
     return this.http.get<SpecyResponse>(url).pipe(map((res) => res.specy));
   }
 
-  getMushrooms$(filter?: MushroomsFilter): Observable<PaginatedMushroomsResponse> {
+  getMushrooms$(filter?: MushroomsFilter): Observable<PaginatedResponse<Mushroom>> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/mushrooms${queryParams}`;
-    return this.http.get<PaginatedMushroomsResponse>(url);
+    return this.http.get<PaginatedResponse<Mushroom>>(url);
   }
 
   addMushroom$(body: AddMushroomRequest): Observable<Mushroom[]> {
@@ -89,10 +85,10 @@ export class ShroomShareApiService {
     return this.http.patch<MushroomResponse>(url, body).pipe(map((res) => res.mushroom));
   }
 
-  getUsers$(filter?: UserFilter): Observable<PaginatedUsersResponse> {
+  getUsers$(filter?: UserFilter): Observable<PaginatedResponse<User>> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/users${queryParams}`;
-    return this.http.get<PaginatedUsersResponse>(url);
+    return this.http.get<PaginatedResponse<User>>(url);
   }
 
   getUser$(userId: String): Observable<User> {

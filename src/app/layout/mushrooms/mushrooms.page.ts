@@ -22,7 +22,7 @@ export class MushroomsPage implements OnInit {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     const form: FiltersModalComponent = data;
-    console.log({ data, role });
+    // console.log({ data, role });
     if (data) this.fetchMushrooms(form);
   }
 
@@ -35,7 +35,7 @@ export class MushroomsPage implements OnInit {
     this.api.getMushrooms$(option).subscribe({
       next: (res) => {
         this.mushrooms = [];
-        for (const mushroom of res.mushrooms as Mushroom[]) {
+        for (const mushroom of res.items as Mushroom[]) {
           this.mushrooms.push(mushroom);
         }
       },

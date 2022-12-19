@@ -14,7 +14,17 @@
   <ion-title>
     <h3>Utilisateurs</h3>
   </ion-title>
-  <app-picker [pageSize]="3" (choosenUser)="onChoosenUser($event)"></app-picker>
+  <app-picker [pageSize]="3" (choosenItem)="onChoosenUser($event)" [getItem]="getUsers" [itemKeys]="userKeys"
+    [useFavorite]="true" [allFavorites]="allFavorites" [state]="state" *ngIf="states.users | async as state;">
+  </app-picker>
+
+  <hr>
+  <ion-title>
+    <h3>Espèces</h3>
+  </ion-title>
+  <app-picker [pageSize]="3" (choosenItem)="onChoosenSpecies($event)" [getItem]="getSpecies" [itemKeys]="specyKeys"
+    [useFavorite]="false" [state]="state" *ngIf="states.species | async as state;">
+  </app-picker>
 
   <hr>
   <ion-title>

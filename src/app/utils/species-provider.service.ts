@@ -43,7 +43,7 @@ export class SpeciesProviderService {
           option.currentPage = res.currentPage + 1;
           currentPage = res.currentPage + 1;
           lastPage = res.lastPage;
-          for (const specy of res.species) {
+          for (const specy of res.items) {
             this.species.push(specy);
           }
           this.storage.set('species', this.species);

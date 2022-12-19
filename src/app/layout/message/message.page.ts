@@ -28,7 +28,7 @@ export class MessagePage implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log("submit")
+    console.log("submit message")
     // this.lastMessage.timestamp = Date.now();
     // storage.get('auth').then((storedAuth) => {
     //   this.lastMessage.username = storedAuth.user.username;

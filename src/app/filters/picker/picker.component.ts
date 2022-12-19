@@ -1,62 +1,94 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
-import { UsersMap, ChoosenUser } from '../../models/users';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { findIndexByProperty, findByProperty } from '../../utils/utility-functions';
+import { Observable } from 'rxjs';
+import { PaginatedResponse } from '../../models/response';
+import { ChoosenItem, BaseFilter, CustomMap } from '../../models/standard';
+import { PickerState } from '../../models/picker';
 
-const dummyData = [
-  { username: 'John', id: '...', admin: false },
-  { username: 'Johnny', id: '...', admin: false },
-  { username: 'Eloise', id: '...', admin: false },
-];
+type ItemPropertyKeys = {
+  id: string;
+  searchable: string;
+};
 
 @Component({
   selector: 'app-picker',
   templateUrl: './picker.component.html',
   styleUrls: ['./picker.component.scss'],
-}) //eslint-disable-line
+}) // eslint-disable-line
 export class PickerComponent implements OnInit {
-  @Input() pageSize = 5;
-  @Output() choosenUser = new EventEmitter<ChoosenUser[]>();
+  /**
+   * @description Retrieve items by calling the api
+   */
+  @Input() getItem!: (option: BaseFilter) => Observable<PaginatedResponse<ChoosenItem>>;
+  /**
+   * @description Property's keys name:
+   * - id: Used by computer to identify the item
+   * - searchable: Used by User to identify the item
+   */
+  @Input() itemKeys!: ItemPropertyKeys;
+  /**
+   * @description The number of items return by the api at once
+   */
+  @Input() pageSize?: number = 5;
+  /**
+   * @description Allow to filter items by favorite
+   */
+  @Input() useFavorite?: boolean = false;
+  /**
+   * @description All favorite items list from the user
+   */
+  @Input() allFavorites?: ChoosenItem[] = [];
+  /**
+   * @description State of the component
+   */
+  @Input() state!: PickerState;
+  /**
+   * @description Emit an event containing all items selected by the user
+   */
+  @Output() choosenItem = new EventEmitter<PickerState>();
 
-  users: ChoosenUser[] = [];
-  search: string = '';
-  chips: UsersMap = new UsersMap();
-  favorites: ChoosenUser[] = [];
-  allFavorites: ChoosenUser[] = [];
-  currentPage: number = 1;
-  lastPage: number = 1;
+  constructor() {}
 
-  constructor(private api: ShroomShareApiService) {
-    this.setFavorites();
+  ngOnInit(): void {
+    if (typeof this.getItem !== 'function') throw new Error(`property 'getItem' is not defined.`);
+    if (!this.itemKeys) throw new Error(`property 'itemKeys' is not defined.`);
+    if (this.itemKeys.id === '') throw new Error(`property 'id' from 'itemKeys' is not defined.`);
+    if (this.itemKeys.searchable === '') {
+      throw new Error(`property 'searchableValue' from 'itemKeys' is not defined.`);
+    }
+    console.log(this.state);
+    if (!this.state) {
+      const defaultState: PickerState = {
+        items: [],
+        search: '',
+        chips: new CustomMap(),
+        favorites: [],
+        currentPage: 1,
+        lastPage: 1,
+      };
+      this.state = defaultState;
+    }
   }
 
-  emitValues() {
-    const values = Array.from(this.chips.values());
-    this.choosenUser.emit(values);
-  }
-
-  onIonInfinite(event: Event) {
-    this.addUsers();
-    setTimeout(() => {
-      (event as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
-  }
-
-  private addUsers() {
-    if (this.currentPage >= this.lastPage) return;
-    this.currentPage++;
+  private addItems() {
+    if (this.state.currentPage >= this.state.lastPage) return;
+    this.state.currentPage++;
+    const searchableKey = this.itemKeys.searchable;
     const option = {
-      search: this.search,
+      search: this.state.search,
       pageSize: this.pageSize,
-      currentPage: this.currentPage,
+      currentPage: this.state.currentPage,
     };
-    this.api.getUsers$(option).subscribe({
+    this.getItem(option).subscribe({
       next: (res) => {
-        for (const user of res.users as ChoosenUser[]) {
-          user.checked = false;
-          const favoriteUser = findByProperty(this.favorites, 'username', user);
-          if (!favoriteUser) this.users.push(user);
+        for (const item of res.items) {
+          item.checked = false;
+          let favoriteItem;
+          if (this.useFavorite) {
+            favoriteItem = findByProperty(this.state.favorites, searchableKey, item);
+          }
+          if (!favoriteItem) this.state.items.push(item);
         }
       },
       error: (err) => {
@@ -65,17 +97,23 @@ export class PickerComponent implements OnInit {
     });
   }
 
-  private setUsers() {
-    const option = { search: this.search, pageSize: this.pageSize };
-    this.api.getUsers$(option).subscribe({
+  // TODO: debug this method
+  // hints: chips use 'user' as key
+  private setItems() {
+    const searchableKey = this.itemKeys.searchable;
+    const option = { search: this.state.search, pageSize: this.pageSize };
+    this.getItem(option).subscribe({
       next: (res) => {
-        for (const user of res.users as ChoosenUser[]) {
-          const chip = this.chips.get(user.username);
-          user.checked = chip ? true : false;
-          const favoriteUser = findByProperty(this.favorites, 'username', user);
-          if (!favoriteUser) this.users.push(user);
+        for (const item of res.items) {
+          const chip = this.state.chips.get(item[searchableKey]);
+          item.checked = chip ? true : false;
+          let favoriteItem;
+          if (this.useFavorite) {
+            favoriteItem = findByProperty(this.state.favorites, searchableKey, item);
+          }
+          if (!favoriteItem) this.state.items.push(item);
         }
-        this.lastPage = res.lastPage;
+        this.state.lastPage = res.lastPage;
       },
       error: (err) => {
         console.log({ err });
@@ -83,68 +121,77 @@ export class PickerComponent implements OnInit {
     });
   }
 
-  private resetUsers() {
-    this.users = [];
-    this.currentPage = 1;
+  private resetItems() {
+    this.state.items = [];
+    this.state.currentPage = 1;
   }
 
-  private setFavorites() {
-    this.allFavorites = dummyData;
-    this.favorites = dummyData;
+  private resetFavorites() {
+    if (!this.allFavorites) return;
+    const favorites = [...this.allFavorites];
+    favorites.forEach((item) => {
+      const index = findIndexByProperty(this.state.favorites, this.itemKeys.searchable, item);
+      if (index !== -1) favorites[index] = item;
+    });
+    this.state.favorites = favorites;
   }
 
   onInputChange(e: Event) {
     const event = e as CustomEvent;
     const search: string = event.detail.value;
     const lowerCaseSearch = search.toLowerCase();
-    this.search = lowerCaseSearch;
-    this.resetFavorites();
-    if (search === '') return this.resetUsers();
-    this.setUsers();
-    this.users = this.users.filter((user) => {
-      const lowerCaseUsername = user.username.toLowerCase();
-      if (lowerCaseUsername.startsWith(lowerCaseSearch)) return user;
-      return;
-    });
-    this.favorites = this.favorites.filter((user) => {
-      const lowerCaseUsername = user.username.toLowerCase();
-      if (lowerCaseUsername.startsWith(lowerCaseSearch)) return user;
-      return;
-    });
-  }
+    this.state.search = lowerCaseSearch;
+    if (this.useFavorite) this.resetFavorites();
+    this.resetItems();
+    if (search === '') return;
+    this.setItems();
 
-  private resetFavorites() {
-    const favorites = [...this.allFavorites];
-    favorites.forEach((user) => {
-      const index = findIndexByProperty(this.favorites, 'username', user);
-      if (index !== -1) favorites[index] = user;
-    });
-    this.favorites = favorites;
+    const filtering = (item: ChoosenItem) => {
+      const lowerCaseKey = item[this.itemKeys.searchable].toLowerCase();
+      if (lowerCaseKey.startsWith(lowerCaseSearch)) return item;
+      return;
+    };
+
+    this.state.items = this.state.items.filter(filtering);
+    if (!this.useFavorite) return;
+    this.state.favorites = this.state.favorites.filter(filtering);
   }
 
   onCheck(e: Event) {
+    const searchableKey = this.itemKeys.searchable;
     const event = e as CustomEvent;
-    const username = event.detail.value;
+    const item = event.detail.value;
     const isChecked = event.detail.checked;
-    const userIndex = findIndexByProperty(this.users, 'username', username);
-    const favoriteIndex = findIndexByProperty(this.favorites, 'username', username);
-    if (userIndex !== -1) this.users[userIndex].checked = isChecked;
-    if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = isChecked;
-    if (isChecked) this.chips.set(username, username);
-    if (!isChecked) {
-      this.chips.delete(username);
-    }
+    const itemIndex = findIndexByProperty(this.state.items, this.itemKeys.id, item);
+    if (itemIndex !== -1) this.state.items[itemIndex].checked = isChecked;
+    isChecked
+      ? this.state.chips.set(item[searchableKey], item)
+      : this.state.chips.delete(item[searchableKey]);
+    if (!this.useFavorite) return this.emitValues();
+    const favoriteIndex = findIndexByProperty(this.state.favorites, this.itemKeys.searchable, item);
+    if (favoriteIndex !== -1) this.state.favorites[favoriteIndex].checked = isChecked;
     this.emitValues();
   }
 
-  onChipClick(username: string) {
-    this.chips.delete(username);
-    const userIndex = findIndexByProperty(this.users, 'username', username);
-    const favoriteIndex = findIndexByProperty(this.favorites, 'username', username);
-    if (userIndex !== -1) this.users[userIndex].checked = false;
-    if (favoriteIndex !== -1) this.favorites[favoriteIndex].checked = false;
+  onChipClick(key: string) {
+    console.log({ key });
+    this.state.chips.delete(key);
+    const itemIndex = findIndexByProperty(this.state.items, this.itemKeys.searchable, key);
+    if (itemIndex !== -1) this.state.items[itemIndex].checked = false;
+    if (!this.useFavorite) return this.emitValues();
+    const favoriteIndex = findIndexByProperty(this.state.favorites, this.itemKeys.searchable, key);
+    if (favoriteIndex !== -1) this.state.favorites[favoriteIndex].checked = false;
     this.emitValues();
   }
 
-  ngOnInit() {}
+  emitValues() {
+    this.choosenItem.emit(this.state);
+  }
+
+  onIonInfinite(event: Event) {
+    this.addItems();
+    setTimeout(() => {
+      (event as InfiniteScrollCustomEvent).target.complete();
+    }, 500);
+  }
 }

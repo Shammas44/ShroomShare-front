@@ -1,16 +1,22 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Usage } from 'src/app/models/usages';
 import { FilterForm, ChoosenItem, CustomMap } from '../../models/standard';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { User, UserFilter } from '../../models/users';
 import { PaginatedResponse } from '../../models/response';
 import { Specy, SpeciesFilter } from '../../models/species';
 import { PickerState } from '../../models/picker';
 import { Storage } from '@ionic/storage';
+import { FiltersModalState } from './Filters-modal-state';
 
-export class UsageMap extends Map<string, Usage> {}
+export class UsageMap extends Map<string, UsageState> {}
+
+type UsageState = {
+  name: string;
+  checked: boolean;
+};
 
 function getDefaultState(): PickerState {
   return {
@@ -23,17 +29,35 @@ function getDefaultState(): PickerState {
   };
 }
 
-class State {
+function getDefaultUsageState(): UsageMap {
+  const map = new Map();
+  Object.keys(Usage).forEach((value) => {
+    map.set(value, { name: value, checked: false });
+  });
+  return map;
+}
+
+const currentDateIso = new Date().toISOString();
+const currentDate = new Date();
+const previousYearDate = new Date();
+previousYearDate.setFullYear(currentDate.getFullYear() - 1);
+const previousYearDateIso = previousYearDate.toISOString();
+
+class State extends FiltersModalState {
   users: Observable<PickerState>;
   species: Observable<PickerState>;
-
-  constructor(private storage: Storage) {
-    this.users = from(
-      this.storage.get(filtersStorageKeys.users).then((value) => value || getDefaultState())
-    );
-    this.species = from(
-      this.storage.get(filtersStorageKeys.species).then((value) => value || getDefaultState())
-    );
+  usages: Observable<UsageMap>;
+  radius: Observable<number>;
+  start: Observable<string>;
+  end: Observable<string>;
+  constructor(storage: Storage, stateKey: string) {
+    super(storage, stateKey);
+    this.users = this.setProperty('users', getDefaultState);
+    this.species = this.setProperty('species', getDefaultState);
+    this.usages = this.setProperty('usages', getDefaultUsageState);
+    this.radius = this.setProperty('radius', () => 1);
+    this.start = this.setProperty('start', () => currentDateIso);
+    this.end = this.setProperty('end', () => previousYearDateIso);
   }
 }
 
@@ -49,11 +73,6 @@ function getSpecies(api: ShroomShareApiService) {
   };
 }
 
-const filtersStorageKeys = {
-  users: 'filters-modal-users',
-  species: 'filters-modal-species',
-};
-
 @Component({
   selector: 'app-filters-modal',
   templateUrl: './filters-modal.component.html',
@@ -63,8 +82,8 @@ export class FiltersModalComponent implements OnInit {
   // @Input() filterStorageKey: string = 'filters-modal';
   @Output() filter = new EventEmitter<FilterForm>();
 
+  currentDate: string;
   usage: UsageMap = new UsageMap();
-  radius: number = 0;
   users: ChoosenItem[] = [];
   species: ChoosenItem[] = [];
   allUsages: Usage[] = [Usage.edible, Usage.inedible];
@@ -77,11 +96,15 @@ export class FiltersModalComponent implements OnInit {
     { username: 'Johnny', id: '...', admin: false },
     { username: 'Eloise', id: '...', admin: false },
   ];
-  states!: State;
+  states: State;
   tmpStates: {
     [index: string]: any;
     users: PickerState | null;
     species: PickerState | null;
+    usages: UsageMap | null;
+    radius: number;
+    start: string;
+    end: string;
   };
 
   async ngOnInit() {
@@ -95,19 +118,24 @@ export class FiltersModalComponent implements OnInit {
     private api: ShroomShareApiService,
     private storage: Storage
   ) {
+    this.currentDate = new Date().toISOString();
     this.getUsers = getUsers(this.api);
     this.getSpecies = getSpecies(this.api);
     this.tmpStates = {
       users: null,
       species: null,
+      usages: null,
+      radius: 1,
+      start: new Date().toISOString(),
+      end: new Date().toISOString(),
     };
-    this.states = new State(storage);
-    const iterable = Object.entries(filtersStorageKeys);
-    for (const entries of iterable) {
-      const [key, value] = [entries[0], entries[1]];
-      this.storage.get(value).then((res) => {
-        this.tmpStates[key] = res;
-      });
+    this.states = new State(this.storage, 'filters-modal');
+
+    const iterable = this.states.getKeys();
+    for (const value of iterable) {
+      let keys = value.split('-');
+      const key = keys[keys.length - 1];
+      this.storage.get(value).then((res) => (this.tmpStates[key] = res));
     }
   }
 
@@ -116,18 +144,14 @@ export class FiltersModalComponent implements OnInit {
   }
 
   async confirm() {
-    const form = {
-      users: this.users,
-      species: this.species,
-      usage: Array.from(this.usage.values()),
-      radius: this.radius,
-    };
-    const iterable = Object.entries(filtersStorageKeys);
-    for (const entries of iterable) {
-      const [key, value] = [entries[0], entries[1]];
+    const iterable = this.states.getKeys();
+    for (const value of iterable) {
+      let keys = value.split('-');
+      const key = keys[keys.length - 1];
       await this.storage.set(value, this.tmpStates[key]);
     }
-    return this.modalCtrl.dismiss(form, 'confirm');
+    console.log({ states: this.tmpStates });
+    return this.modalCtrl.dismiss(this.tmpStates, 'confirm');
   }
 
   onChoosenUser(state: PickerState) {
@@ -138,11 +162,27 @@ export class FiltersModalComponent implements OnInit {
     this.tmpStates.species = state;
   }
 
+  onStartChange(e: Event) {
+    const event = e as CustomEvent;
+    this.tmpStates.start = event.detail.value;
+  }
+
+  onEndChange(e: Event) {
+    const event = e as CustomEvent;
+    this.tmpStates.end = event.detail.value;
+  }
+
+  onRadiusChange(e: Event) {
+    const event = e as CustomEvent;
+    this.tmpStates.radius = event.detail.value;
+  }
+
   onCheck(e: Event) {
     const event = e as CustomEvent;
     const usage = event.detail.value;
     const isChecked = event.detail.checked;
-    if (isChecked) this.usage.set(usage, usage);
+    if (isChecked) this.usage.set(usage, { name: usage, checked: isChecked });
     if (!isChecked) this.usage.delete(usage);
+    this.tmpStates.usages = this.usage;
   }
 }

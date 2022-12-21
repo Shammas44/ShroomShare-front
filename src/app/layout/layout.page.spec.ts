@@ -9,8 +9,8 @@ describe('LayoutPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayoutPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [LayoutPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LayoutPage);

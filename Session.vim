@@ -13,30 +13,34 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +72 src/app/filters/filters-modal/filters-modal.component.ts
-badd +30 src/app/filters/filters-modal/filters-modal.component.html
+badd +1 src/app/filters/filters-modal/filters-modal.component.ts
+badd +58 src/app/filters/filters-modal/filters-modal.component.html
 badd +2 src/app/filters/filters-modal/Filters-modal-state.ts
+badd +66 src/app/utils/shroom-share-api.service.ts
+badd +37 src/app/models/mushrooms.ts
+badd +33 src/app/layout/mushrooms/mushrooms.page.ts
+badd +15 src/app/models/picker.ts
+badd +27 ~/Documents/Prog/shroomshare-front/src/app/models/standard.ts
 argglobal
 %argdel
 $argadd ./
-edit src/app/filters/filters-modal/Filters-modal-state.ts
+edit src/app/layout/mushrooms/mushrooms.page.ts
 argglobal
-setlocal fdm=manual
-setlocal fde=
+balt src/app/models/mushrooms.ts
+setlocal fdm=expr
+setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=0
+setlocal fdl=5
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-silent! normal! zE
-let &fdl = &fdl
-let s:l = 5 - ((4 * winheight(0) + 20) / 41)
+let s:l = 31 - ((29 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 5
-normal! 024|
+keepjumps 31
+normal! 052|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

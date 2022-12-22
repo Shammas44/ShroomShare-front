@@ -10,13 +10,7 @@ import { Specy, SpeciesFilter } from '../../models/species';
 import { PickerState } from '../../models/picker';
 import { Storage } from '@ionic/storage';
 import { FiltersModalState } from './Filters-modal-state';
-
-export class UsageMap extends Map<string, UsageState> {}
-
-type UsageState = {
-  name: string;
-  checked: boolean;
-};
+import { UsageState, UsageMap, TmpState } from '../../models/filters';
 
 function getDefaultState(): PickerState {
   return {
@@ -61,18 +55,6 @@ class State extends FiltersModalState {
   }
 }
 
-function getUsers(api: ShroomShareApiService) {
-  return (option: UserFilter): Observable<PaginatedResponse<User>> => {
-    return api.getUsers$(option);
-  };
-}
-
-function getSpecies(api: ShroomShareApiService) {
-  return (option: SpeciesFilter): Observable<PaginatedResponse<Specy>> => {
-    return api.getSpecies$(option);
-  };
-}
-
 @Component({
   selector: 'app-filters-modal',
   templateUrl: './filters-modal.component.html',
@@ -97,15 +79,7 @@ export class FiltersModalComponent implements OnInit {
     { username: 'Eloise', id: '...', admin: false },
   ];
   states: State;
-  tmpStates: {
-    [index: string]: any;
-    users: PickerState | null;
-    species: PickerState | null;
-    usages: UsageMap | null;
-    radius: number;
-    start: string;
-    end: string;
-  };
+  tmpState: TmpState;
 
   async ngOnInit() {
     // if (this.filterStorageKey === '') {
@@ -119,9 +93,10 @@ export class FiltersModalComponent implements OnInit {
     private storage: Storage
   ) {
     this.currentDate = new Date().toISOString();
-    this.getUsers = getUsers(this.api);
-    this.getSpecies = getSpecies(this.api);
-    this.tmpStates = {
+    this.getUsers = this.getUsersFunc(this.api);
+    this.getSpecies = this.getSpeciesFunc(this.api);
+    this.states = new State(this.storage, 'filters-modal');
+    this.tmpState = {
       users: null,
       species: null,
       usages: null,
@@ -129,13 +104,12 @@ export class FiltersModalComponent implements OnInit {
       start: new Date().toISOString(),
       end: new Date().toISOString(),
     };
-    this.states = new State(this.storage, 'filters-modal');
 
     const iterable = this.states.getKeys();
     for (const value of iterable) {
       let keys = value.split('-');
       const key = keys[keys.length - 1];
-      this.storage.get(value).then((res) => (this.tmpStates[key] = res));
+      this.storage.get(value).then((res) => (this.tmpState[key] = res));
     }
   }
 
@@ -148,33 +122,32 @@ export class FiltersModalComponent implements OnInit {
     for (const value of iterable) {
       let keys = value.split('-');
       const key = keys[keys.length - 1];
-      await this.storage.set(value, this.tmpStates[key]);
+      await this.storage.set(value, this.tmpState[key]);
     }
-    console.log({ states: this.tmpStates });
-    return this.modalCtrl.dismiss(this.tmpStates, 'confirm');
+    return this.modalCtrl.dismiss(this.tmpState, 'confirm');
   }
 
   onChoosenUser(state: PickerState) {
-    this.tmpStates.users = state;
+    this.tmpState.users = state;
   }
 
   onChoosenSpecies(state: PickerState) {
-    this.tmpStates.species = state;
+    this.tmpState.species = state;
   }
 
   onStartChange(e: Event) {
     const event = e as CustomEvent;
-    this.tmpStates.start = event.detail.value;
+    this.tmpState.start = event.detail.value;
   }
 
   onEndChange(e: Event) {
     const event = e as CustomEvent;
-    this.tmpStates.end = event.detail.value;
+    this.tmpState.end = event.detail.value;
   }
 
   onRadiusChange(e: Event) {
     const event = e as CustomEvent;
-    this.tmpStates.radius = event.detail.value;
+    this.tmpState.radius = event.detail.value;
   }
 
   onCheck(e: Event) {
@@ -183,6 +156,22 @@ export class FiltersModalComponent implements OnInit {
     const isChecked = event.detail.checked;
     if (isChecked) this.usage.set(usage, { name: usage, checked: isChecked });
     if (!isChecked) this.usage.delete(usage);
-    this.tmpStates.usages = this.usage;
+    this.tmpState.usages = this.usage;
+  }
+
+  private getUsersFunc(
+    api: ShroomShareApiService
+  ): (option: UserFilter) => Observable<PaginatedResponse<User>> {
+    return (option: UserFilter): Observable<PaginatedResponse<User>> => {
+      return api.getUsers$(option);
+    };
+  }
+
+  private getSpeciesFunc(
+    api: ShroomShareApiService
+  ): (option: SpeciesFilter) => Observable<PaginatedResponse<Specy>> {
+    return (option: SpeciesFilter): Observable<PaginatedResponse<Specy>> => {
+      return api.getSpecies$(option);
+    };
   }
 }

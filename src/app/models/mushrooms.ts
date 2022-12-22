@@ -30,8 +30,9 @@ export type MushroomResponse = Response & {
 export type MushroomsFilter = {
   latitude?: number;
   longitude?: number;
-  specyId?: string;
-  userId?: string;
+  specyIds?: string;
+  userIds?: string;
+  usages?: string;
   showPictures?: boolean;
   from?: string;
   to?: string;

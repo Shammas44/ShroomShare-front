@@ -9,37 +9,29 @@ const routes: Routes = [
     children: [
       {
         path: 'map',
-        loadChildren: () =>
-          import('./map/map.module').then((m) => m.MapPageModule),
+        loadChildren: () => import('./map/map.module').then((m) => m.MapPageModule),
       },
       {
         path: 'camera',
-        loadChildren: () =>
-          import('./camera/camera.module').then((m) => m.CameraPageModule),
+        loadChildren: () => import('./camera/camera.module').then((m) => m.CameraPageModule),
       },
       {
         path: 'wiki',
-        loadChildren: () =>
-          import('./wiki/wiki.module').then((m) => m.WikiPageModule),
+        loadChildren: () => import('./wiki/wiki.module').then((m) => m.WikiPageModule),
       },
       {
         path: 'mushrooms',
         loadChildren: () =>
-          import('./mushrooms/mushrooms.module').then(
-            (m) => m.MushroomsPageModule
-          ),
+          import('./mushrooms/mushrooms.module').then((m) => m.MushroomsPageModule),
       },
       {
         path: 'message',
-        loadChildren: () =>
-          import('./message/message.module').then(
-            (m) => m.MessagePageModule
-          ),
+        loadChildren: () => import('./chat/chat.module').then((m) => m.MessagePageModule),
       },
       {
-        path: "",
-        redirectTo: "map", // Or whatever tabs is your default one
-        pathMatch: "full",
+        path: '',
+        redirectTo: 'map', // Or whatever tabs is your default one
+        pathMatch: 'full',
       },
     ],
   },
@@ -49,4 +41,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LayoutPageRoutingModule { }
+export class LayoutPageRoutingModule {}

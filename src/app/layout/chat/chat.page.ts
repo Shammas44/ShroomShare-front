@@ -5,9 +5,9 @@ import { Storage } from '@ionic/storage';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
-  selector: 'app-message',
-  templateUrl: './message.page.html',
-  styleUrls: ['./message.page.scss'],
+  selector: 'app-chat',
+  templateUrl: './chat.page.html',
+  styleUrls: ['./chat.page.scss'],
 })
 export class MessagePage implements OnInit {
   lastMessage: Message;
@@ -19,7 +19,7 @@ export class MessagePage implements OnInit {
       value: '',
       timestamp: 0,
       username: '',
-      userId: 0,
+      userId: '',
     };
     this.messages = [];
   }
@@ -30,10 +30,20 @@ export class MessagePage implements OnInit {
     console.log('submit message');
     this.lastMessage.timestamp = Date.now();
     this.auth.getUser$().subscribe((res) => {
-      if (res != undefined) {
+      if (res !== undefined) {
         this.lastMessage.username = res.username;
-        this.lastMessage.userId = Number(res.id);
+        this.lastMessage.userId = res.id;
         console.log(this.lastMessage);
+        const lastMessageToStore = {
+          value: this.lastMessage.value,
+          timestamp: this.lastMessage.timestamp,
+          username: res.username,
+          userId: res.id,
+        };
+
+        this.messages.push(lastMessageToStore);
+        //console.log('tous les messages', this.messages);
+        this.lastMessage.value = '';
       }
     });
   }

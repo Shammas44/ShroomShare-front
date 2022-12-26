@@ -6,6 +6,14 @@
 
 <ion-content>
   <h1>Messages</h1>
+  <ion-item>
+    <div *ngFor="let message of messages; index as i;">
+      <span style="color: tomatoe">{{ message.username }} </span>
+      <span>{{ message.value }}</span><br />
+      <span class="message-value">{{ message.timestamp }}</span>
+    </div>
+    <br /><br />
+  </ion-item>
   <form #messageForm="ngForm" (submit)="onSubmit(messageForm)">
     <ion-list>
       <!-- Username input -->

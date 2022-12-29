@@ -30,14 +30,15 @@ export type MushroomResponse = Response & {
 export type MushroomsFilter = {
   latitude?: number;
   longitude?: number;
-  specyId?: string;
-  userId?: string;
+  specyIds?: string;
+  userIds?: string;
   showPictures?: boolean;
   from?: string;
   to?: string;
   currentPage?: number;
   pageSize?: number;
   radius?: number;
+  usages?: string;
 };
 
 export type AddMushroomRequest = {

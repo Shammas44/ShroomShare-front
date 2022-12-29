@@ -13,20 +13,33 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +1 src/app/filters/filters-modal/filters-modal.component.ts
-badd +58 src/app/filters/filters-modal/filters-modal.component.html
-badd +2 src/app/filters/filters-modal/Filters-modal-state.ts
-badd +66 src/app/utils/shroom-share-api.service.ts
-badd +37 src/app/models/mushrooms.ts
-badd +33 src/app/layout/mushrooms/mushrooms.page.ts
-badd +15 src/app/models/picker.ts
-badd +27 ~/Documents/Prog/shroomshare-front/src/app/models/standard.ts
+badd +21 src/app/models/standard.ts
+badd +33 src/app/cards/cards-list/cards-list.component.ts
+badd +67 src/app/utils/utility-functions.ts
+badd +46 src/app/models/mushrooms.ts
+badd +11 src/app/models/response.ts
+badd +19 src/app/layout/mushrooms/mushrooms.page.ts
+badd +11 ~/Documents/Prog/shroomshare-front/src/app/models/filters.ts
+badd +1 ~/Documents/Prog/shroomshare-front/src/app/models/picker.ts
+badd +64 ~/Documents/Prog/shroomshare-front/src/app/filters/filters-modal/filters-modal.component.ts
 argglobal
 %argdel
-$argadd ./
+$argadd ~/Documents/Prog/shroomshare-front/
 edit src/app/layout/mushrooms/mushrooms.page.ts
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
 argglobal
-balt src/app/models/mushrooms.ts
+balt src/app/cards/cards-list/cards-list.component.ts
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
@@ -35,12 +48,12 @@ setlocal fdl=5
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 31 - ((29 * winheight(0) + 20) / 41)
+let s:l = 19 - ((18 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 31
-normal! 052|
+keepjumps 19
+normal! 036|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -48,12 +61,16 @@ endif
 unlet! s:wipebuf
 set winheight=1 winwidth=20
 let &shortmess = s:shortmess_save
+let &winminheight = s:save_winminheight
+let &winminwidth = s:save_winminwidth
 let s:sx = expand("<sfile>:p:r")."x.vim"
 if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
+let g:this_session = v:this_session
+let g:this_obsession = v:this_session
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

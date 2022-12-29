@@ -1,12 +1,15 @@
 <ion-content>
-<p>page Wiki</p>
-<div>
-  <div class="card-specy" *ngFor="let specy of species">
-    <h2>{{specy.name}}</h2> 
-    <p>{{specy.id}}</p> 
-    <p>{{specy.description}}</p> 
-    <p><b>{{specy.usage}}</b></p> 
-    <img src="{{specy.picture.value}}" alt="">
+  <h2>page Wiki</h2>
+
+  <div class="ion-padding">
+    <ion-list class="ion-content-scroll-host">
+      <ion-item *ngFor="let specy of species">
+        <app-specy-card [specy]="specy"></app-specy-card>
+      </ion-item>
+    </ion-list>
+    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </div>
-</div>
+
 </ion-content>

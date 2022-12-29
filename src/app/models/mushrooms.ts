@@ -1,6 +1,8 @@
-/* eslint camelcase: 0 */
-import { Picture } from './pictures';
-import { Response, PaginatedResponse } from './response';
+import { Response } from './response';
+import { User } from './users';
+import { Specy } from './species';
+import { CollectionName } from './collection-names';
+import { PaginatedFilters } from './filters';
 
 export type Location = {
   type: 'Point';
@@ -9,14 +11,28 @@ export type Location = {
 
 export type Mushroom = {
   name: string;
-  specy_id: string;
-  user_id: string;
-  picture_id: string;
+  author: string;
+  specy: Specy;
+  user: User;
+  picture: string;
   description: string;
   date: string;
   id: string;
-  picture: Picture;
   location: Location;
+};
+
+export type MushroomWithPic = Mushroom & {
+  picture: MushroomPicture;
+};
+
+export type MushroomPicture = {
+  value: string;
+  specy: string;
+  mushroom: string;
+  collectionName: CollectionName.mushrooms;
+  date: string;
+  user: string;
+  id: string;
 };
 
 export type MushroomsResponse = Response & {
@@ -27,17 +43,14 @@ export type MushroomResponse = Response & {
   mushroom: Mushroom;
 };
 
-export type MushroomsFilter = {
+export type MushroomsFilter = PaginatedFilters & {
   latitude?: number;
   longitude?: number;
   specyIds?: string;
   userIds?: string;
   usages?: string;
-  showPictures?: boolean;
   from?: string;
   to?: string;
-  currentPage?: number;
-  pageSize?: number;
   radius?: number;
 };
 

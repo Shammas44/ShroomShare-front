@@ -16,3 +16,9 @@ export type TmpState = {
   start: string;
   end: string;
 };
+
+export type PaginatedFilters = {
+  showPictures?: boolean;
+  currentPage?: number;
+  pageSize?: number;
+}

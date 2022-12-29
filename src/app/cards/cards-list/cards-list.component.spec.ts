@@ -1,24 +1,22 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { AuthService } from 'src/app/auth/auth.service';
+import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { LayoutPage } from './layout.page';
-import { ActivatedRoute } from '@angular/router';
+import { CardsListComponent } from './cards-list.component';
 import { Storage } from '@ionic/storage';
 
-xdescribe('LayoutPage', () => {
-  let component: LayoutPage;
-  let fixture: ComponentFixture<LayoutPage>;
+describe('CardsListComponent', () => {
+  let component: CardsListComponent;
+  let fixture: ComponentFixture<CardsListComponent>;
 
   beforeEach(waitForAsync(() => {
     const storage = new Storage();
     storage.create();
     TestBed.configureTestingModule({
-      declarations: [LayoutPage],
+      declarations: [CardsListComponent],
       imports: [IonicModule.forRoot(), HttpClientTestingModule],
       providers: [
-        AuthService,
-        ActivatedRoute,
+        ShroomShareApiService,
         {
           provide: Storage,
           useValue: storage,
@@ -26,7 +24,7 @@ xdescribe('LayoutPage', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LayoutPage);
+    fixture = TestBed.createComponent(CardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

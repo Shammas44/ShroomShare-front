@@ -24,4 +24,15 @@ export type BaseFilter = {
   search?: string;
 };
 
+export enum storageKeys {
+  auth = 'auth',
+  species = 'species',
+  filterModalEnd = 'filters-modal-end',
+  filterModalStart = 'filters-modal-start',
+  filterModalRadius = 'filters-modal-radius',
+  filterModalSpecies = 'filters-modal-species',
+  filterModalUsages = 'filters-modal-usages',
+  filterModalUsers = 'filters-modal-users',
+}
+
 export class CustomMap<T> extends Map<string, T> {}

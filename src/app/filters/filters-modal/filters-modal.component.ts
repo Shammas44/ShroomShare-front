@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Usage } from 'src/app/models/usages';
-import { FilterForm, ChoosenItem, CustomMap } from '../../models/standard';
+import { FilterForm, ChoosenItem, CustomMap, storageKeys } from '../../models/standard';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 import { Observable } from 'rxjs';
 import { User, UserFilter } from '../../models/users';
@@ -10,7 +10,8 @@ import { Specy, SpeciesFilter } from '../../models/species';
 import { PickerState } from '../../models/picker';
 import { Storage } from '@ionic/storage';
 import { FiltersModalState } from './Filters-modal-state';
-import { UsageState, UsageMap, TmpState } from '../../models/filters';
+import {  UsageMap, TmpState } from '../../models/filters';
+import { modalRole } from '../../models/modal';
 
 function getDefaultState(): PickerState {
   return {
@@ -44,14 +45,14 @@ class State extends FiltersModalState {
   radius: Observable<number>;
   start: Observable<string>;
   end: Observable<string>;
-  constructor(storage: Storage, stateKey: string) {
-    super(storage, stateKey);
-    this.users = this.setProperty('users', getDefaultState);
-    this.species = this.setProperty('species', getDefaultState);
-    this.usages = this.setProperty('usages', getDefaultUsageState);
-    this.radius = this.setProperty('radius', () => 1);
-    this.start = this.setProperty('start', () => currentDateIso);
-    this.end = this.setProperty('end', () => previousYearDateIso);
+  constructor(storage: Storage) {
+    super(storage);
+    this.users = this.setProperty(storageKeys.filterModalUsers, getDefaultState);
+    this.species = this.setProperty(storageKeys.filterModalSpecies, getDefaultState);
+    this.usages = this.setProperty(storageKeys.filterModalUsages, getDefaultUsageState);
+    this.radius = this.setProperty(storageKeys.filterModalRadius, () => 1);
+    this.start = this.setProperty(storageKeys.filterModalStart, () => currentDateIso);
+    this.end = this.setProperty(storageKeys.filterModalEnd, () => previousYearDateIso);
   }
 }
 
@@ -95,7 +96,7 @@ export class FiltersModalComponent implements OnInit {
     this.currentDate = new Date().toISOString();
     this.getUsers = this.getUsersFunc(this.api);
     this.getSpecies = this.getSpeciesFunc(this.api);
-    this.states = new State(this.storage, 'filters-modal');
+    this.states = new State(this.storage);
     this.tmpState = {
       users: null,
       species: null,
@@ -114,7 +115,7 @@ export class FiltersModalComponent implements OnInit {
   }
 
   cancel() {
-    return this.modalCtrl.dismiss(null, 'cancel');
+    return this.modalCtrl.dismiss(null, modalRole.cancel);
   }
 
   async confirm() {
@@ -124,7 +125,7 @@ export class FiltersModalComponent implements OnInit {
       const key = keys[keys.length - 1];
       await this.storage.set(value, this.tmpState[key]);
     }
-    return this.modalCtrl.dismiss(this.tmpState, 'confirm');
+    return this.modalCtrl.dismiss(this.tmpState, modalRole.confirm);
   }
 
   onChoosenUser(state: PickerState) {

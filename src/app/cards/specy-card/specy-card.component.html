@@ -1,0 +1,25 @@
+<ion-card class="card">
+  <div>
+    <img src="{{specy?.picture ? getPicture(specy?.picture): ''}}" alt="">
+  </div>
+  <div>
+    <ion-card-header>
+      <ion-card-title>{{specy?.name}}</ion-card-title>
+      <ion-card-subtitle>{{specy?.name}}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p class="{{showFullText? '': 'show-partial-text'}}">
+        {{specy?.description}} {{specy?.description}} {{specy?.description}}
+      </p>
+    </ion-card-content>
+  </div>
+  <div class="wrapper__buttons">
+    <ion-button>
+      <ion-icon name="heart"></ion-icon>
+    </ion-button>
+    <ion-button (click)="onToggleTextExpand()">
+      <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
+    </ion-button>
+  </div>
+</ion-card>

@@ -57,7 +57,6 @@ export class PickerComponent implements OnInit {
     if (this.itemKeys.searchable === '') {
       throw new Error(`property 'searchableValue' from 'itemKeys' is not defined.`);
     }
-    console.log(this.state);
     if (!this.state) {
       const defaultState: PickerState = {
         items: [],
@@ -97,8 +96,6 @@ export class PickerComponent implements OnInit {
     });
   }
 
-  // TODO: debug this method
-  // hints: chips use 'user' as key
   private setItems() {
     const searchableKey = this.itemKeys.searchable;
     const option = { search: this.state.search, pageSize: this.pageSize };
@@ -134,6 +131,10 @@ export class PickerComponent implements OnInit {
       if (index !== -1) favorites[index] = item;
     });
     this.state.favorites = favorites;
+  }
+
+  emitValues() {
+    this.choosenItem.emit(this.state);
   }
 
   onInputChange(e: Event) {
@@ -174,7 +175,6 @@ export class PickerComponent implements OnInit {
   }
 
   onChipClick(key: string) {
-    console.log({ key });
     this.state.chips.delete(key);
     const itemIndex = findIndexByProperty(this.state.items, this.itemKeys.searchable, key);
     if (itemIndex !== -1) this.state.items[itemIndex].checked = false;
@@ -182,10 +182,6 @@ export class PickerComponent implements OnInit {
     const favoriteIndex = findIndexByProperty(this.state.favorites, this.itemKeys.searchable, key);
     if (favoriteIndex !== -1) this.state.favorites[favoriteIndex].checked = false;
     this.emitValues();
-  }
-
-  emitValues() {
-    this.choosenItem.emit(this.state);
   }
 
   onIonInfinite(event: Event) {

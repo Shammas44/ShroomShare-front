@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { ShroomShareApiService } from './shroom-share-api.service';
-import { Specy } from '../models/species';
+import { Specy, SpeciesFilter } from '../models/species';
 import { Storage } from '@ionic/storage';
+import { CustomMap,storageKeys } from '../models/standard';
 
 @Injectable({
   providedIn: 'root',
-}) //eslint-disable-line
+}) 
 export class SpeciesProviderService {
-  species: Specy[] = [];
+  species: CustomMap<Specy> = new Map();
   constructor(private api: ShroomShareApiService, private storage: Storage) {
     this.api = api;
   }
 
   async doIfNewSpeciesAreAvailable(callback: Function) {
-    const species = await this.storage.get('species');
+    const species = await this.storage.get(storageKeys.species);
     const speciesTotal = species?.length ?? 0;
     this.api.countSpecies$().subscribe({
       next: (res) => {
-        console.log({ coutn: res.count, speciesTotal });
+        console.log({ count: res.count, speciesTotal });
         if (res.count !== speciesTotal) callback();
       },
       error: (error) => {
@@ -35,24 +36,23 @@ export class SpeciesProviderService {
       showPictures: true,
     };
 
-    // TODO: impossible to execute async code into a dowhile
-
-    do {
+    const store = (option: SpeciesFilter) => {
       this.api.getSpecies$(option).subscribe({
         next: (res) => {
           option.currentPage = res.currentPage + 1;
           currentPage = res.currentPage + 1;
           lastPage = res.lastPage;
           for (const specy of res.items) {
-            this.species.push(specy);
+            this.species.set(specy.id, specy);
           }
-          this.storage.set('species', this.species);
-          console.log(this.storage.get('species'), 'species');
+          this.storage.set(storageKeys.species, this.species);
         },
         error: (err) => {
           console.log({ err });
         },
       });
-    } while (currentPage < lastPage);
+      if (currentPage < lastPage) store(option);
+    };
+    store(option);
   }
 }

@@ -12,15 +12,10 @@ import {
   MushroomsFilter,
   AddMushroomRequest,
   ModifyMushroomRequest,
+  MushroomWithPic,
 } from '../models/mushrooms';
 import { Response, CountResponse, PaginatedResponse } from '../models/response';
-import {
-  AddUserRequest,
-  ModifyUserRequest,
-  User,
-  UserFilter,
-  UserResponse,
-} from '../models/users';
+import { AddUserRequest, ModifyUserRequest, User, UserFilter, UserResponse } from '../models/users';
 
 const API_URL = environment.apiUrl;
 
@@ -63,10 +58,14 @@ export class ShroomShareApiService {
     return this.http.get<SpecyResponse>(url).pipe(map((res) => res.specy));
   }
 
-  getMushrooms$(filter?: MushroomsFilter): Observable<PaginatedResponse<Mushroom>> {
+  getMushrooms$(
+    filter?: MushroomsFilter
+  ): Observable<PaginatedResponse<Mushroom | MushroomWithPic>> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/mushrooms${queryParams}`;
-    return this.http.get<PaginatedResponse<Mushroom>>(url);
+    return filter?.showPictures
+      ? this.http.get<PaginatedResponse<MushroomWithPic>>(url)
+      : this.http.get<PaginatedResponse<Mushroom>>(url);
   }
 
   addMushroom$(body: AddMushroomRequest): Observable<Mushroom[]> {

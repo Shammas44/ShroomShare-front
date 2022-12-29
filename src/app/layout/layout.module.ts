@@ -7,7 +7,13 @@ import { LayoutPage } from './layout.page';
 import { FiltersModule } from '../filters/filters.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, LayoutPageRoutingModule, FiltersModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    LayoutPageRoutingModule,
+    FiltersModule,
+  ],
   declarations: [LayoutPage],
-})// eslint-disable-line
+}) // eslint-disable-line
 export class LayoutPageModule {}

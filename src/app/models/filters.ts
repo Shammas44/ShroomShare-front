@@ -1,11 +1,13 @@
 import { PickerState } from './picker';
+import { Usage } from './usages';
 
 export type UsageState = {
-  name: string;
+  name: Usage;
   checked: boolean;
+  value: keyof Usage;
 };
 
-export class UsageMap extends Map<string, UsageState> {}
+export class UsageMap extends Map<Usage, UsageState> {}
 
 export type TmpState = {
   [index: string]: any;
@@ -21,4 +23,4 @@ export type PaginatedFilters = {
   showPictures?: boolean;
   currentPage?: number;
   pageSize?: number;
-}
+};

@@ -1,57 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import { ModalController } from '@ionic/angular';
 import { ShroomShareApiService } from 'src/app/utils/shroom-share-api.service';
-import { FiltersModalComponent } from '../../filters/filters-modal/filters-modal.component';
 import { TmpState } from '../../models/filters';
-import { MushroomsFilter, Mushroom, MushroomWithPic } from '../../models/mushrooms';
-import { CustomMap, storageKeys } from '../../models/standard';
+import { MushroomsFilter, MushroomWithPic } from '../../models/mushrooms';
+import { concatSinglePropertyOfMap as concat } from '../../utils/utility-functions';
+import { PaginatedResponse } from 'src/app/models/response';
+import { Observable } from 'rxjs';
+import { CardList } from '../../cards/cards-list/cards-list';
+import { storageKeys } from '../../models/standard';
+import { ModalController } from '@ionic/angular';
+import { Usage } from '../../models/usages';
+import { FiltersModalComponent } from '../../filters/filters-modal/filters-modal.component';
 import { modalRole } from '../../models/modal';
-import { Specy } from '../../models/species';
 import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-mushrooms',
   templateUrl: './mushrooms.page.html',
   styleUrls: ['./mushrooms.page.scss'],
-})
-export class MushroomsPage implements OnInit {
-  mushrooms: MushroomWithPic[] = [];
-  currentPage: number = 1;
-  lastPage: number = 1;
-  pageSize: number = 5;
-  filters: MushroomsFilter = {};
-  species: CustomMap<Specy> = new Map();
+}) // eslint-disable-line
+export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
+  storageRequestParamKey: string = storageKeys.filterModalSpecies;
 
-  ngOnInit() {}
-
-  constructor(
-    private modalCtrl: ModalController,
-    private api: ShroomShareApiService,
-    private storage: Storage
-  ) {
-    this.storage
-      .get(storageKeys.species)
-      .then((res) => {
-        this.species = res;
-      })
-      .then(() => {
-        this.storage
-          .get('getMushrooms-request-params')
-          .then((filters) => {
-            filters ? this.fetchMushrooms(filters) : this.fetchMushrooms({});
-          })
-          .catch(() => {
-            this.fetchMushrooms({});
-          });
-      });
+  ngOnInit() {
+    this.initalItemSetting();
   }
 
-  getSpecy(key: string | Specy) {
-    if (typeof key === 'string') {
-      return this.species.get(key);
-    }
-    return this.species.get(key.id);
+  constructor(
+    private api: ShroomShareApiService,
+    storage: Storage,
+    private modalCtrl: ModalController
+  ) {
+    super(storage);
   }
 
   async openModal() {
@@ -61,76 +40,40 @@ export class MushroomsPage implements OnInit {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === modalRole.confirm) {
-      const params = this.fromModalResponseToApiParams(data);
-      this.storage.set('getMushrooms-request-params', params);
+      const params = this.fromModaResponseToApiParams(data);
+      this.storage.set(this.storageRequestParamKey, params);
       this.filters = params;
-      console.log({ params });
       this.currentPage = 1;
       this.lastPage = 1;
-      this.fetchMushrooms(params);
+      this.fetchItems(params);
     }
   }
 
-  onIonInfinite(event: Event) {
-    this.addItems();
-    setTimeout(() => {
-      (event as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
+  getItems$(filters: MushroomsFilter): Observable<PaginatedResponse<MushroomWithPic>> {
+    const defaultFilters = {
+      showPictures: true,
+      pageSize: 5,
+      currentPage: 1,
+    } as MushroomsFilter;
+    Object.assign(filters, defaultFilters);
+    console.log({filters});
+    return this.api.getMushrooms$(filters) as Observable<PaginatedResponse<MushroomWithPic>>;
   }
 
-  private fromModalResponseToApiParams(data: TmpState): MushroomsFilter {
+  fromModaResponseToApiParams(data: TmpState): MushroomsFilter {
     const params = {} as MushroomsFilter;
     const userIds = concat(data.users?.chips, 'id');
     if (userIds) params.userIds = userIds;
     const speciesIds = concat(data.species?.chips, 'id');
     if (speciesIds) params.specyIds = speciesIds;
-    const usages = concat(data.usages, 'name');
-    if (usages) params.usages = usages;
+    const usages = Array.from(data.usages?.values() || []).filter((value) => {
+      if (value.checked === true) return value;
+      return;
+    });
+    if (usages.length === 1) params.usage = usages[0].value as Usage;
     params.radius = data.radius;
     params.from = new Date(data.start).toISOString();
     params.to = new Date(data.end).toISOString();
     return params;
-
-    function concat<U extends { [index: string]: any }, T extends CustomMap<U>>(
-      data: T | undefined | null,
-      id: string
-    ) {
-      let result = '';
-      if (data) {
-        const iterator = data.values();
-        for (const value of iterator) {
-          if (id) result += `${value[id]},`;
-        }
-      }
-      return result.slice(0, -1) || undefined;
-    }
-  }
-
-  private addItems() {
-    if (this.currentPage >= this.lastPage) return;
-    this.currentPage++;
-    this.fetchMushrooms(this.filters);
-  }
-
-  private fetchMushrooms(params: MushroomsFilter) {
-    const defaultParams = {
-      showPictures: true,
-      currentPage: this.currentPage,
-      pageSize: this.pageSize,
-    };
-    const options = Object.assign(params, defaultParams);
-    this.api.getMushrooms$(options).subscribe({
-      next: (res) => {
-        this.mushrooms = [];
-        this.lastPage = res.lastPage;
-        this.currentPage = res.currentPage;
-        for (const mushroom of res.items as MushroomWithPic[]) {
-          this.mushrooms.push(mushroom);
-        }
-      },
-      error: (err) => {
-        console.log({ err });
-      },
-    });
   }
 }

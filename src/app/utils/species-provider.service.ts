@@ -18,7 +18,6 @@ export class SpeciesProviderService {
     const speciesTotal = species?.length ?? 0;
     this.api.countSpecies$().subscribe({
       next: (res) => {
-        console.log({ count: res.count, speciesTotal });
         if (res.count !== speciesTotal) callback();
       },
       error: (error) => {

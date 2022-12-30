@@ -13,19 +13,14 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +21 src/app/models/standard.ts
-badd +33 src/app/cards/cards-list/cards-list.component.ts
-badd +67 src/app/utils/utility-functions.ts
-badd +46 src/app/models/mushrooms.ts
-badd +11 src/app/models/response.ts
-badd +19 src/app/layout/mushrooms/mushrooms.page.ts
-badd +11 ~/Documents/Prog/shroomshare-front/src/app/models/filters.ts
-badd +1 ~/Documents/Prog/shroomshare-front/src/app/models/picker.ts
-badd +64 ~/Documents/Prog/shroomshare-front/src/app/filters/filters-modal/filters-modal.component.ts
+badd +70 src/app/layout/mushrooms/mushrooms.page.ts
+badd +111 src/app/filters/filters-modal/filters-modal.component.ts
+badd +30 src/app/cards/cards-list/cards-list.ts
+badd +38 ~/Documents/Prog/shroomshare-front/src/app/filters/picker/picker.component.html
 argglobal
 %argdel
-$argadd ~/Documents/Prog/shroomshare-front/
-edit src/app/layout/mushrooms/mushrooms.page.ts
+$argadd ~/Documents/Prog/shroomshare-front
+edit src/app/cards/cards-list/cards-list.ts
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -39,21 +34,20 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
-balt src/app/cards/cards-list/cards-list.component.ts
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=5
+setlocal fdl=4
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 19 - ((18 * winheight(0) + 20) / 41)
+let s:l = 30 - ((21 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 19
-normal! 036|
+keepjumps 30
+normal! 020|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -69,6 +63,7 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
+nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

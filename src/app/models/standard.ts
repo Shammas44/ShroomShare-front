@@ -33,6 +33,7 @@ export enum storageKeys {
   filterModalSpecies = 'filters-modal-species',
   filterModalUsages = 'filters-modal-usages',
   filterModalUsers = 'filters-modal-users',
+  getMushroomsRequestParams = 'getMushrooms-request-params',
 }
 
 export class CustomMap<T> extends Map<string, T> {}

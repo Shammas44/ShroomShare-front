@@ -10,7 +10,7 @@ import { Specy, SpeciesFilter } from '../../models/species';
 import { PickerState } from '../../models/picker';
 import { Storage } from '@ionic/storage';
 import { FiltersModalState } from './Filters-modal-state';
-import {  UsageMap, TmpState } from '../../models/filters';
+import { UsageMap, TmpState } from '../../models/filters';
 import { modalRole } from '../../models/modal';
 
 function getDefaultState(): PickerState {
@@ -26,8 +26,9 @@ function getDefaultState(): PickerState {
 
 function getDefaultUsageState(): UsageMap {
   const map = new Map();
-  Object.keys(Usage).forEach((value) => {
-    map.set(value, { name: value, checked: false });
+  Object.entries(Usage).forEach((values) => {
+    const [key, value] = [values[0], values[1]];
+    map.set(value, { name: value, checked: false, value: key });
   });
   return map;
 }
@@ -50,9 +51,9 @@ class State extends FiltersModalState {
     this.users = this.setProperty(storageKeys.filterModalUsers, getDefaultState);
     this.species = this.setProperty(storageKeys.filterModalSpecies, getDefaultState);
     this.usages = this.setProperty(storageKeys.filterModalUsages, getDefaultUsageState);
-    this.radius = this.setProperty(storageKeys.filterModalRadius, () => 1);
-    this.start = this.setProperty(storageKeys.filterModalStart, () => currentDateIso);
-    this.end = this.setProperty(storageKeys.filterModalEnd, () => previousYearDateIso);
+    this.radius = this.setProperty(storageKeys.filterModalRadius, () => 1000);
+    this.start = this.setProperty(storageKeys.filterModalStart, () => previousYearDateIso);
+    this.end = this.setProperty(storageKeys.filterModalEnd, () => currentDateIso);
   }
 }
 
@@ -60,13 +61,13 @@ class State extends FiltersModalState {
   selector: 'app-filters-modal',
   templateUrl: './filters-modal.component.html',
   styleUrls: ['./filters-modal.component.scss'],
-}) // eslint-disable-line
+}) 
 export class FiltersModalComponent implements OnInit {
   // @Input() filterStorageKey: string = 'filters-modal';
   @Output() filter = new EventEmitter<FilterForm>();
 
   currentDate: string;
-  usage: UsageMap = new UsageMap();
+  usages: UsageMap = new UsageMap();
   users: ChoosenItem[] = [];
   species: ChoosenItem[] = [];
   allUsages: Usage[] = [Usage.edible, Usage.inedible];
@@ -88,6 +89,10 @@ export class FiltersModalComponent implements OnInit {
     // }
   }
 
+  capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   constructor(
     private modalCtrl: ModalController,
     private api: ShroomShareApiService,
@@ -100,17 +105,19 @@ export class FiltersModalComponent implements OnInit {
     this.tmpState = {
       users: null,
       species: null,
-      usages: null,
+      usages: getDefaultUsageState(),
       radius: 1,
-      start: new Date().toISOString(),
-      end: new Date().toISOString(),
+      start: previousYearDateIso,
+      end: currentDateIso,
     };
 
     const iterable = this.states.getKeys();
     for (const value of iterable) {
       let keys = value.split('-');
       const key = keys[keys.length - 1];
-      this.storage.get(value).then((res) => (this.tmpState[key] = res));
+      this.storage.get(value).then((res) => {
+        if (res) this.tmpState[key] = res;
+      });
     }
   }
 
@@ -155,9 +162,8 @@ export class FiltersModalComponent implements OnInit {
     const event = e as CustomEvent;
     const usage = event.detail.value;
     const isChecked = event.detail.checked;
-    if (isChecked) this.usage.set(usage, { name: usage, checked: isChecked });
-    if (!isChecked) this.usage.delete(usage);
-    this.tmpState.usages = this.usage;
+    const { name, value } = usage;
+    this.tmpState?.usages?.set(name, { name, checked: isChecked, value });
   }
 
   private getUsersFunc(

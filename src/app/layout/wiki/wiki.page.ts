@@ -25,7 +25,6 @@ export class WikiPage implements OnInit {
 
   async ngOnInit() {
     await this.speciesProvider.doIfNewSpeciesAreAvailable(async () => {
-      console.log('init');
       this.speciesProvider.storeSpecies();
     });
     // this.api.getSpecies$({ showPictures: true }).subscribe({

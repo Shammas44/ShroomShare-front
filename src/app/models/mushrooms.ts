@@ -3,6 +3,7 @@ import { User } from './users';
 import { Specy } from './species';
 import { CollectionName } from './collection-names';
 import { PaginatedFilters } from './filters';
+import { Usage } from './usages';
 
 export type Location = {
   type: 'Point';
@@ -48,7 +49,7 @@ export type MushroomsFilter = PaginatedFilters & {
   longitude?: number;
   specyIds?: string;
   userIds?: string;
-  usages?: string;
+  usage?: Usage;
   from?: string;
   to?: string;
   radius?: number;

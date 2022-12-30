@@ -5,7 +5,7 @@ import { MushroomCardComponent } from './mushroom-card/mushroom-card.component';
 import { IonicModule } from '@ionic/angular';
 
 @NgModule({
-  declarations: [SpecyCardComponent, MushroomCardComponent],
+  declarations: [SpecyCardComponent, MushroomCardComponent ],
   imports: [CommonModule, IonicModule],
   exports: [SpecyCardComponent, MushroomCardComponent],
 })

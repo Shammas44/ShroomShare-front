@@ -1,0 +1,9 @@
+.wrapper {
+  display:grid;
+  grid-template-rows: auto auto;
+  height: -webkit-fill-available;
+}
+
+.wrapper__list {
+  overflow-y: scroll;
+}

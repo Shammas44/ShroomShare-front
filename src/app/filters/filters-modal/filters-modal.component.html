@@ -33,9 +33,9 @@
 
   <ion-list class="ion-padding" *ngIf="states.usages | async as state">
     <ion-item *ngFor="let u of state|keyvalue">
-      <ion-checkbox slot="start" value={{u.value.name}} (ionChange)="onCheck($event)" [checked]="u.value.checked">
+      <ion-checkbox slot="start" [value]="u.value" (ionChange)="onCheck($event)" [checked]="u.value.checked">
       </ion-checkbox>
-      <ion-label>{{u.value.name}}</ion-label>
+      <ion-label>{{capitalizeFirstLetter(u.value.name)}}</ion-label>
     </ion-item>
   </ion-list>
 
@@ -44,7 +44,7 @@
     <h3>Radius</h3>
   </ion-title>
   <ion-range *ngIf="states.radius | async as state" (ionChange)="onRadiusChange($event)" [ticks]="true" [snaps]="true"
-    [min]="1" [max]="10" value="{{state}}"></ion-range>
+    [min]="100" [max]="5000" [step]="100" value="{{state}}"></ion-range>
 
   <hr>
   <div class="wrapper__date">
@@ -56,7 +56,7 @@
 
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
-          <ion-datetime value="{{state}}" id="start" presentation="date" (ionChange)="onStartChange($event)">
+          <ion-datetime max="{{currentDate}}" value="{{state}}" id="start" presentation="date" (ionChange)="onStartChange($event)">
           </ion-datetime>
         </ng-template>
       </ion-modal>
@@ -66,7 +66,7 @@
         <ion-title>
           <h3>Date de fin</h3>
         </ion-title>
-        <ion-datetime-button datetime="end"></ion-datetime-button>
+        <ion-datetime-button  datetime="end"></ion-datetime-button>
 
         <ion-modal [keepContentsMounted]="true">
           <ng-template>

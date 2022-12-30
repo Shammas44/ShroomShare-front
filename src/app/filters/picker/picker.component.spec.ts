@@ -63,7 +63,7 @@ describe('PickerComponent', () => {
   it('onCheck favorite', () => {
     const index = 0;
     const user = component.state.items[index];
-    console.log(component.state.items)
+    // console.log(component.state.items)
     const favorite = component.state.favorites[index];
     const checkUserEvent = new CustomEvent('check', { detail: { checked: true, value: user } });
     const checkFavoriteEvent = new CustomEvent('check', {

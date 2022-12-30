@@ -34,7 +34,7 @@ export abstract class CardList<Item> {
   }
 
   private addItems() {
-    if (this.currentPage >= this.lastPage) return;
+    if (this.currentPage > this.lastPage) return;
     this.currentPage++;
     this.fetchItems(this.filters);
   }
@@ -48,9 +48,8 @@ export abstract class CardList<Item> {
     const options = Object.assign(params, defaultParams);
     this.getItems$(options).subscribe({
       next: (res) => {
-        this.items = [];
+        console.log({ res });
         this.lastPage = res.lastPage;
-        this.currentPage = res.currentPage;
         for (const item of res.items as Item[]) {
           this.items.push(item);
         }

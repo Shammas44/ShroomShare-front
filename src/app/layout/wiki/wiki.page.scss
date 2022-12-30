@@ -1,6 +1,9 @@
-.card-specy {
-  border: 2px solid var(--ion-text-color);
-  border-radius: 2rem;
-  padding: 1rem;
-  margin: 1rem;
+.wrapper {
+  display:grid;
+  grid-template-rows: 20% auto;
+  height: -webkit-fill-available;
+}
+
+.wrapper__list {
+  overflow-y: scroll;
 }

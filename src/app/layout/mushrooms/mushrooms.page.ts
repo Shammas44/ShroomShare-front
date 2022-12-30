@@ -17,7 +17,7 @@ import { Storage } from '@ionic/storage';
   selector: 'app-mushrooms',
   templateUrl: './mushrooms.page.html',
   styleUrls: ['./mushrooms.page.scss'],
-}) // eslint-disable-line
+}) 
 export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
   storageRequestParamKey: string = storageKeys.filterModalSpecies;
 
@@ -50,13 +50,6 @@ export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
   }
 
   getItems$(filters: MushroomsFilter): Observable<PaginatedResponse<MushroomWithPic>> {
-    const defaultFilters = {
-      showPictures: true,
-      pageSize: 5,
-      currentPage: 1,
-    } as MushroomsFilter;
-    Object.assign(filters, defaultFilters);
-    console.log({filters});
     return this.api.getMushrooms$(filters) as Observable<PaginatedResponse<MushroomWithPic>>;
   }
 

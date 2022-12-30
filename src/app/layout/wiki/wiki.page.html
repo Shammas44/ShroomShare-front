@@ -1,15 +1,21 @@
 <ion-content>
-  <h2>page Wiki</h2>
 
-  <div class="ion-padding">
-    <ion-list class="ion-content-scroll-host">
-      <ion-item *ngFor="let specy of species">
-        <app-specy-card [specy]="specy"></app-specy-card>
-      </ion-item>
-    </ion-list>
-    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-      <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+  <div class="wrapper">
+    <div>
+      <h2>page Wiki</h2>
+      <ion-searchbar (ionChange)="onInputChange($event)" [value]="search"></ion-searchbar>
+    </div>
+
+    <div class="ion-padding wrapper__list ion-content-scroll-host">
+      <ion-list>
+        <ion-item *ngFor="let specy of items">
+          <app-specy-card [specy]="specy"></app-specy-card>
+        </ion-item>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
   </div>
 
 </ion-content>

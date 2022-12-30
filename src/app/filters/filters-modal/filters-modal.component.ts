@@ -70,7 +70,6 @@ export class FiltersModalComponent implements OnInit {
   usages: UsageMap = new UsageMap();
   users: ChoosenItem[] = [];
   species: ChoosenItem[] = [];
-  allUsages: Usage[] = [Usage.edible, Usage.inedible];
   getUsers: (option: UserFilter) => Observable<PaginatedResponse<User>>;
   getSpecies: (option: SpeciesFilter) => Observable<PaginatedResponse<Specy>>;
   userKeys = { id: 'id', searchable: 'username' };

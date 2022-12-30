@@ -23,4 +23,5 @@ export type PaginatedFilters = {
   showPictures?: boolean;
   currentPage?: number;
   pageSize?: number;
+  search?:string;
 };

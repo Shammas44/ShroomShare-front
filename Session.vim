@@ -13,14 +13,17 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +70 src/app/layout/mushrooms/mushrooms.page.ts
-badd +111 src/app/filters/filters-modal/filters-modal.component.ts
-badd +30 src/app/cards/cards-list/cards-list.ts
-badd +38 ~/Documents/Prog/shroomshare-front/src/app/filters/picker/picker.component.html
+badd +33 src/app/layout/mushrooms/mushrooms.page.ts
+badd +48 src/app/cards/cards-list/cards-list.ts
+badd +8 src/app/cards/mushroom-card/mushroom-card.component.html
+badd +3 src/app/layout/mushrooms/mushrooms.page.scss
+badd +1 src/app/cards/mushroom-card/mushroom-card.component.ts
+badd +23 src/app/layout/wiki/wiki.page.ts
+badd +7 ~/Documents/Prog/shroomshare-front/src/app/cards/mushroom-card/mushroom-card.component.spec.ts
 argglobal
 %argdel
 $argadd ~/Documents/Prog/shroomshare-front
-edit src/app/cards/cards-list/cards-list.ts
+edit ~/Documents/Prog/shroomshare-front/src/app/cards/mushroom-card/mushroom-card.component.spec.ts
 let s:save_splitbelow = &splitbelow
 let s:save_splitright = &splitright
 set splitbelow splitright
@@ -38,16 +41,16 @@ setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=4
+setlocal fdl=3
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 30 - ((21 * winheight(0) + 20) / 41)
+let s:l = 7 - ((6 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 30
-normal! 020|
+keepjumps 7
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

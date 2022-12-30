@@ -12,7 +12,6 @@ export type Location = {
 
 export type Mushroom = {
   name: string;
-  author: string;
   specy: Specy;
   user: User;
   picture: string;

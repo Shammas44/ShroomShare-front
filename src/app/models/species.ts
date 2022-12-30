@@ -16,8 +16,12 @@ export type Specy = {
   name: string;
   description: string;
   usage: Usage;
-  picture: string | SpecyPicture;
+  picture: string;
   id: string;
+};
+
+export type SpecyWithPic = Specy & {
+  picture: SpecyPicture;
 };
 
 export type SpecyPicture = {

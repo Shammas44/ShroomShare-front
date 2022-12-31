@@ -1,12 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>ShroomShare</ion-title>
+    <ion-button routerLink="/" router-direction="forward" slot="start" fill="clear">
+      <ion-img src="../../assets/logo.svg"
+        alt="Logo"></ion-img>
+    </ion-button>
     <!-- Logout button -->
+    <!-- <ion-buttons slot="end"> -->
+    <!--   <ion-button (click)="logOut()"> -->
+    <!--     <ion-icon name="log-out"></ion-icon> -->
+    <!--   </ion-button> -->
+    <!-- </ion-buttons> -->
     <ion-buttons slot="end">
-      <ion-button (click)="logOut()">
-        <ion-icon name="log-out"></ion-icon>
+      <ion-button *ngFor="let tab of secondaryTabs" [routerLink]="tab.path" router-direction="forward">
+        <ion-icon [name]="tab.icon"></ion-icon>
       </ion-button>
     </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 

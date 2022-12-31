@@ -68,6 +68,7 @@ xdescribe('CardList abstract class', () => {
   beforeEach(waitForAsync(() => {
     const storage = new Storage();
     storage.create();
+    storage.clear();
     TestBed.configureTestingModule({
       declarations: [CardsListComponent],
       imports: [IonicModule.forRoot()],

@@ -37,6 +37,27 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'chat',
+        loadChildren: () =>
+          import('./message/message.module').then(
+            (m) => m.MessagePageModule
+          ),
+      },
+      {
+        path: 'favorites',
+        loadChildren: () =>
+          import('./message/message.module').then(
+            (m) => m.MessagePageModule
+          ),
+      },
+      {
+        path: 'profil',
+        loadChildren: () =>
+          import('./message/message.module').then(
+            (m) => m.MessagePageModule
+          ),
+      },
+      {
         path: "",
         redirectTo: "map", // Or whatever tabs is your default one
         pathMatch: "full",

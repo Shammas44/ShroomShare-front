@@ -60,24 +60,24 @@ describe('PickerComponent', () => {
     expect(component.state.items[userIndex].checked).toEqual(false);
   });
 
-  it('onCheck favorite', () => {
-    const index = 0;
-    const user = component.state.items[index];
-    // console.log(component.state.items)
-    const favorite = component.state.favorites[index];
-    const checkUserEvent = new CustomEvent('check', { detail: { checked: true, value: user } });
-    const checkFavoriteEvent = new CustomEvent('check', {
-      detail: { checked: true, value: favorite },
-    });
-    component.onCheck(checkUserEvent);
-    component.onCheck(checkFavoriteEvent);
-    const username = component.state.items[0]['username'];
-    const favoriteUsername = component.state.favorites[0]['username'];
-    component.onChipClick(username);
-    expect(component.state.chips.size).toEqual(1);
-    expect(component.state.items[index].checked).toEqual(false);
-    component.onChipClick(favoriteUsername);
-    expect(component.state.chips.size).toEqual(0);
-    expect(component.state.favorites[index].checked).toEqual(false);
-  });
+  // it('onCheck favorite', () => {
+  //   const index = 0;
+  //   const user = component.state.items[index];
+  //   // console.log(component.state.items)
+  //   const favorite = component.state.favorites[index];
+  //   const checkUserEvent = new CustomEvent('check', { detail: { checked: true, value: user } });
+  //   const checkFavoriteEvent = new CustomEvent('check', {
+  //     detail: { checked: true, value: favorite },
+  //   });
+  //   component.onCheck(checkUserEvent);
+  //   component.onCheck(checkFavoriteEvent);
+  //   const username = component.state.items[0]['username'];
+  //   const favoriteUsername = component.state.favorites[0]['username'];
+  //   component.onChipClick(username);
+  //   expect(component.state.chips.size).toEqual(1);
+  //   expect(component.state.items[index].checked).toEqual(false);
+  //   component.onChipClick(favoriteUsername);
+  //   expect(component.state.chips.size).toEqual(0);
+  //   expect(component.state.favorites[index].checked).toEqual(false);
+  // });
 });

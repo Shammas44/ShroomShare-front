@@ -13,9 +13,10 @@ declare type PageTab = {
   selector: 'app-layout',
   templateUrl: 'layout.page.html',
   styleUrls: ['layout.page.scss'],
-})// eslint-disable-line
+})
 export class LayoutPage {
   tabs: PageTab[];
+  secondaryTabs: PageTab[]
 
   constructor(private auth: AuthService, private router: Router) {
     this.tabs = [
@@ -24,6 +25,11 @@ export class LayoutPage {
       { title: 'Mushrooms', icon: 'list', path: 'mushrooms' },
       { title: 'Camera', icon: 'list', path: 'camera' },
     ];
+    this.secondaryTabs = [
+      { title: 'favorites', icon: 'heart', path: 'favorites' },
+      { title: 'chat', icon: 'chatbox-ellipses', path: 'chat' },
+      { title: 'profil', icon: 'person-circle-outline', path: 'profil' },
+    ]
   }
 
   logOut() {

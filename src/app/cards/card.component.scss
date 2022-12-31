@@ -1,13 +1,22 @@
 .card {
   display:grid;
-  grid-template-columns: 2fr 5fr 1fr;
+  grid-template-columns: 2fr 6fr;
+}
+
+.rows {
+  display:grid;
+  grid-template-rows: auto auto;
+}
+
+.header {
+  display:grid;
+  grid-template-columns: 5fr 1fr;
 }
 
 img {
   aspect-ratio: 1/1;
   object-fit: cover;
 }
-
 
 .show-partial-text {
   display: -webkit-box;   

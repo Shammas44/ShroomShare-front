@@ -13,22 +13,20 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
+badd +1 capacitor.config.ts
 badd +33 src/app/layout/mushrooms/mushrooms.page.ts
-badd +48 src/app/cards/cards-list/cards-list.ts
-badd +8 src/app/cards/mushroom-card/mushroom-card.component.html
-badd +3 src/app/layout/mushrooms/mushrooms.page.scss
-badd +1 src/app/cards/mushroom-card/mushroom-card.component.ts
-badd +23 src/app/layout/wiki/wiki.page.ts
+badd +33 src/app/cards/cards-list/cards-list.ts
+badd +1 src/app/cards/mushroom-card/mushroom-card.component.html
+badd +5 src/app/layout/mushrooms/mushrooms.page.scss
+badd +5 src/app/cards/mushroom-card/mushroom-card.component.ts
+badd +32 src/app/layout/wiki/wiki.page.ts
 badd +7 ~/Documents/Prog/shroomshare-front/src/app/cards/mushroom-card/mushroom-card.component.spec.ts
+badd +4 ~/Documents/Prog/shroomshare-front/src/app/cards/specy-card/specy-card.component.html
+badd +0 ~/Documents/Prog/shroomshare-front/
 argglobal
 %argdel
-$argadd ~/Documents/Prog/shroomshare-front
-edit ~/Documents/Prog/shroomshare-front/src/app/cards/mushroom-card/mushroom-card.component.spec.ts
-let s:save_splitbelow = &splitbelow
-let s:save_splitright = &splitright
-set splitbelow splitright
-let &splitbelow = s:save_splitbelow
-let &splitright = s:save_splitright
+$argadd ~/Documents/Prog/shroomshare-front/
+edit ~/Documents/Prog/shroomshare-front/src/app/cards/specy-card/specy-card.component.html
 wincmd t
 let s:save_winminheight = &winminheight
 let s:save_winminwidth = &winminwidth
@@ -37,20 +35,21 @@ set winheight=1
 set winminwidth=0
 set winwidth=1
 argglobal
+balt src/app/cards/mushroom-card/mushroom-card.component.html
 setlocal fdm=expr
 setlocal fde=nvim_treesitter#foldexpr()
 setlocal fmr={{{,}}}
 setlocal fdi=#
-setlocal fdl=3
+setlocal fdl=0
 setlocal fml=1
 setlocal fdn=20
 setlocal fen
-let s:l = 7 - ((6 * winheight(0) + 20) / 41)
+let s:l = 4 - ((3 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 7
-normal! 0
+keepjumps 4
+normal! 08|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

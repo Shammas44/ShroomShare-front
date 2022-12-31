@@ -28,12 +28,11 @@ export class WikiPage extends CardList<SpecyWithPic> implements OnInit {
     const e = event as CustomEvent;
     const search: string = e.detail.value;
     this.items = [];
-    if (search === '') return;
     const filters = { search };
-    this.fetchItems(filters);
+    search === '' ? this.fetchItems({}) : this.fetchItems(filters);
   }
 
-  getItems$(filters:SpeciesFilter): Observable<PaginatedResponse<SpecyWithPic>> {
+  getItems$(filters: SpeciesFilter): Observable<PaginatedResponse<SpecyWithPic>> {
     return this.api.getSpecies$(filters) as Observable<PaginatedResponse<SpecyWithPic>>;
   }
 }

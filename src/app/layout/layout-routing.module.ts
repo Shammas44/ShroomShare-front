@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { LayoutPage } from './layout.page';
 
 const routes: Routes = [
@@ -31,6 +30,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'message',
+        loadChildren: () =>
+          import('./message/message.module').then(
+            (m) => m.MessagePageModule
+          ),
+      },
+      {
         path: "",
         redirectTo: "map", // Or whatever tabs is your default one
         pathMatch: "full",
@@ -43,4 +49,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class LayoutPageRoutingModule {}
+export class LayoutPageRoutingModule { }

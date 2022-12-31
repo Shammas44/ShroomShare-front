@@ -3,7 +3,13 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Specy, SpecyResponse, SpeciesResponse, SpeciesFilter } from '../models/species';
+import {
+  Specy,
+  SpecyResponse,
+  SpeciesResponse,
+  SpeciesFilter,
+  SpecyWithPic,
+} from '../models/species';
 import { environment } from 'src/environments/environment';
 import {
   Mushroom,
@@ -12,15 +18,10 @@ import {
   MushroomsFilter,
   AddMushroomRequest,
   ModifyMushroomRequest,
+  MushroomWithPic,
 } from '../models/mushrooms';
 import { Response, CountResponse, PaginatedResponse } from '../models/response';
-import {
-  AddUserRequest,
-  ModifyUserRequest,
-  User,
-  UserFilter,
-  UserResponse,
-} from '../models/users';
+import { AddUserRequest, ModifyUserRequest, User, UserFilter, UserResponse } from '../models/users';
 
 const API_URL = environment.apiUrl;
 
@@ -47,10 +48,12 @@ export class ShroomShareApiService {
     return url;
   }
 
-  getSpecies$(filter?: SpeciesFilter): Observable<PaginatedResponse<Specy>> {
+  getSpecies$(filter?: SpeciesFilter): Observable<PaginatedResponse<Specy | SpecyWithPic>> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/species${queryParams}`;
-    return this.http.get<PaginatedResponse<Specy>>(url);
+    return filter?.showPictures
+      ? this.http.get<PaginatedResponse<SpecyWithPic>>(url)
+      : this.http.get<PaginatedResponse<Specy>>(url);
   }
 
   countSpecies$(): Observable<CountResponse> {
@@ -63,10 +66,14 @@ export class ShroomShareApiService {
     return this.http.get<SpecyResponse>(url).pipe(map((res) => res.specy));
   }
 
-  getMushrooms$(filter?: MushroomsFilter): Observable<PaginatedResponse<Mushroom>> {
+  getMushrooms$(
+    filter?: MushroomsFilter
+  ): Observable<PaginatedResponse<Mushroom | MushroomWithPic>> {
     const queryParams = this.setQueryParams(filter || null);
     const url = `${API_URL}/mushrooms${queryParams}`;
-    return this.http.get<PaginatedResponse<Mushroom>>(url);
+    return filter?.showPictures
+      ? this.http.get<PaginatedResponse<MushroomWithPic>>(url)
+      : this.http.get<PaginatedResponse<Mushroom>>(url);
   }
 
   addMushroom$(body: AddMushroomRequest): Observable<Mushroom[]> {

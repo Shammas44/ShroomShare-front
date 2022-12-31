@@ -27,7 +27,6 @@ export class LayoutPage {
   }
 
   logOut() {
-    console.log('logging out...');
     this.auth.logOut();
     this.router.navigateByUrl('/login');
   }

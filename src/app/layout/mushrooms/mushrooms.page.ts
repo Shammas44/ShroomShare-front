@@ -1,45 +1,69 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import { ModalController } from '@ionic/angular';
 import { ShroomShareApiService } from 'src/app/utils/shroom-share-api.service';
-import { FiltersModalComponent } from '../../filters/filters-modal/filters-modal.component';
 import { TmpState } from '../../models/filters';
-import { MushroomsFilter, Mushroom, MushroomWithPic } from '../../models/mushrooms';
-import { CustomMap, storageKeys } from '../../models/standard';
-import { modalRole } from '../../models/modal';
-import { Specy } from '../../models/species';
-import { Storage } from '@ionic/storage';
-import { concatSinglePropertyOfMap as concat } from 'src/app/utils/utility-functions';
+import { MushroomsFilter, MushroomWithPic } from '../../models/mushrooms';
+import { concatSinglePropertyOfMap as concat } from '../../utils/utility-functions';
 import { PaginatedResponse } from 'src/app/models/response';
 import { Observable } from 'rxjs';
+import { CardList } from '../../cards/cards-list/cards-list';
+import { storageKeys } from '../../models/standard';
+import { ModalController } from '@ionic/angular';
+import { Usage } from '../../models/usages';
+import { FiltersModalComponent } from '../../filters/filters-modal/filters-modal.component';
+import { modalRole } from '../../models/modal';
+import { Storage } from '@ionic/storage';
+
 @Component({
   selector: 'app-mushrooms',
   templateUrl: './mushrooms.page.html',
   styleUrls: ['./mushrooms.page.scss'],
-})
-export class MushroomsPage implements OnInit {
-  storageRequestParamKey: string = '';
-  ngOnInit() {}
-  getItems$(filters: MushroomsFilter): Observable<PaginatedResponse<MushroomWithPic>> {
-    const defaultFilters = {
-      showPictures: true,
-      pageSize: 5,
-      currentPage: 1,
-    } as MushroomsFilter;
-    Object.assign(filters, defaultFilters);
-    return this.api.getMushrooms$(filters);
+}) 
+export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
+  storageRequestParamKey: string = storageKeys.filterModalSpecies;
+
+  ngOnInit() {
+    this.initalItemSetting();
   }
 
-  constructor(private api: ShroomShareApiService) {}
+  constructor(
+    private api: ShroomShareApiService,
+    storage: Storage,
+    private modalCtrl: ModalController
+  ) {
+    super(storage);
+  }
 
-  fromModalResponseToApiParams(data: TmpState): MushroomsFilter {
+  async openModal() {
+    const modal = await this.modalCtrl.create({
+      component: FiltersModalComponent,
+    });
+    modal.present();
+    const { data, role } = await modal.onWillDismiss();
+    if (role === modalRole.confirm) {
+      const params = this.fromModaResponseToApiParams(data);
+      this.storage.set(this.storageRequestParamKey, params);
+      this.filters = params;
+      this.currentPage = 1;
+      this.lastPage = 1;
+      this.fetchItems(params);
+    }
+  }
+
+  getItems$(filters: MushroomsFilter): Observable<PaginatedResponse<MushroomWithPic>> {
+    return this.api.getMushrooms$(filters) as Observable<PaginatedResponse<MushroomWithPic>>;
+  }
+
+  fromModaResponseToApiParams(data: TmpState): MushroomsFilter {
     const params = {} as MushroomsFilter;
     const userIds = concat(data.users?.chips, 'id');
     if (userIds) params.userIds = userIds;
     const speciesIds = concat(data.species?.chips, 'id');
     if (speciesIds) params.specyIds = speciesIds;
-    const usages = concat(data.usages, 'name');
-    if (usages) params.usages = usages;
+    const usages = Array.from(data.usages?.values() || []).filter((value) => {
+      if (value.checked === true) return value;
+      return;
+    });
+    if (usages.length === 1) params.usage = usages[0].value as Usage;
     params.radius = data.radius;
     params.from = new Date(data.start).toISOString();
     params.to = new Date(data.end).toISOString();

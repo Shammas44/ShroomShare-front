@@ -1,49 +1,38 @@
 import { Component, OnInit } from '@angular/core';
-import { Specy } from 'src/app/models/species';
+import { SpeciesFilter, SpecyWithPic } from 'src/app/models/species';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
-import { SpeciesProviderService } from '../../utils/species-provider.service';
+import { PaginatedResponse } from 'src/app/models/response';
+import { Observable } from 'rxjs';
+import { CardList } from '../../cards/cards-list/cards-list';
+import { storageKeys } from '../../models/standard';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-wiki',
   templateUrl: './wiki.page.html',
   styleUrls: ['./wiki.page.scss'],
-}) //eslint-disable-line
-export class WikiPage implements OnInit {
-  species: Specy[];
+})
+export class WikiPage extends CardList<SpecyWithPic> implements OnInit {
+  storageRequestParamKey: string = storageKeys.getSpeciesRequestParams;
+  search: string = '';
 
-  constructor(private api: ShroomShareApiService, private speciesProvider: SpeciesProviderService) {
-    this.species = [];
+  ngOnInit() {
+    this.initalItemSetting();
   }
 
-  async ngOnInit() {
-    await this.speciesProvider.doIfNewSpeciesAreAvailable(async () => {
-      console.log('init');
-      this.speciesProvider.storeSpecies();
-    });
-    // this.api.getSpecies$({ showPictures: true }).subscribe({
-    //   next: (species) => {
-    //     console.log(1, species);
-    //     this.species = species;
-    //   },
-    //   error: (err) => {
-    //     console.warn(`${err.message}`);
-    //   },
-    // });
-    // setTimeout(() => {
-    //   this.api
-    //     .getSpecies$({
-    //       currentPage: 2,
-    //       showPictures: true,
-    //     })
-    //     .subscribe({
-    //       next: (species) => {
-    //         console.log(2, species);
-    //         this.species = species;
-    //       },
-    //       error: (err) => {
-    //         console.warn(`${err.message}`);
-    //       },
-    //     });
-    // }, 5000);
+  constructor(private api: ShroomShareApiService, storage: Storage) {
+    super(storage);
+  }
+
+  onInputChange(event: Event) {
+    const e = event as CustomEvent;
+    const search: string = e.detail.value;
+    this.items = [];
+    const filters = { search };
+    search === '' ? this.fetchItems({}) : this.fetchItems(filters);
+  }
+
+  getItems$(filters: SpeciesFilter): Observable<PaginatedResponse<SpecyWithPic>> {
+    return this.api.getSpecies$(filters) as Observable<PaginatedResponse<SpecyWithPic>>;
   }
 }

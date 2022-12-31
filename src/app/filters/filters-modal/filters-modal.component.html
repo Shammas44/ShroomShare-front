@@ -31,11 +31,11 @@
     <h3>Usage</h3>
   </ion-title>
 
-  <ion-list class="ion-padding">
-    <ion-item *ngFor="let u of allUsages|keyvalue">
-      <ion-checkbox slot="start" value={{u.value}} (ionChange)="onCheck($event)">
+  <ion-list class="ion-padding" *ngIf="states.usages | async as state">
+    <ion-item *ngFor="let u of state|keyvalue">
+      <ion-checkbox slot="start" [value]="u.value" (ionChange)="onCheck($event)" [checked]="u.value.checked">
       </ion-checkbox>
-      <ion-label>{{u.value}}</ion-label>
+      <ion-label>{{capitalizeFirstLetter(u.value.name)}}</ion-label>
     </ion-item>
   </ion-list>
 
@@ -43,5 +43,42 @@
   <ion-title>
     <h3>Radius</h3>
   </ion-title>
-  <ion-range [ticks]="true" [snaps]="true" [min]="0" [max]="10" [(ngModel)]="radius"></ion-range>
+  <ion-range *ngIf="states.radius | async as state" (ionChange)="onRadiusChange($event)" [ticks]="true" [snaps]="true"
+    [min]="100" [max]="5000" [step]="100" value="{{state}}"></ion-range>
+
+  <hr>
+  <div class="wrapper__date">
+    <div class="wrapper__date" *ngIf="states.start | async as state">
+      <ion-title>
+        <h3>Date de début</h3>
+      </ion-title>
+      <ion-datetime-button datetime="start"></ion-datetime-button>
+
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime max="{{currentDate}}" value="{{state}}" id="start" presentation="date" (ionChange)="onStartChange($event)">
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+
+    </div>
+      <div class="wrapper__date" *ngIf="states.end | async as state">
+        <ion-title>
+          <h3>Date de fin</h3>
+        </ion-title>
+        <ion-datetime-button  datetime="end"></ion-datetime-button>
+
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime max="{{currentDate}}" value="{{state}}" id="end" presentation="date"
+              (ionChange)="onEndChange($event)"></ion-datetime>
+          </ng-template>
+    </ion-modal>
+
+    </div>
+  </div>
+
+
+
+
 </ion-content>

@@ -1,0 +1,32 @@
+<ion-card class="card">
+  <div>
+    <img src="{{mushroom?getPicture(mushroom.picture):''}}" alt="">
+  </div>
+
+  <div class="rows">
+    <div class="header">
+      <ion-card-header>
+        <ion-card-title>{{mushroom?.specy?.name}}</ion-card-title>
+        <ion-card-subtitle>{{mushroom?.user?.username}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <div class="wrapper__buttons">
+        <ion-button>
+          <ion-icon name="heart"></ion-icon>
+        </ion-button>
+        <ion-button (click)="onToggleTextExpand()">
+          <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="row">
+      <ion-card-content>
+        <p class="{{showFullText? '': 'show-partial-text'}}">
+          {{mushroom?.description}} {{mushroom?.description}} {{mushroom?.description}}
+        </p>
+      </ion-card-content>
+    </div>
+  </div>
+
+</ion-card>

@@ -4,21 +4,18 @@ import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     canActivate: [AuthGuard],
-    loadChildren: () =>
-      import("./layout/layout.module").then((m) => m.LayoutPageModule),
+    loadChildren: () => import('./layout/layout.module').then((m) => m.LayoutPageModule),
   },
   {
     path: 'login',
-    loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./auth/login/login.module').then((m) => m.LoginPageModule),
   },
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
-  ],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  exports: [RouterModule],
+})// eslint-disable-line
+export class AppRoutingModule {}

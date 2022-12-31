@@ -1,8 +1,7 @@
-/* eslint camelcase: 0*/
 import { Usage } from './usages';
-import { Picture } from './pictures';
 import { Response } from './response';
 import { ChoosenItem } from './standard';
+import { CollectionName } from './collection-names';
 
 export type SpeciesResponse = {
   message: string;
@@ -17,9 +16,20 @@ export type Specy = {
   name: string;
   description: string;
   usage: Usage;
-  picture_id: string;
+  picture: string;
   id: string;
-  picture: Picture;
+};
+
+export type SpecyWithPic = Specy & {
+  picture: SpecyPicture;
+};
+
+export type SpecyPicture = {
+  value: string;
+  specy: string;
+  collectionName: CollectionName.species;
+  id: string;
+  date: string;
 };
 
 export type SpeciesFilter = {

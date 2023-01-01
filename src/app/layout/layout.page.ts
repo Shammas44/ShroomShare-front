@@ -20,10 +20,10 @@ export class LayoutPage {
 
   constructor(private auth: AuthService, private router: Router) {
     this.tabs = [
-      { title: 'Map', icon: 'add', path: 'map' },
-      { title: 'Wiki', icon: 'map', path: 'wiki' },
+      { title: 'Map', icon: 'earth', path: 'map' },
+      { title: 'Wiki', icon: 'book', path: 'wiki' },
       { title: 'Mushrooms', icon: 'list', path: 'mushrooms' },
-      { title: 'Camera', icon: 'list', path: 'camera' },
+      { title: 'Camera', icon: 'camera', path: 'camera' },
     ];
     this.secondaryTabs = [
       { title: 'favorites', icon: 'heart', path: 'favorites' },

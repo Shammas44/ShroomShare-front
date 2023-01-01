@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Créer votre compte</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
+    <ion-list>
+      <!-- Username input -->
+      <ion-item>
+        <ion-label position="floating">Nom d'utilisateur</ion-label>
+        <ion-input inputmode="text" #username="ngModel" required="true" name="username"
+          [(ngModel)]="authRequest.username"></ion-input>
+      </ion-item>
+
+      <!-- Error message displayed if the username is invalid -->
+      <ion-item lines="none" *ngIf="username.invalid && username.touched">
+        <ion-text color="danger">Nom d'utilisateur est requis.</ion-text>
+      </ion-item>
+
+      <!-- Email input -->
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input inputmode="text" #email="ngModel" required="true" name="username"
+          [(ngModel)]="authRequest.email"></ion-input>
+      </ion-item>
+
+      <!-- Error message displayed if the Email is invalid -->
+      <ion-item lines="none" *ngIf="email.invalid && email.touched">
+        <ion-text color="danger">Email est requis.</ion-text>
+      </ion-item>
+
+      <!-- Password input -->
+      <ion-item>
+        <ion-label position="floating">Mot de passe</ion-label>
+        <ion-input inputmode="text" #password="ngModel" required="true" type="password" name="password"
+          [(ngModel)]="authRequest.password"></ion-input>
+      </ion-item>
+
+      <!-- Error message displayed if the password is invalid -->
+      <ion-item lines="none" *ngIf="password.invalid && password.touched">
+        <ion-text color="danger">Mot de passe est requis.</ion-text>
+      </ion-item>
+
+      <!-- RePassword input -->
+      <ion-item>
+        <ion-label position="floating">Mot de passe confirmation</ion-label>
+        <ion-input inputmode="text" #rePassword="ngModel" required="true" type="password" name="password"
+          [(ngModel)]="authRequest.rePassword"></ion-input>
+      </ion-item>
+
+      <!-- Error message displayed if the RePassword is invalid -->
+      <ion-item lines="none" *ngIf="rePassword.invalid && rePassword.touched">
+        <ion-text color="danger">Mot de passe confirmation est requis</ion-text>
+      </ion-item>
+    </ion-list>
+
+
+    <div class="ion-padding">
+      <!-- Submit button -->
+      <ion-button type="submit" expand="block" [disabled]="loginForm.invalid">Log in</ion-button>
+
+      <!-- Error message displayed if the login failed -->
+      <ion-text color="danger" *ngIf="loginError">Username or password is invalid.</ion-text>
+    </div>
+  </form>
+  <p>Déjà un compte ?</p>
+  <ion-button routerLink="/login" router-direction="back">
+    Créer un compte
+  </ion-button>
+</ion-content>

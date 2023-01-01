@@ -1,58 +1,50 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Login</ion-title>
+    <ion-title>ShroomShare</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
-  <ion-list>
-    <!-- Username input -->
-    <ion-item>
-      <ion-label position="floating">Username</ion-label>
-      <ion-input
-        inputmode="text"
-        #username="ngModel"
-        required="true"
-        name="username"
-        [(ngModel)]="authRequest.username"
-      ></ion-input>
-    </ion-item>
 
-    <!-- Error message displayed if the username is invalid -->
-    <ion-item lines="none" *ngIf="username.invalid && username.touched">
-      <ion-text color="danger">Username is required.</ion-text>
-    </ion-item>
+  <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
+    <ion-list>
+      <!-- Username input -->
+      <ion-item>
+        <ion-label position="floating">Username</ion-label>
+        <ion-input inputmode="text" #username="ngModel" required="true" name="username"
+          [(ngModel)]="authRequest.username"></ion-input>
+      </ion-item>
 
-    <!-- Password input -->
-    <ion-item>
-      <ion-label position="floating">Password</ion-label>
-      <ion-input
-        inputmode="text"
-        #password="ngModel"
-        required="true"
-        type="password"
-        name="password"
-        [(ngModel)]="authRequest.password"
-      ></ion-input>
-    </ion-item>
+      <!-- Error message displayed if the username is invalid -->
+      <ion-item lines="none" *ngIf="username.invalid && username.touched">
+        <ion-text color="danger">Username is required.</ion-text>
+      </ion-item>
 
-    <!-- Error message displayed if the password is invalid -->
-    <ion-item lines="none" *ngIf="password.invalid && password.touched">
-      <ion-text color="danger">Password is required.</ion-text>
-    </ion-item>
-  </ion-list>
+      <!-- Password input -->
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input inputmode="text" #password="ngModel" required="true" type="password" name="password"
+          [(ngModel)]="authRequest.password"></ion-input>
+      </ion-item>
 
-  <div class="ion-padding">
-    <!-- Submit button -->
-    <ion-button type="submit" expand="block" [disabled]="loginForm.invalid"
-      >Log in</ion-button
-    >
+      <!-- Error message displayed if the password is invalid -->
+      <ion-item lines="none" *ngIf="password.invalid && password.touched">
+        <ion-text color="danger">Password is required.</ion-text>
+      </ion-item>
+    </ion-list>
 
-    <!-- Error message displayed if the login failed -->
-    <ion-text color="danger" *ngIf="loginError"
-      >Username or password is invalid.</ion-text
-    >
-  </div>
-</form>
+    <div class="ion-padding">
+      <!-- Submit button -->
+      <ion-button type="submit" expand="block" [disabled]="loginForm.invalid">Log in</ion-button>
+
+      <!-- Error message displayed if the login failed -->
+      <ion-text color="danger" *ngIf="loginError">Username or password is invalid.</ion-text>
+    </div>
+  </form>
+
+  <p>Pas encore de compte ?</p>
+  <ion-button routerLink="/register" router-direction="back">
+    Créer un compte
+  </ion-button>
+
 </ion-content>

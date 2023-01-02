@@ -26,8 +26,14 @@ export type AddUserRequest = {
   username: string;
   password: string;
   email: string;
-  admin: string;
+  admin?: boolean;
 };
+
+export type AddUserResponse = {
+  message: string;
+  token: string;
+  user: User;
+}
 
 export type ModifyUserRequest = {
   username?: string;

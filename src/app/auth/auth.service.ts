@@ -4,7 +4,7 @@ import { ReplaySubject, Observable, from, delayWhen } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { AuthResponse, AuthRequest } from '../models/auth';
-import { User } from '../models/users';
+import { AddUserRequest, AddUserResponse, User, UserResponse } from '../models/users';
 import { environment } from 'src/environments/environment';
 
 // const API_URL = "https://shroom-share.onrender.com/api";
@@ -43,6 +43,17 @@ export class AuthService {
     const authUrl = `${API_URL}/auth`;
     return this.http.post<AuthResponse>(authUrl, authRequest).pipe(
       delayWhen((auth: AuthResponse) => this.saveAuth$(auth)),
+      map((auth) => {
+        this.#auth$.next(auth);
+        return auth.user;
+      })
+    );
+  }
+
+  addUser$(body: AddUserRequest): Observable<User> {
+    const url = `${API_URL}/users`;
+    return this.http.post<AddUserResponse>(url, body).pipe(
+      delayWhen((auth: AddUserResponse) => this.saveAuth$({ token: auth.token, user: auth.user })),
       map((auth) => {
         this.#auth$.next(auth);
         return auth.user;

@@ -103,11 +103,6 @@ export class ShroomShareApiService {
     return this.http.get<UserResponse>(url).pipe(map((res) => res.user));
   }
 
-  addUser$(body: AddUserRequest): Observable<User> {
-    const url = `${API_URL}/users`;
-    return this.http.post<UserResponse>(url, body).pipe(map((res) => res.user));
-  }
-
   modifyUser$(body: ModifyUserRequest): Observable<User> {
     const url = `${API_URL}/users`;
     return this.http.patch<UserResponse>(url, body).pipe(map((res) => res.user));

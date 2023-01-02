@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  loginError: boolean | undefined = undefined;
+  errorMessage: string | null = null;
   form = new FormGroup({
     username: new FormControl('', {
       nonNullable: true,
@@ -57,7 +57,7 @@ export class RegisterPage implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    this.loginError = false;
+    this.errorMessage = null;
     const request = {
       username: this.username.value,
       email: this.email.value,
@@ -69,8 +69,11 @@ export class RegisterPage implements OnInit {
         this.router.navigateByUrl('/');
       },
       error: (err) => {
-        this.loginError = true;
-        console.warn(`Authentication failed: ${err.message}`);
+        if (err.message === 'Username is already taken.') {
+          this.errorMessage = "Le nom d'utilisateur est déjà pris";
+        }else {
+          this.errorMessage = "Quelque chose s'est mal passé, veuillez réessayer";
+        }
       },
     });
   }

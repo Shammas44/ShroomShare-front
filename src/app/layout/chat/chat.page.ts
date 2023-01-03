@@ -9,9 +9,10 @@ import { AuthService } from 'src/app/auth/auth.service';
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
-export class MessagePage implements OnInit {
+export class ChatPage implements OnInit {
   lastMessage: Message;
   messages: Message[];
+  language: string;
 
   constructor(private auth: AuthService) {
     // appeler authservice à la place
@@ -22,6 +23,7 @@ export class MessagePage implements OnInit {
       userId: '',
     };
     this.messages = [];
+    this.language = 'french';
   }
 
   ngOnInit() {}
@@ -46,5 +48,9 @@ export class MessagePage implements OnInit {
         this.lastMessage.value = '';
       }
     });
+  }
+
+  onLanguageChange(form: NgForm) {
+    console.log('change language');
   }
 }

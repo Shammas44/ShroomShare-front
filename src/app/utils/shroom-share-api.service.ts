@@ -15,13 +15,7 @@ import {
   ModifyMushroomRequest,
 } from '../models/mushrooms';
 import { Response, CountResponse, PaginatedResponse } from '../models/response';
-import {
-  AddUserRequest,
-  ModifyUserRequest,
-  User,
-  UserFilter,
-  UserResponse,
-} from '../models/users';
+import { AddUserRequest, ModifyUserRequest, User, UserFilter, UserResponse } from '../models/users';
 
 const API_URL = environment.apiUrl;
 
@@ -110,4 +104,8 @@ export class ShroomShareApiService {
     const url = `${API_URL}/users:${userId}`;
     return this.http.delete<UserResponse>(url).pipe(map((res) => res.message));
   }
+
+  // getMessages$(userName, userId, admin, language) {
+  //   const url = 'ws://shroom-share.onrender.com';
+  // }
 }

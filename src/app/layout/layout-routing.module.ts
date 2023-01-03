@@ -25,7 +25,7 @@ const routes: Routes = [
           import('./mushrooms/mushrooms.module').then((m) => m.MushroomsPageModule),
       },
       {
-        path: 'message',
+        path: 'chat',
         loadChildren: () => import('./chat/chat.module').then((m) => m.MessagePageModule),
       },
       {

@@ -7,6 +7,7 @@ export type AuthRequest = {
 };
 
 export type AuthResponse = {
+  message: string;
   token: string;
   user: User;
 };

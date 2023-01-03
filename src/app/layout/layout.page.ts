@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/auth.service';
 
 // Custom type that represent a tab data.
 declare type PageTab = {
@@ -18,7 +16,7 @@ export class LayoutPage {
   tabs: PageTab[];
   secondaryTabs: PageTab[]
 
-  constructor(private auth: AuthService, private router: Router) {
+  constructor() {
     this.tabs = [
       { title: 'Map', icon: 'earth', path: 'map' },
       { title: 'Wiki', icon: 'book', path: 'wiki' },
@@ -30,10 +28,5 @@ export class LayoutPage {
       { title: 'chat', icon: 'chatbox-ellipses', path: 'chat' },
       { title: 'profil', icon: 'person-circle-outline', path: 'profil' },
     ]
-  }
-
-  logOut() {
-    this.auth.logOut();
-    this.router.navigateByUrl('/login');
   }
 }

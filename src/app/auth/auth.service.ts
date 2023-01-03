@@ -4,8 +4,9 @@ import { ReplaySubject, Observable, from, delayWhen } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { AuthResponse, AuthRequest } from '../models/auth';
-import { AddUserRequest, AddUserResponse, User, UserResponse } from '../models/users';
+import { AddUserRequest, AddUserResponse, User  } from '../models/users';
 import { environment } from 'src/environments/environment';
+import { Response } from '../models/response';
 
 // const API_URL = "https://shroom-share.onrender.com/api";
 const API_URL = environment.apiUrl;
@@ -53,12 +54,17 @@ export class AuthService {
   addUser$(body: AddUserRequest): Observable<User> {
     const url = `${API_URL}/users`;
     return this.http.post<AddUserResponse>(url, body).pipe(
-      delayWhen((auth: AddUserResponse) => this.saveAuth$({ token: auth.token, user: auth.user })),
+      delayWhen((auth: AddUserResponse) => this.saveAuth$(auth)),
       map((auth) => {
         this.#auth$.next(auth);
         return auth.user;
       })
     );
+  }
+
+  deleteUser$(userId: String): Observable<String> {
+    const url = `${API_URL}/users:${userId}`;
+    return this.http.delete<Response>(url).pipe(map((res) => res.message));
   }
 
   private saveAuth$(auth: AuthResponse): Observable<void> {
@@ -68,6 +74,5 @@ export class AuthService {
   logOut(): void {
     this.#auth$.next(undefined);
     this.storage.remove('auth');
-    console.log('User logged out');
   }
 }

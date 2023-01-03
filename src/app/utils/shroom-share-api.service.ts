@@ -22,7 +22,7 @@ import {
   MushroomWithPic,
 } from '../models/mushrooms';
 import { Response, CountResponse, PaginatedResponse } from '../models/response';
-import { AddUserRequest, ModifyUserRequest, User, UserFilter, UserResponse } from '../models/users';
+import { ModifyUserRequest, User, UserFilter, UserResponse } from '../models/users';
 
 const API_URL = environment.apiUrl;
 
@@ -106,10 +106,5 @@ export class ShroomShareApiService {
   modifyUser$(body: ModifyUserRequest): Observable<User> {
     const url = `${API_URL}/users`;
     return this.http.patch<UserResponse>(url, body).pipe(map((res) => res.user));
-  }
-
-  deleteUser$(userId: String): Observable<String> {
-    const url = `${API_URL}/users:${userId}`;
-    return this.http.delete<UserResponse>(url).pipe(map((res) => res.message));
   }
 }

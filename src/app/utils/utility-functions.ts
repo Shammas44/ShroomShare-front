@@ -1,3 +1,4 @@
+import { ToastController } from '@ionic/angular';
 import { KeyString, Primitive } from '../models/standard';
 import { CustomMap } from '../models/standard';
 
@@ -62,13 +63,12 @@ export function findIndexByProperty<T extends KeyString>(
  * @param {T[]} array An array containing data
  * @param {string} key Desired key of the Map object
  * @param {string} separator the separator
- * @return {string} string containing concatanated values 
+ * @return {string} string containing concatanated values
  */
-export function concatSinglePropertyOfMap<U extends { [index: string]: any }, T extends CustomMap<U>>(
-  data: T | undefined | null,
-  key: string,
-  separator: string = ','
-) {
+export function concatSinglePropertyOfMap<
+  U extends { [index: string]: any },
+  T extends CustomMap<U>
+>(data: T | undefined | null, key: string, separator: string = ',') {
   let result = '';
   if (data) {
     const iterator = data.values();
@@ -77,4 +77,47 @@ export function concatSinglePropertyOfMap<U extends { [index: string]: any }, T 
     }
   }
   return result.slice(0, -1) || undefined;
+}
+
+enum ToastPositions {
+  top = 'top',
+  middle = 'middle',
+  bottom = 'bottom',
+}
+
+export type ToastOptions = {
+  message: string;
+  position?: ToastPositions;
+  duration?: number;
+  icon?: string;
+  cssClass?: string;
+};
+
+/**
+ * @description Return a toast Handler function
+ * @param {ToastController} controller The toast controller
+ * @return {Function} Function to handle toast
+ */
+export function getPresentToastFunc(controller: ToastController) {
+  return async function (options: ToastOptions | string) {
+    let message = '',
+      duration: number = 1500,
+      position: ToastPositions = ToastPositions.top,
+      icon: string = '',
+      cssClass: string = '',
+      toast;
+    if (typeof options === 'string') {
+      message = options;
+      duration = 1500;
+      position = ToastPositions.top;
+    } else {
+      message = options.message;
+      duration = options.duration || duration;
+      position = options.position || position;
+      icon = options.icon || icon;
+      cssClass = options.cssClass || cssClass;
+    }
+    toast = await controller.create({ message, duration, position, icon, cssClass });
+    await toast.present();
+  };
 }

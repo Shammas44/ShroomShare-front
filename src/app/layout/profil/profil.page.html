@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>profil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button routerLink="/personal-data" expand="block">
+    Données personnels
+    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+  </ion-button>
+  <ion-button routerLink="/my-mushrooms" expand="block">
+    Mes champignons
+    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+  </ion-button>
+
+  <div class="wrapper">
+    <ion-button color="warning" (click)="logOut()">
+      Déconnexion
+    </ion-button>
+    <ion-button color="danger" (click)="presentAlert()">
+      Supprimer
+    </ion-button>
+    <p>
+      Cette action supprimera votre compte
+      définitivement
+    </p>
+  </div>
+
+</ion-content>

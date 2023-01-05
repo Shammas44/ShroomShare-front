@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { matchValidator } from '../../utils/confirm-password.directive';
 import { AuthService } from '../auth.service';
+import {emailValidator} from '../../utils/email.directive';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +19,7 @@ export class RegisterPage implements OnInit {
     }),
     email: new FormControl('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.email],
+      validators: [Validators.required, emailValidator()],
     }),
     password: new FormControl('', {
       nonNullable: true,

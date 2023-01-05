@@ -4,9 +4,9 @@ import { ReplaySubject, Observable, from, delayWhen } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
 import { AuthResponse, AuthRequest } from '../models/auth';
-import { AddUserRequest, AddUserResponse, User  } from '../models/users';
+import { AddUserRequest, AddUserResponse, User } from '../models/users';
 import { environment } from 'src/environments/environment';
-import { Response } from '../models/response';
+import { storageKeys } from '../models/standard';
 
 // const API_URL = "https://shroom-share.onrender.com/api";
 const API_URL = environment.apiUrl;
@@ -61,18 +61,16 @@ export class AuthService {
       })
     );
   }
-
-  deleteUser$(userId: String): Observable<String> {
-    const url = `${API_URL}/users:${userId}`;
-    return this.http.delete<Response>(url).pipe(map((res) => res.message));
-  }
-
   private saveAuth$(auth: AuthResponse): Observable<void> {
-    return from(this.storage.set('auth', auth));
+    return from(this.storage.set(storageKeys.auth, auth));
   }
 
   logOut(): void {
     this.#auth$.next(undefined);
-    this.storage.remove('auth');
+    this.clearStorage();
+  }
+
+  clearStorage() {
+    this.storage.remove(storageKeys.auth);
   }
 }

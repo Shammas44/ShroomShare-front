@@ -6,6 +6,7 @@ export type User = {
   id: string;
   username: string;
   admin: boolean;
+  email: string;
 };
 
 export type UserFilter = {

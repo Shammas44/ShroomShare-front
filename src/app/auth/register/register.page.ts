@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { matchValidator } from './confirm-password.directive';
+import { matchValidator } from '../../utils/confirm-password.directive';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -65,7 +65,8 @@ export class RegisterPage implements OnInit {
     };
     console.log(request);
     this.auth.addUser$(request).subscribe({
-      next: () => {
+      next: (msg) => {
+        console.log({msg})
         this.router.navigateByUrl('/');
       },
       error: (err) => {

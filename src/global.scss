@@ -29,4 +29,11 @@
 
 @layer custom {
 
+.alert .alert-head h2 {
+  text-align: center;
+}
+
+.alert .alert-wrapper .alert-button-group {
+  justify-content: space-between !important;
+}
 }

@@ -1,16 +1,9 @@
 /* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import {
-  Specy,
-  SpecyResponse,
-  SpeciesResponse,
-  SpeciesFilter,
-  SpecyWithPic,
-} from '../models/species';
+import { Specy, SpecyResponse, SpeciesFilter, SpecyWithPic } from '../models/species';
 import { environment } from 'src/environments/environment';
 import {
   Mushroom,
@@ -98,13 +91,18 @@ export class ShroomShareApiService {
     return this.http.get<PaginatedResponse<User>>(url);
   }
 
+  deleteUser$(userId: String): Observable<String> {
+    const url = `${API_URL}/users/${userId}`;
+    return this.http.delete<Response>(url).pipe(map((res) => res.message));
+  }
+
+  modifyUser$(id: string, body: ModifyUserRequest): Observable<User> {
+    const url = `${API_URL}/users/${id}`;
+    return this.http.patch<UserResponse>(url, body).pipe(map((res) => res.user));
+  }
+
   getUser$(userId: String): Observable<User> {
     const url = `${API_URL}/users:${userId}`;
     return this.http.get<UserResponse>(url).pipe(map((res) => res.user));
-  }
-
-  modifyUser$(body: ModifyUserRequest): Observable<User> {
-    const url = `${API_URL}/users`;
-    return this.http.patch<UserResponse>(url, body).pipe(map((res) => res.user));
   }
 }

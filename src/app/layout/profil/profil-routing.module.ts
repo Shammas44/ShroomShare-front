@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import { PersonalDataPage } from './personal-data/personal-data.page';
 import { ProfilPage } from './profil.page';
+import { MyMushroomsPage } from './my-mushrooms/my-mushrooms.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProfilPage
+    component: ProfilPage,
   },
   {
     path: 'personal-data',
-    loadChildren: () => import('./personal-data/personal-data.module').then( m => m.PersonalDataPageModule)
+    component: PersonalDataPage,
   },
   {
     path: 'my-mushrooms',
-    loadChildren: () => import('./my-mushrooms/my-mushrooms.module').then( m => m.MyMushroomsPageModule)
-  }
+    component: MyMushroomsPage,
+  },
 ];
 
 @NgModule({

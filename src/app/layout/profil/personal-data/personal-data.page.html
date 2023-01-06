@@ -11,7 +11,7 @@
       <!-- Username input -->
       <ion-item>
         <ion-label position="floating">Nom d'utilisateur</ion-label>
-        <ion-input inputmode="text" formControlName="username" [value]="user?.username"></ion-input>
+        <ion-input inputmode="text" formControlName="username"></ion-input>
       </ion-item>
       <!-- Error message displayed if the username is invalid -->
       <ion-item lines="none" *ngIf="username.hasError('required') && username.touched">
@@ -27,7 +27,7 @@
       <!-- Email input -->
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input inputmode="text" formControlName="email" [value]="user?.email"></ion-input>
+        <ion-input inputmode="text" formControlName="email"></ion-input>
       </ion-item>
       <!-- Error message displayed if the Email is invalid -->
       <ion-item lines="none" *ngIf="email.hasError('required') && email.touched">

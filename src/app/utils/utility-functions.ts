@@ -89,20 +89,22 @@ export type ToastOptions = {
   message: string;
   position?: ToastPositions;
   duration?: number;
-  icon?: ToastIcons;
+  icon?: ToastTypes;
   cssClass?: string | string[];
 };
 
-export enum ToastIcons {
+export enum ToastTypes {
   info,
   warning,
   error,
+  success,
 }
 
 const toastTheming = [
   { icon: 'information-circle-outline', color: '' },
   { icon: 'alert-circle-outline', color: 'warning' },
   { icon: 'bug-outline', color: 'danger' },
+  { icon: 'checkmark-circle-outline', color: 'success' },
 ];
 
 /**
@@ -113,11 +115,11 @@ const toastTheming = [
 export function getPresentToastFunc(controller: ToastController) {
   return async function (options: ToastOptions | string) {
     let message = '',
-      duration: number = 2000,
+      duration: number = 4000,
       position: ToastPositions = ToastPositions.top,
-      icon: string = toastTheming[ToastIcons.info].icon,
+      icon: string = toastTheming[ToastTypes.info].icon,
       cssClass: string | string[] = 'toast-wrapper',
-      color: string = toastTheming[ToastIcons.info].color,
+      color: string = toastTheming[ToastTypes.info].color,
       toast;
     if (typeof options === 'string') {
       message = options;

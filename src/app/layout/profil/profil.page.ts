@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { AlertController, ToastController } from '@ionic/angular';
-import { getPresentToastFunc, ToastOptions } from '../../utils/utility-functions';
+import { getPresentToastFunc, ToastOptions, ToastTypes } from '../../utils/utility-functions';
 import { ShroomShareApiService } from 'src/app/utils/shroom-share-api.service';
 import { Subscription } from 'rxjs';
+import { User } from 'src/app/models/users';
 
 @Component({
   selector: 'app-profil',
@@ -14,6 +15,7 @@ import { Subscription } from 'rxjs';
 export class ProfilPage implements OnInit {
   presentToast: (options: ToastOptions | string) => void;
   getUsers$: Subscription | null;
+  user: User | undefined = undefined;
 
   constructor(
     private auth: AuthService,
@@ -23,8 +25,16 @@ export class ProfilPage implements OnInit {
     private api: ShroomShareApiService
   ) {
     this.presentToast = getPresentToastFunc(this.toastController);
-    this.getUsers$ = null;
+    this.getUsers$ = this.auth.getUser$().subscribe({
+      next: (user) => { this.user = user; }
+    });
   }
+
+  MSG = {
+    SUCCES_USER_DELETION: 'Utilisateur supprimé avec succès.',
+    ASK_USER_DELETION: 'Voulez vous vraiment supprimer votre compte ?',
+    ERROR_USER_DELETION: "Echec de la suppresion, quelque chose s'est mal passé",
+  };
 
   ngOnInit() {}
 
@@ -34,30 +44,26 @@ export class ProfilPage implements OnInit {
   }
 
   deleteUser(id: string) {
-    console.log('delete fired');
     this.api.deleteUser$(id).subscribe({
       next: () => {
-        this.presentToast('Utilisateur supprimé avec succès.');
+        this.presentToast({ message: this.MSG.SUCCES_USER_DELETION, icon: ToastTypes.success });
         setTimeout(() => {
           this.logOut();
         }, 2000);
       },
-      error: (err) => {
-        console.log(err);
+      error: () => {
+        this.presentToast({ message: this.MSG.ERROR_USER_DELETION, icon: ToastTypes.error });
       },
     });
   }
 
   private unscubscribe(subscriber: Subscription | null) {
-    if (subscriber !== null) {
-      console.log('unscubscribe');
-      subscriber.unsubscribe();
-    }
+    if (subscriber !== null) subscriber.unsubscribe();
   }
 
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: 'Voulez vous vraiment supprimer votre compte ?',
+      header: this.MSG.ASK_USER_DELETION,
       cssClass: 'alert',
       buttons: [
         {
@@ -69,15 +75,7 @@ export class ProfilPage implements OnInit {
           text: 'Supprimer',
           role: 'confirm',
           handler: () => {
-            this.getUsers$ = this.auth.getUser$().subscribe({
-              next: (user) => {
-                if (user?.id === undefined) return;
-                this.deleteUser(user.id);
-              },
-              error: (err) => {
-                console.log(err);
-              },
-            });
+            this.user ? this.deleteUser(this.user.id) : console.log('err');
           },
         },
       ],

@@ -11,7 +11,7 @@
       </ion-card-header>
 
       <div class="wrapper__buttons">
-        <ion-button fill="clear">
+        <ion-button (click)="addToFavorites(mushroom)"  fill="clear">
           <ion-icon name="heart"></ion-icon>
         </ion-button>
         <ion-button (click)="onToggleTextExpand()" fill="clear">

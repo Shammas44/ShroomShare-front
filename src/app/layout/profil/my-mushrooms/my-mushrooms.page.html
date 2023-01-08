@@ -1,9 +1,26 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>my-mushrooms</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+
+  <div class="wrapper">
+    <div>
+      <h2>Mes champignons</h2>
+      <ion-button (click)="openModal()">
+        <ion-icon name="filter-circle-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+    <p>Tous mes champignons</p>
+
+    <div class="ion-padding wrapper__list ion-content-scroll-host">
+      <ion-list>
+        <ion-item *ngFor="let mushroom of items">
+          <app-mushroom-card [mushroom]="mushroom">
+          </app-mushroom-card>
+        </ion-item>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </div>
+  </div>
 
 </ion-content>

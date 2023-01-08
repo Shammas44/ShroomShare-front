@@ -31,6 +31,7 @@ export enum storageKeys {
   filterModalStart = 'filters-modal-start',
   filterModalRadius = 'filters-modal-radius',
   filterModalSpecies = 'filters-modal-species',
+  filterModalMyMushrooms = 'filters-modal-my-mushrooms',
   filterModalUsages = 'filters-modal-usages',
   filterModalUsers = 'filters-modal-users',
   getMushroomsRequestParams = 'getMushrooms-request-params',

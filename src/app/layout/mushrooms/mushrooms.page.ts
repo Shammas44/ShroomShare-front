@@ -17,9 +17,9 @@ import { Storage } from '@ionic/storage';
   selector: 'app-mushrooms',
   templateUrl: './mushrooms.page.html',
   styleUrls: ['./mushrooms.page.scss'],
-}) 
+})
 export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
-  storageRequestParamKey: string = storageKeys.filterModalSpecies;
+  storageRequestParamKey: string = storageKeys.getMushroomsRequestParams;
 
   ngOnInit() {
     this.initalItemSetting();
@@ -41,10 +41,12 @@ export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
     const { data, role } = await modal.onWillDismiss();
     if (role === modalRole.confirm) {
       const params = this.fromModaResponseToApiParams(data);
+      this.items = [];
       this.storage.set(this.storageRequestParamKey, params);
+      console.log({ filters: params });
       this.filters = params;
       this.currentPage = 1;
-      this.lastPage = 1;
+      this.lastPage = 2;
       this.fetchItems(params);
     }
   }
@@ -67,6 +69,7 @@ export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
     params.radius = data.radius;
     params.from = new Date(data.start).toISOString();
     params.to = new Date(data.end).toISOString();
+    console.log({ params });
     return params;
   }
 }

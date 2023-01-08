@@ -9,7 +9,7 @@ export abstract class CardList<Item> {
   abstract storageRequestParamKey: string;
   items: Item[] = [];
   currentPage: number = 1;
-  lastPage: number = 1;
+  lastPage: number = 2;
   pageSize: number = 5;
   filters: PaginatedFilters = {};
 
@@ -34,7 +34,7 @@ export abstract class CardList<Item> {
   }
 
   private addItems() {
-    if (this.currentPage > this.lastPage) return;
+    if (this.currentPage >= this.lastPage) return;
     this.currentPage++;
     this.fetchItems(this.filters);
   }

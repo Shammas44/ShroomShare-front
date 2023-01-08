@@ -32,6 +32,10 @@ export class PickerComponent implements OnInit {
    */
   @Input() pageSize?: number = 5;
   /**
+   * @description Allow to filter items by Users
+   */
+  @Input() useUsers?: boolean = false;
+  /**
    * @description Allow to filter items by favorite
    */
   @Input() useFavorite?: boolean = false;
@@ -62,12 +66,13 @@ export class PickerComponent implements OnInit {
         items: [],
         search: '',
         chips: new CustomMap(),
-        favorites: [],
+        favorites: this.allFavorites ? [...this.allFavorites] : [],
         currentPage: 1,
         lastPage: 1,
       };
       this.state = defaultState;
     }
+    console.log({ initialState: this.state });
   }
 
   private addItems() {

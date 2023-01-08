@@ -13,14 +13,22 @@ import { FiltersModalState } from './Filters-modal-state';
 import { UsageMap, TmpState } from '../../models/filters';
 import { modalRole } from '../../models/modal';
 
+const allFavorites = [
+  { username: 'John', id: '...', admin: false },
+  { username: 'Johnny', id: '...', admin: false },
+  { username: 'Eloise', id: '...', admin: false },
+];
+
+const defaultRadius = 1000;
+
 function getDefaultState(): PickerState {
   return {
     items: [],
     search: '',
     chips: new CustomMap(),
-    favorites: [],
+    favorites: allFavorites,
     currentPage: 1,
-    lastPage: 1,
+    lastPage: 2,
   };
 }
 
@@ -51,7 +59,7 @@ class State extends FiltersModalState {
     this.users = this.setProperty(storageKeys.filterModalUsers, getDefaultState);
     this.species = this.setProperty(storageKeys.filterModalSpecies, getDefaultState);
     this.usages = this.setProperty(storageKeys.filterModalUsages, getDefaultUsageState);
-    this.radius = this.setProperty(storageKeys.filterModalRadius, () => 1000);
+    this.radius = this.setProperty(storageKeys.filterModalRadius, () => defaultRadius);
     this.start = this.setProperty(storageKeys.filterModalStart, () => previousYearDateIso);
     this.end = this.setProperty(storageKeys.filterModalEnd, () => currentDateIso);
   }
@@ -61,7 +69,7 @@ class State extends FiltersModalState {
   selector: 'app-filters-modal',
   templateUrl: './filters-modal.component.html',
   styleUrls: ['./filters-modal.component.scss'],
-}) 
+})
 export class FiltersModalComponent implements OnInit {
   // @Input() filterStorageKey: string = 'filters-modal';
   @Output() filter = new EventEmitter<FilterForm>();
@@ -105,7 +113,7 @@ export class FiltersModalComponent implements OnInit {
       users: null,
       species: null,
       usages: getDefaultUsageState(),
-      radius: 1,
+      radius: defaultRadius,
       start: previousYearDateIso,
       end: currentDateIso,
     };

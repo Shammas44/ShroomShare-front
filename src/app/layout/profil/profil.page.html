@@ -9,7 +9,7 @@
     Données personnels
     <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
   </ion-button>
-  <ion-button routerLink="my-mushrooms" expand="block">
+  <ion-button routerLink="my-mushrooms" [state]="user" expand="block">
     Mes champignons
     <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
   </ion-button>
@@ -28,4 +28,3 @@
   </div>
 
 </ion-content>
-

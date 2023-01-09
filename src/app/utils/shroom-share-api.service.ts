@@ -106,6 +106,11 @@ export class ShroomShareApiService {
   }
 
   // getMessages$(userName, userId, admin, language) {
+  //   const baseUrl = 'ws://shroom-share.onrender.com';
+  // }
+
+  // addMessage(body: AddMessageRequest): Observable<Message> {
   //   const url = 'ws://shroom-share.onrender.com';
+  //   return
   // }
 }

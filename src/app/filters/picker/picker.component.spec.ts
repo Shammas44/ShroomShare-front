@@ -10,7 +10,7 @@ function createUser(numberOfUsers: number): User[] {
   const users = [];
   for (let i = 0; i < numberOfUsers; i++) {
     const key = timestamp + 1;
-    users.push({ id: key.toString(), username: `user${key}`, admin: false });
+    users.push({ id: key.toString(), username: `user${key}`, admin: false, email: `user${key}@gmail.com` });
   }
   return users;
 }

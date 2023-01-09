@@ -102,7 +102,7 @@ export class ChatPage implements OnInit {
     // Ecoute des nouveaux messages du serveur
     this.socket.addEventListener('message', (event) => {
       console.log('Voici un message du serveur', event.data);
-      this.handleServerMessage(event.data);
+      this.handleServerMessage(JSON.parse(event.data));
     });
   }
 
@@ -111,6 +111,7 @@ export class ChatPage implements OnInit {
   }
 
   handleServerMessage(message: webSocketResponse) {
+    console.log('message from server recieved to handle', message);
     const newMessage = {
       value: message.message,
       timestamp: message.timestamp,

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 import { findIndexByProperty, findByProperty } from '../../utils/utility-functions';
-import { Observable } from 'rxjs';
+import { Observable, map, filter } from 'rxjs';
 import { PaginatedResponse } from '../../models/response';
 import { ChoosenItem, BaseFilter, CustomMap } from '../../models/standard';
 import { PickerState } from '../../models/picker';
@@ -72,10 +72,9 @@ export class PickerComponent implements OnInit {
       };
       this.state = defaultState;
     }
-    console.log({ initialState: this.state });
   }
 
-  private addItems() {
+  private addItems(): Observable<ChoosenItem[]> | undefined {
     if (this.state.currentPage >= this.state.lastPage) return;
     this.state.currentPage++;
     const searchableKey = this.itemKeys.searchable;
@@ -84,21 +83,35 @@ export class PickerComponent implements OnInit {
       pageSize: this.pageSize,
       currentPage: this.state.currentPage,
     };
-    this.getItem(option).subscribe({
-      next: (res) => {
-        for (const item of res.items) {
+    return this.getItem(option).pipe(
+      map((res) => res.items),
+      map((items) => {
+        const filteredValues = [];
+        items.forEach((item) => {
           item.checked = false;
           let favoriteItem;
-          if (this.useFavorite) {
+          if (this.useFavorite)
             favoriteItem = findByProperty(this.state.favorites, searchableKey, item);
-          }
-          if (!favoriteItem) this.state.items.push(item);
-        }
-      },
-      error: (err) => {
-        console.log({ err });
-      },
-    });
+          if (!favoriteItem) filteredValues.push(item);
+        });
+        return items;
+      })
+    );
+    // this.getItem(option).subscribe({
+    //   next: (res) => {
+    //     for (const item of res.items) {
+    //       item.checked = false;
+    //       let favoriteItem;
+    //       if (this.useFavorite) {
+    //         favoriteItem = findByProperty(this.state.favorites, searchableKey, item);
+    //       }
+    //       if (!favoriteItem) this.state.items.push(item);
+    //     }
+    //   },
+    //   error: (err) => {
+    //     console.log({ err });
+    //   },
+    // });
   }
 
   private setItems() {
@@ -190,9 +203,16 @@ export class PickerComponent implements OnInit {
   }
 
   onIonInfinite(event: Event) {
-    this.addItems();
-    setTimeout(() => {
-      (event as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
+    this.addItems()?.subscribe({
+      next: (items) => {
+        items.forEach((item) => this.state.items.push(item));
+        setTimeout(() => {
+          (event as InfiniteScrollCustomEvent).target.complete();
+        }, 500);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

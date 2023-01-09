@@ -6,6 +6,8 @@ import { getPresentToastFunc, ToastOptions, ToastTypes } from '../../utils/utili
 import { ShroomShareApiService } from 'src/app/utils/shroom-share-api.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/models/users';
+import { storageKeys } from 'src/app/models/standard';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-profil',
@@ -22,11 +24,14 @@ export class ProfilPage implements OnInit {
     private router: Router,
     private alertController: AlertController,
     private toastController: ToastController,
-    private api: ShroomShareApiService
+    private api: ShroomShareApiService,
+    private storage: Storage
   ) {
     this.presentToast = getPresentToastFunc(this.toastController);
     this.getUsers$ = this.auth.getUser$().subscribe({
-      next: (user) => { this.user = user; }
+      next: (user) => {
+        this.user = user;
+      },
     });
   }
 
@@ -59,6 +64,12 @@ export class ProfilPage implements OnInit {
 
   private unscubscribe(subscriber: Subscription | null) {
     if (subscriber !== null) subscriber.unsubscribe();
+  }
+
+  deleteLocalData() {
+    for (const key of Object.values(storageKeys)) {
+      if (key !== storageKeys.auth) this.storage.remove(key);
+    }
   }
 
   async presentAlert() {

@@ -12,7 +12,12 @@ function createUser(numberOfUsers: number): User[] {
   const users = [];
   for (let i = 0; i < numberOfUsers; i++) {
     const key = timestamp + 1;
-    users.push({ id: key.toString(), username: `user${key}`, admin: false, email: `user${key}@gmail.com` });
+    users.push({
+      id: key.toString(),
+      username: `user${key}`,
+      admin: false,
+      email: `user${key}@gmail.com`,
+    });
   }
   return users;
 }
@@ -60,10 +65,9 @@ class CardsListComponent extends CardList<User> implements OnInit {
   }
 }
 
-xdescribe('CardList abstract class', () => {
+describe('CardList abstract class', () => {
   let component: CardsListComponent;
   let fixture: ComponentFixture<CardsListComponent>;
-  let wrapper: HTMLElement;
 
   beforeEach(waitForAsync(() => {
     const storage = new Storage();
@@ -82,17 +86,19 @@ xdescribe('CardList abstract class', () => {
 
     fixture = TestBed.createComponent(CardsListComponent);
     component = fixture.componentInstance;
-    wrapper = fixture.nativeElement.querySelector('#wrapper');
     fixture.detectChanges();
   }));
 
-  it('should create', () => {
+  it('should add new items on scroll', () => {
     expect(component).toBeTruthy();
-    console.log(component.items.length);
-    console.log(component.currentPage);
-    wrapper.scrollTop = wrapper.scrollHeight;
-    console.log(component.currentPage);
-    console.log(component.items.length);
-    expect(true).toBeTruthy();
+    expect(component.items.length).toEqual(5);
+    const mockEvent = jasmine.createSpyObj('', [], {
+      target: jasmine.createSpyObj('', ['complete']),
+    });
+    component.onIonInfinite(mockEvent);
+    setTimeout(() => {
+      expect(mockEvent.target.complete).toHaveBeenCalled();
+      expect(component.items.length).toEqual(10);
+    }, 500);
   });
 });

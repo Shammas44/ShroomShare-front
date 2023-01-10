@@ -13,6 +13,10 @@ import { FiltersModalComponent } from '../../filters/filters-modal/filters-modal
 import { modalRole } from '../../models/modal';
 import { Storage } from '@ionic/storage';
 
+const currentDate = new Date();
+const previousYearDate = new Date();
+previousYearDate.setFullYear(currentDate.getFullYear() - 1);
+
 @Component({
   selector: 'app-mushrooms',
   templateUrl: './mushrooms.page.html',
@@ -47,7 +51,7 @@ export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
       this.filters = params;
       this.currentPage = 1;
       this.lastPage = 2;
-      this.fetchItems(params);
+      this.fetchItems(params)?.subscribe(this.getSubscriber());
     }
   }
 
@@ -66,9 +70,9 @@ export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
       return;
     });
     if (usages.length === 1) params.usage = usages[0].value as Usage;
-    params.radius = data.radius;
-    params.from = new Date(data.start).toISOString();
-    params.to = new Date(data.end).toISOString();
+    if (data.radius) params.radius = data.radius;
+    if (data.start) params.from = new Date(data.start).toISOString();
+    if (data.end) params.to = new Date(data.end).toISOString();
     console.log({ params });
     return params;
   }

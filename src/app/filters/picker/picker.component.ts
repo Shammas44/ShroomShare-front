@@ -97,21 +97,6 @@ export class PickerComponent implements OnInit {
         return items;
       })
     );
-    // this.getItem(option).subscribe({
-    //   next: (res) => {
-    //     for (const item of res.items) {
-    //       item.checked = false;
-    //       let favoriteItem;
-    //       if (this.useFavorite) {
-    //         favoriteItem = findByProperty(this.state.favorites, searchableKey, item);
-    //       }
-    //       if (!favoriteItem) this.state.items.push(item);
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.log({ err });
-    //   },
-    // });
   }
 
   private setItems() {

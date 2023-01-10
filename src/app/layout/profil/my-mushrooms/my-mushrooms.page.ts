@@ -22,7 +22,7 @@ import { User } from 'src/app/models/users';
 })
 export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit {
   storageRequestParamKey: string = storageKeys.filterModalMyMushrooms;
-  user: User | undefined = undefined
+  user: User | undefined = undefined;
 
   ngOnInit() {
     this.initalItemSetting();
@@ -72,9 +72,9 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
       return;
     });
     if (usages.length === 1) params.usage = usages[0].value as Usage;
-    params.radius = data.radius;
-    params.from = new Date(data.start).toISOString();
-    params.to = new Date(data.end).toISOString();
+    if (data.radius) params.radius = data.radius;
+    if (data.start) params.from = new Date(data.start).toISOString();
+    if (data.end) params.to = new Date(data.end).toISOString();
     return params;
   }
 }

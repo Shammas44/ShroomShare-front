@@ -11,12 +11,12 @@ export class UsageMap extends Map<Usage, UsageState> {}
 
 export type TmpState = {
   [index: string]: any;
-  users: PickerState | null;
-  species: PickerState | null;
-  usages: UsageMap | null;
-  radius: number;
-  start: string;
-  end: string;
+  users?: PickerState | null;
+  species?: PickerState | null;
+  usages?: UsageMap | null;
+  radius?: number;
+  start?: string;
+  end?: string;
 };
 
 export type PaginatedFilters = {

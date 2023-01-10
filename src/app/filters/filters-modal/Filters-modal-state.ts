@@ -1,10 +1,28 @@
-import { Observable, from } from 'rxjs';
+import { Observable, from  } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { storageKeys } from '../../models/standard';
+import { PickerState } from 'src/app/models/picker';
+import { UsageMap } from 'src/app/models/filters';
+
+export type StateParams = {
+  key: 'users' | 'species' | 'usages' | 'start' | 'end' | 'radius';
+  storageKey: storageKeys;
+  defaultValue: () => unknown;
+};
 
 export class FiltersModalState {
 
-  constructor(private storage: Storage, ) {}
+  users?: Observable<PickerState>;
+  species?: Observable<PickerState>;
+  usages?: Observable<UsageMap>;
+  radius?: Observable<number>;
+  start?: Observable<string>;
+  end?: Observable<string>;
+  constructor(private storage: Storage, params: StateParams[]) {
+    params.forEach((param) => {
+      this[param.key] = this.setProperty(param.storageKey, param.defaultValue);
+    });
+  }
 
   setProperty<T>(key: storageKeys, getDefaultState: () => Observable<T> | T) {
     return from(

@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Usage } from 'src/app/models/usages';
-import { FilterForm, ChoosenItem, CustomMap, storageKeys } from '../../models/standard';
+import { CustomMap, FilterForm, storageKeys } from '../../models/standard';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 import { Observable } from 'rxjs';
 import { User, UserFilter } from '../../models/users';
@@ -9,15 +9,16 @@ import { PaginatedResponse } from '../../models/response';
 import { Specy, SpeciesFilter } from '../../models/species';
 import { PickerState } from '../../models/picker';
 import { Storage } from '@ionic/storage';
-import { FiltersModalState } from './Filters-modal-state';
+import { StateParams } from './Filters-modal-state';
 import { UsageMap, TmpState } from '../../models/filters';
 import { modalRole } from '../../models/modal';
+import { Modal } from './modal';
 
 const allFavorites = [
   { username: 'John', id: '...', admin: false },
   { username: 'Johnny', id: '...', admin: false },
   { username: 'Eloise', id: '...', admin: false },
-];
+] as User[];
 
 const defaultRadius = 1000;
 
@@ -43,89 +44,53 @@ function getDefaultUsageState(): UsageMap {
 
 const currentDateIso = new Date().toISOString();
 const currentDate = new Date();
-const previousYearDate = new Date();
-previousYearDate.setFullYear(currentDate.getFullYear() - 1);
-const previousYearDateIso = previousYearDate.toISOString();
+const prevYearDate = new Date();
+prevYearDate.setFullYear(currentDate.getFullYear() - 1);
+const prevYearDateIso = prevYearDate.toISOString();
 
-class State extends FiltersModalState {
-  users: Observable<PickerState>;
-  species: Observable<PickerState>;
-  usages: Observable<UsageMap>;
-  radius: Observable<number>;
-  start: Observable<string>;
-  end: Observable<string>;
-  constructor(storage: Storage) {
-    super(storage);
-    this.users = this.setProperty(storageKeys.filterModalUsers, getDefaultState);
-    this.species = this.setProperty(storageKeys.filterModalSpecies, getDefaultState);
-    this.usages = this.setProperty(storageKeys.filterModalUsages, getDefaultUsageState);
-    this.radius = this.setProperty(storageKeys.filterModalRadius, () => defaultRadius);
-    this.start = this.setProperty(storageKeys.filterModalStart, () => previousYearDateIso);
-    this.end = this.setProperty(storageKeys.filterModalEnd, () => currentDateIso);
-  }
-}
+const params: StateParams[] = [
+  { key: 'users', storageKey: storageKeys.filterModalUsers, defaultValue: getDefaultState },
+  { key: 'species', storageKey: storageKeys.filterModalSpecies, defaultValue: getDefaultState },
+  { key: 'usages', storageKey: storageKeys.filterModalUsages, defaultValue: getDefaultUsageState },
+  { key: 'start', storageKey: storageKeys.filterModalStart, defaultValue: () => prevYearDateIso },
+  { key: 'end', storageKey: storageKeys.filterModalEnd, defaultValue: () => currentDateIso },
+];
+
+const tmpState: TmpState = {
+  users: null,
+  species: null,
+  usages: getDefaultUsageState(),
+  radius: defaultRadius,
+  start: prevYearDateIso,
+  end: currentDateIso,
+};
 
 @Component({
   selector: 'app-filters-modal',
   templateUrl: './filters-modal.component.html',
   styleUrls: ['./filters-modal.component.scss'],
 })
-export class FiltersModalComponent implements OnInit {
+export class FiltersModalComponent extends Modal implements OnInit {
+  getUsers: (option: UserFilter) => Observable<PaginatedResponse<User>>;
+  getSpecies: (option: SpeciesFilter) => Observable<PaginatedResponse<Specy>>;
+  allFavorites = allFavorites;
   // @Input() filterStorageKey: string = 'filters-modal';
   @Output() filter = new EventEmitter<FilterForm>();
 
-  currentDate: string;
-  usages: UsageMap = new UsageMap();
-  users: ChoosenItem[] = [];
-  species: ChoosenItem[] = [];
-  getUsers: (option: UserFilter) => Observable<PaginatedResponse<User>>;
-  getSpecies: (option: SpeciesFilter) => Observable<PaginatedResponse<Specy>>;
-  userKeys = { id: 'id', searchable: 'username' };
-  specyKeys = { id: 'id', searchable: 'name' };
-  allFavorites = [
-    { username: 'John', id: '...', admin: false },
-    { username: 'Johnny', id: '...', admin: false },
-    { username: 'Eloise', id: '...', admin: false },
-  ];
-  states: State;
-  tmpState: TmpState;
+  constructor(
+    private modalCtrl: ModalController,
+    private api: ShroomShareApiService,
+    storage: Storage
+  ) {
+    super(storage, params, tmpState);
+    this.getUsers = this.getUsersFunc(this.api);
+    this.getSpecies = this.getSpeciesFunc(this.api);
+  }
 
   async ngOnInit() {
     // if (this.filterStorageKey === '') {
     //   throw new Error(`property 'filtersStorageKey' should be defined.`);
     // }
-  }
-
-  capitalizeFirstLetter(string: string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
-  constructor(
-    private modalCtrl: ModalController,
-    private api: ShroomShareApiService,
-    private storage: Storage
-  ) {
-    this.currentDate = new Date().toISOString();
-    this.getUsers = this.getUsersFunc(this.api);
-    this.getSpecies = this.getSpeciesFunc(this.api);
-    this.states = new State(this.storage);
-    this.tmpState = {
-      users: null,
-      species: null,
-      usages: getDefaultUsageState(),
-      radius: defaultRadius,
-      start: previousYearDateIso,
-      end: currentDateIso,
-    };
-
-    const iterable = this.states.getKeys();
-    for (const value of iterable) {
-      let keys = value.split('-');
-      const key = keys[keys.length - 1];
-      this.storage.get(value).then((res) => {
-        if (res) this.tmpState[key] = res;
-      });
-    }
   }
 
   cancel() {
@@ -136,56 +101,9 @@ export class FiltersModalComponent implements OnInit {
     const iterable = this.states.getKeys();
     for (const value of iterable) {
       let keys = value.split('-');
-      const key = keys[keys.length - 1];
+      const key = keys[keys.length - 1] as keyof TmpState;
       await this.storage.set(value, this.tmpState[key]);
     }
     return this.modalCtrl.dismiss(this.tmpState, modalRole.confirm);
-  }
-
-  onChoosenUser(state: PickerState) {
-    this.tmpState.users = state;
-  }
-
-  onChoosenSpecies(state: PickerState) {
-    this.tmpState.species = state;
-  }
-
-  onStartChange(e: Event) {
-    const event = e as CustomEvent;
-    this.tmpState.start = event.detail.value;
-  }
-
-  onEndChange(e: Event) {
-    const event = e as CustomEvent;
-    this.tmpState.end = event.detail.value;
-  }
-
-  onRadiusChange(e: Event) {
-    const event = e as CustomEvent;
-    this.tmpState.radius = event.detail.value;
-  }
-
-  onCheck(e: Event) {
-    const event = e as CustomEvent;
-    const usage = event.detail.value;
-    const isChecked = event.detail.checked;
-    const { name, value } = usage;
-    this.tmpState?.usages?.set(name, { name, checked: isChecked, value });
-  }
-
-  private getUsersFunc(
-    api: ShroomShareApiService
-  ): (option: UserFilter) => Observable<PaginatedResponse<User>> {
-    return (option: UserFilter): Observable<PaginatedResponse<User>> => {
-      return api.getUsers$(option);
-    };
-  }
-
-  private getSpeciesFunc(
-    api: ShroomShareApiService
-  ): (option: SpeciesFilter) => Observable<PaginatedResponse<Specy>> {
-    return (option: SpeciesFilter): Observable<PaginatedResponse<Specy>> => {
-      return api.getSpecies$(option);
-    };
   }
 }

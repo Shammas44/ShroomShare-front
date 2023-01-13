@@ -76,7 +76,7 @@ export class ShroomShareApiService {
   }
 
   deleteMushroom$(mushroomId: String): Observable<String> {
-    const url = `${API_URL}/mushrooms:${mushroomId}`;
+    const url = `${API_URL}/mushrooms/${mushroomId}`;
     return this.http.delete<Response>(url).pipe(map((res) => res.message));
   }
 

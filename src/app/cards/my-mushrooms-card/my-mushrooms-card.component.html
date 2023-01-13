@@ -25,8 +25,8 @@
         <p class="{{showFullText? '': 'show-partial-text'}}">
           {{mushroom?.description}} {{mushroom?.description}} {{mushroom?.description}}
         </p>
-        <ion-button (click)="modifyMushroom()">Modifier</ion-button>
-        <ion-button (click)="deleteMushroom()">Supprimer</ion-button>
+        <ion-button (click)="modifyMushroom(mushroom?.id)">Modifier</ion-button>
+        <ion-button (click)="deleteMushroom(mushroom?.id)">Supprimer</ion-button>
       </ion-card-content>
     </div>
   </div>

@@ -61,6 +61,15 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
     return this.api.getMushrooms$(filters) as Observable<PaginatedResponse<MushroomWithPic>>;
   }
 
+  deleteItem(id: string) {
+    this.items = this.items.filter((item) => {
+      if (item.id !== id) return item;
+      return;
+    });
+  }
+
+  modifyItem(id: string) { }
+
   fromModaResponseToApiParams(data: TmpState): MushroomsFilter {
     const params = {} as MushroomsFilter;
     const userIds = concat(data.users?.chips, 'id');

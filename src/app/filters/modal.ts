@@ -1,14 +1,13 @@
-import { Usage } from 'src/app/models/usages';
-import { ChoosenItem, CustomMap, storageKeys } from '../../models/standard';
-import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
+import { ChoosenItem } from '../models/standard';
+import { ShroomShareApiService } from '../utils/shroom-share-api.service';
 import { Observable } from 'rxjs';
-import { User, UserFilter } from '../../models/users';
-import { PaginatedResponse } from '../../models/response';
-import { Specy, SpeciesFilter } from '../../models/species';
-import { PickerState } from '../../models/picker';
+import { User, UserFilter } from '../models/users';
+import { PaginatedResponse } from '../models/response';
+import { Specy, SpeciesFilter } from '../models/species';
+import { PickerState } from '../models/picker';
 import { Storage } from '@ionic/storage';
 import { FiltersModalState, StateParams } from './Filters-modal-state';
-import { UsageMap, TmpState } from '../../models/filters';
+import { UsageMap, TmpState } from '../models/filters';
 
 const currentDate = new Date();
 const previousYearDate = new Date();

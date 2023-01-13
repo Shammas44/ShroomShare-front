@@ -9,11 +9,11 @@ import { CardList } from '../../../cards/cards-list/cards-list';
 import { storageKeys } from '../../../models/standard';
 import { ModalController } from '@ionic/angular';
 import { Usage } from '../../../models/usages';
-import { FiltersModalComponent } from '../../../filters/filters-modal/filters-modal.component';
 import { modalRole } from '../../../models/modal';
 import { Storage } from '@ionic/storage';
 import { Location } from '@angular/common';
 import { User } from 'src/app/models/users';
+import { FiltersModalMyMushroomComponent } from 'src/app/filters/filters-modal-my-mushroom/filters-modal-my-mushroom.component';
 
 @Component({
   selector: 'app-my-mushrooms',
@@ -42,7 +42,7 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
 
   async openModal() {
     const modal = await this.modalCtrl.create({
-      component: FiltersModalComponent,
+      component: FiltersModalMyMushroomComponent,
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();

@@ -42,10 +42,6 @@ function createUser(numberOfUsers: number): User[] {
 class CardsListComponent extends CardList<User> implements OnInit {
   storageRequestParamKey: string = 'test-users';
 
-  ngOnInit() {
-    this.initalItemSetting();
-  }
-
   getUsers$(): Observable<PaginatedResponse<User>> {
     return of({
       pageSize: 5,
@@ -54,6 +50,10 @@ class CardsListComponent extends CardList<User> implements OnInit {
       message: 'succes',
       items: createUser(5),
     });
+  }
+
+  ngOnInit(): void {
+    this.initalItemSetting();
   }
 
   constructor(storage: Storage) {
@@ -69,10 +69,10 @@ describe('CardList abstract class', () => {
   let component: CardsListComponent;
   let fixture: ComponentFixture<CardsListComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     const storage = new Storage();
-    storage.create();
-    storage.clear();
+    await storage.create();
+    await storage.clear();
     TestBed.configureTestingModule({
       declarations: [CardsListComponent],
       imports: [IonicModule.forRoot()],
@@ -87,18 +87,18 @@ describe('CardList abstract class', () => {
     fixture = TestBed.createComponent(CardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  }));
+  });
 
   it('should add new items on scroll', () => {
-    expect(component).toBeTruthy();
     expect(component.items.length).toEqual(5);
+    jasmine.clock().install();
     const mockEvent = jasmine.createSpyObj('', [], {
       target: jasmine.createSpyObj('', ['complete']),
     });
     component.onIonInfinite(mockEvent);
-    setTimeout(() => {
-      expect(mockEvent.target.complete).toHaveBeenCalled();
-      expect(component.items.length).toEqual(10);
-    }, 500);
+    jasmine.clock().tick(500);
+    expect(mockEvent.target.complete).toHaveBeenCalled();
+    expect(component.items.length).toEqual(10);
+    jasmine.clock().uninstall();
   });
 });

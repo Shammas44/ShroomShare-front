@@ -25,15 +25,22 @@ export type BaseFilter = {
 };
 
 export enum storageKeys {
-  auth = 'auth',
-  species = 'species',
+  // filters-modal-mushrooms
   filterModalEnd = 'filters-modal-end',
   filterModalStart = 'filters-modal-start',
   filterModalRadius = 'filters-modal-radius',
   filterModalSpecies = 'filters-modal-species',
-  filterModalMyMushrooms = 'filters-modal-my-mushrooms',
   filterModalUsages = 'filters-modal-usages',
   filterModalUsers = 'filters-modal-users',
+  // filters-modal-my-mushrooms
+  filterModalMyEnd = 'filters-modal-end',
+  filterModalMyStart = 'filters-modal-start',
+  filterModalMySpecies = 'filters-modal-species',
+  filterModalMyUsages = 'filters-modal-usages',
+  // others
+  auth = 'auth',
+  species = 'species',
+  filterModalMyMushrooms = 'filters-modal-my-mushrooms',
   getMushroomsRequestParams = 'getMushrooms-request-params',
   getSpeciesRequestParams = 'getSpecies-request-params',
 }

@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { PickerComponent } from './picker/picker.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { FiltersModalComponent } from './filters-modal/filters-modal.component';
-import {CardModule} from '../cards/cards.module'
+import { CardModule } from '../cards/cards.module';
+import { FiltersModalMushroomComponent } from './filters-modal-mushroom/filters-modal-mushroom.component';
+import { FiltersModalMyMushroomComponent } from './filters-modal-my-mushroom/filters-modal-my-mushroom.component';
 
 @NgModule({
-  declarations: [PickerComponent, FiltersModalComponent],
-  exports: [PickerComponent, FiltersModalComponent],
-  imports: [CommonModule, IonicModule, FormsModule, CardModule  ],
+  declarations: [PickerComponent, FiltersModalMyMushroomComponent, FiltersModalMushroomComponent],
+  exports: [PickerComponent, FiltersModalMyMushroomComponent, FiltersModalMushroomComponent],
+  imports: [CommonModule, IonicModule, FormsModule, CardModule],
 })
 export class FiltersModule {}

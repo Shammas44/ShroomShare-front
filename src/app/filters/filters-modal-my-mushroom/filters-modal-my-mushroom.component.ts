@@ -9,25 +9,17 @@ import { PaginatedResponse } from '../../models/response';
 import { Specy, SpeciesFilter } from '../../models/species';
 import { PickerState } from '../../models/picker';
 import { Storage } from '@ionic/storage';
-import { StateParams } from './Filters-modal-state';
+import { StateParams } from '../Filters-modal-state';
 import { UsageMap, TmpState } from '../../models/filters';
 import { modalRole } from '../../models/modal';
-import { Modal } from './modal';
-
-const allFavorites = [
-  { username: 'John', id: '...', admin: false },
-  { username: 'Johnny', id: '...', admin: false },
-  { username: 'Eloise', id: '...', admin: false },
-] as User[];
-
-const defaultRadius = 1000;
+import { Modal } from '../modal';
 
 function getDefaultState(): PickerState {
   return {
     items: [],
     search: '',
     chips: new CustomMap(),
-    favorites: allFavorites,
+    favorites: [],
     currentPage: 1,
     lastPage: 2,
   };
@@ -49,32 +41,32 @@ prevYearDate.setFullYear(currentDate.getFullYear() - 1);
 const prevYearDateIso = prevYearDate.toISOString();
 
 const params: StateParams[] = [
-  { key: 'users', storageKey: storageKeys.filterModalUsers, defaultValue: getDefaultState },
-  { key: 'species', storageKey: storageKeys.filterModalSpecies, defaultValue: getDefaultState },
-  { key: 'usages', storageKey: storageKeys.filterModalUsages, defaultValue: getDefaultUsageState },
-  { key: 'start', storageKey: storageKeys.filterModalStart, defaultValue: () => prevYearDateIso },
-  { key: 'end', storageKey: storageKeys.filterModalEnd, defaultValue: () => currentDateIso },
+  { key: 'species', storageKey: storageKeys.filterModalMySpecies, defaultValue: getDefaultState },
+  {
+    key: 'usages',
+    storageKey: storageKeys.filterModalMyUsages,
+    defaultValue: getDefaultUsageState,
+  },
+  { key: 'start', storageKey: storageKeys.filterModalMyStart, defaultValue: () => prevYearDateIso },
+  { key: 'end', storageKey: storageKeys.filterModalMyEnd, defaultValue: () => currentDateIso },
 ];
 
 const tmpState: TmpState = {
-  users: null,
   species: null,
   usages: getDefaultUsageState(),
-  radius: defaultRadius,
   start: prevYearDateIso,
   end: currentDateIso,
 };
 
 @Component({
-  selector: 'app-filters-modal',
-  templateUrl: './filters-modal.component.html',
-  styleUrls: ['./filters-modal.component.scss'],
+  selector: 'app-filters-modal-my-mushroom',
+  templateUrl: '../filters-modal.component.html',
+  styleUrls: ['../filters-modal.component.scss'],
 })
-export class FiltersModalComponent extends Modal implements OnInit {
+export class FiltersModalMyMushroomComponent extends Modal implements OnInit {
   getUsers: (option: UserFilter) => Observable<PaginatedResponse<User>>;
   getSpecies: (option: SpeciesFilter) => Observable<PaginatedResponse<Specy>>;
-  allFavorites = allFavorites;
-  // @Input() filterStorageKey: string = 'filters-modal';
+  allFavorites = [];
   @Output() filter = new EventEmitter<FilterForm>();
 
   constructor(

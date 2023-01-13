@@ -9,9 +9,9 @@ import { CardList } from '../../cards/cards-list/cards-list';
 import { storageKeys } from '../../models/standard';
 import { ModalController } from '@ionic/angular';
 import { Usage } from '../../models/usages';
-import { FiltersModalComponent } from '../../filters/filters-modal/filters-modal.component';
 import { modalRole } from '../../models/modal';
 import { Storage } from '@ionic/storage';
+import { FiltersModalMushroomComponent } from 'src/app/filters/filters-modal-mushroom/filters-modal-mushroom.component';
 
 const currentDate = new Date();
 const previousYearDate = new Date();
@@ -39,7 +39,7 @@ export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
 
   async openModal() {
     const modal = await this.modalCtrl.create({
-      component: FiltersModalComponent,
+      component: FiltersModalMushroomComponent,
     });
     modal.present();
     const { data, role } = await modal.onWillDismiss();

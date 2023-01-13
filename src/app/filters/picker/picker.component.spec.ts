@@ -10,7 +10,12 @@ function createUser(numberOfUsers: number): User[] {
   const users = [];
   for (let i = 0; i < numberOfUsers; i++) {
     const key = timestamp + 1;
-    users.push({ id: key.toString(), username: `user${key}`, admin: false, email: `user${key}@gmail.com` });
+    users.push({
+      id: key.toString(),
+      username: `user${key}`,
+      admin: false,
+      email: `user${key}@gmail.com`,
+    });
   }
   return users;
 }
@@ -18,7 +23,7 @@ const getUsers$ = (): Observable<PaginatedResponse<User>> => {
   return of({
     pageSize: 5,
     currentPage: 1,
-    lastPage: 1,
+    lastPage: 2,
     message: 'succes',
     items: createUser(5),
   });
@@ -63,7 +68,6 @@ describe('PickerComponent', () => {
   it('onCheck favorite', () => {
     const index = 0;
     const user = component.state.items[index];
-    // console.log(component.state.items)
     const favorite = component.state.favorites[index];
     const checkUserEvent = new CustomEvent('check', { detail: { checked: true, value: user } });
     const checkFavoriteEvent = new CustomEvent('check', {
@@ -79,5 +83,24 @@ describe('PickerComponent', () => {
     component.onChipClick(favoriteUsername);
     expect(component.state.chips.size).toEqual(0);
     expect(component.state.favorites[index].checked).toEqual(false);
+  });
+
+  it('reset items', () => {
+    const event = new CustomEvent('search', { detail: { value: '' } });
+    component.onInputChange(event);
+    expect(component.state.favorites.length).toEqual(3);
+    expect(component.state.items.length).toEqual(0);
+  });
+
+  it('onIonInfinite', () => {
+    const mockEvent = jasmine.createSpyObj('', [], {
+      target: jasmine.createSpyObj('', ['complete']),
+    });
+    jasmine.clock().install();
+    component.onIonInfinite(mockEvent);
+    jasmine.clock().tick(500);
+    expect(mockEvent.target.complete).toHaveBeenCalled();
+    expect(component.state.items.length).toEqual(10);
+    jasmine.clock().uninstall();
   });
 });

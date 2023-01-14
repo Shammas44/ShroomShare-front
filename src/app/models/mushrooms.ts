@@ -7,7 +7,7 @@ import { Usage } from './usages';
 
 export type Location = {
   type: 'Point';
-  coordinates: [Number, Number];
+  coordinates: [number, number];
 };
 
 export type Mushroom = {

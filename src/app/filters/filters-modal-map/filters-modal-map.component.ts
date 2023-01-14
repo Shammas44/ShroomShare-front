@@ -16,6 +16,7 @@ import {
   getDefaultUsageState,
   getDate,
 } from '../../utils/modal-utility-functions';
+import { PickerCityState } from 'src/app/models/picker';
 
 const allFavorites = [
   { username: 'John', id: '...', admin: false },
@@ -25,18 +26,19 @@ const allFavorites = [
 
 const defaultRadius = 1000;
 const defaultState = () => getDefaultState(allFavorites);
-const dates = getDate();
+const defaultCity = (): PickerCityState => {
+  return { search: '', items: [] };
+};
+const d = getDate();
 
 const params: StateParams[] = [
   { key: 'users', storageKey: storageKeys.filterModalUsers, defaultValue: defaultState },
   { key: 'species', storageKey: storageKeys.filterModalSpecies, defaultValue: defaultState },
   { key: 'usages', storageKey: storageKeys.filterModalUsages, defaultValue: getDefaultUsageState },
-  {
-    key: 'start',
-    storageKey: storageKeys.filterModalStart,
-    defaultValue: () => dates.prevYearDateIso,
-  },
-  { key: 'end', storageKey: storageKeys.filterModalEnd, defaultValue: () => dates.currentDateIso },
+  { key: 'start', storageKey: storageKeys.filterModalStart, defaultValue: () => d.prevYearDateIso },
+  { key: 'end', storageKey: storageKeys.filterModalEnd, defaultValue: () => d.currentDateIso },
+  { key: 'radius', storageKey: storageKeys.filterModalRadius, defaultValue: () => defaultRadius },
+  { key: 'city', storageKey: storageKeys.filterModalCity, defaultValue: defaultCity },
 ];
 
 const tmpState: TmpState = {
@@ -44,16 +46,17 @@ const tmpState: TmpState = {
   species: null,
   usages: getDefaultUsageState(),
   radius: defaultRadius,
-  start: dates.prevYearDateIso,
-  end: dates.currentDateIso,
+  start: d.prevYearDateIso,
+  end: d.currentDateIso,
+  city: defaultCity(),
 };
 
 @Component({
-  selector: 'app-filters-modal-mushroom',
+  selector: 'app-filters-modal-map',
   templateUrl: '../filters-modal.component.html',
   styleUrls: ['../filters-modal.component.scss'],
 })
-export class FiltersModalMushroomComponent extends Modal implements OnInit {
+export class FiltersModalMapComponent extends Modal implements OnInit {
   getUsers: (option: UserFilter) => Observable<PaginatedResponse<User>>;
   getSpecies: (option: SpeciesFilter) => Observable<PaginatedResponse<Specy>>;
   allFavorites = allFavorites;

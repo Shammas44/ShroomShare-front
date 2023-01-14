@@ -1,7 +1,15 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  ViewChild,
+  AfterViewInit,
+} from '@angular/core';
+import { InfiniteScrollCustomEvent, IonAccordionGroup } from '@ionic/angular';
 import { findIndexByProperty, findByProperty } from '../../utils/utility-functions';
-import { Observable, map, filter } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { PaginatedResponse } from '../../models/response';
 import { ChoosenItem, BaseFilter, CustomMap } from '../../models/standard';
 import { PickerState } from '../../models/picker';
@@ -52,6 +60,8 @@ export class PickerComponent implements OnInit {
    */
   @Output() choosenItem = new EventEmitter<PickerState>();
 
+  @ViewChild('accordionGroup', { static: true }) accordionGroup!: IonAccordionGroup;
+
   constructor() {}
 
   ngOnInit(): void {
@@ -99,7 +109,7 @@ export class PickerComponent implements OnInit {
     );
   }
 
-  private setItems() {
+  private setItems(callback?: Function) {
     const searchableKey = this.itemKeys.searchable;
     const option = { search: this.state.search, pageSize: this.pageSize };
     this.getItem(option).subscribe({
@@ -114,6 +124,7 @@ export class PickerComponent implements OnInit {
           if (!favoriteItem) this.state.items.push(item);
         }
         this.state.lastPage = res.lastPage;
+        if (callback) callback();
       },
       error: (err) => {
         console.log({ err });
@@ -141,24 +152,36 @@ export class PickerComponent implements OnInit {
   }
 
   onInputChange(e: Event) {
+    const accordionValues: string[] = [];
     const event = e as CustomEvent;
     const search: string = event.detail.value;
     const lowerCaseSearch = search.toLowerCase();
     this.state.search = lowerCaseSearch;
     if (this.useFavorite) this.resetFavorites();
     this.resetItems();
-    if (search === '') return;
-    this.setItems();
-
-    const filtering = (item: ChoosenItem) => {
-      const lowerCaseKey = item[this.itemKeys.searchable].toLowerCase();
-      if (lowerCaseKey.startsWith(lowerCaseSearch)) return item;
+    if (search === '') {
+      if (this.accordionGroup) this.accordionGroup.value = [];
       return;
-    };
+    }
 
-    this.state.items = this.state.items.filter(filtering);
-    if (!this.useFavorite) return;
-    this.state.favorites = this.state.favorites.filter(filtering);
+    const callback = () => {
+      const filtering = (item: ChoosenItem) => {
+        const lowerCaseKey = item[this.itemKeys.searchable].toLowerCase();
+        if (lowerCaseKey.startsWith(lowerCaseSearch)) return item;
+        return;
+      };
+
+      this.state.items = this.state.items.filter(filtering);
+      if (this.state.items.length > 0) accordionValues.push('second');
+      if (!this.useFavorite) {
+        this.accordionGroup.value = accordionValues;
+        return;
+      }
+      this.state.favorites = this.state.favorites.filter(filtering);
+      if (this.state.favorites.length > 0) accordionValues.push('first');
+      this.accordionGroup.value = accordionValues;
+    };
+    this.setItems(callback);
   }
 
   onCheck(e: Event) {

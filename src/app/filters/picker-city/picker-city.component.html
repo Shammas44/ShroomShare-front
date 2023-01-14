@@ -1,0 +1,21 @@
+<ion-searchbar (ionChange)="onInputChange($event)" [value]="state.search" placeholder="Nom de ville"></ion-searchbar>
+
+<ion-accordion-group #accordionGroup>
+  <!-- All items -->
+  <ion-accordion value="first">
+    <ion-item slot="header" color="light">
+      <ion-label>Villes</ion-label>
+    </ion-item>
+    <div class="ion-padding users__content" slot="content">
+      <ion-list>
+        <ion-radio-group>
+          <ion-item *ngFor="let item of state.items">
+            <ion-radio slot="start" (ionFocus)="onCheck(item)"  [value]="item"> </ion-radio>
+            <ion-label>{{item.display_name}}</ion-label>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+    </div>
+  </ion-accordion>
+
+</ion-accordion-group>

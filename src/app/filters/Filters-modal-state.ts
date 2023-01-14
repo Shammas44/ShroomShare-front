@@ -1,18 +1,18 @@
-import { Observable, from  } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { storageKeys } from '../models/standard';
-import { PickerState } from 'src/app/models/picker';
+import { PickerCityState, PickerState } from 'src/app/models/picker';
 import { UsageMap } from 'src/app/models/filters';
 
 export type StateParams = {
-  key: 'users' | 'species' | 'usages' | 'start' | 'end' | 'radius';
+  key: 'users' | 'species' | 'usages' | 'start' | 'end' | 'radius' | 'city';
   storageKey: storageKeys;
   defaultValue: () => unknown;
 };
 
 export class FiltersModalState {
-
   users?: Observable<PickerState>;
+  city?: Observable<PickerCityState>;
   species?: Observable<PickerState>;
   usages?: Observable<UsageMap>;
   radius?: Observable<number>;
@@ -25,9 +25,7 @@ export class FiltersModalState {
   }
 
   setProperty<T>(key: storageKeys, getDefaultState: () => Observable<T> | T) {
-    return from(
-      this.storage.get(key).then((value) => value || getDefaultState())
-    );
+    return from(this.storage.get(key).then((value) => value || getDefaultState()));
   }
   getKeys(): string[] {
     const noneReturnableKeys = ['storage'];

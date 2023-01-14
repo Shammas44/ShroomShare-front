@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { FiltersModalMyMushroomComponent } from './filters-modal-my-mushroom.component';
+import { PickerCityComponent } from './picker-city.component';
 
-describe('FiltersModalMyMushroomComponent', () => {
-  let component: FiltersModalMyMushroomComponent;
-  let fixture: ComponentFixture<FiltersModalMyMushroomComponent>;
+describe('PickerCityComponent', () => {
+  let component: PickerCityComponent;
+  let fixture: ComponentFixture<PickerCityComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ FiltersModalMyMushroomComponent ],
+      declarations: [ PickerCityComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(FiltersModalMyMushroomComponent);
+    fixture = TestBed.createComponent(PickerCityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

@@ -1,44 +1,23 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Usage } from 'src/app/models/usages';
-import { CustomMap, FilterForm, storageKeys } from '../../models/standard';
+import { FilterForm, storageKeys } from '../../models/standard';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 import { Observable } from 'rxjs';
 import { User, UserFilter } from '../../models/users';
 import { PaginatedResponse } from '../../models/response';
 import { Specy, SpeciesFilter } from '../../models/species';
-import { PickerState } from '../../models/picker';
 import { Storage } from '@ionic/storage';
 import { StateParams } from '../Filters-modal-state';
-import { UsageMap, TmpState } from '../../models/filters';
+import { TmpState } from '../../models/filters';
 import { modalRole } from '../../models/modal';
 import { Modal } from '../modal';
+import {
+  getDefaultState,
+  getDefaultUsageState,
+  getDate,
+} from '../../utils/modal-utility-functions';
 
-function getDefaultState(): PickerState {
-  return {
-    items: [],
-    search: '',
-    chips: new CustomMap(),
-    favorites: [],
-    currentPage: 1,
-    lastPage: 2,
-  };
-}
-
-function getDefaultUsageState(): UsageMap {
-  const map = new Map();
-  Object.entries(Usage).forEach((values) => {
-    const [key, value] = [values[0], values[1]];
-    map.set(value, { name: value, checked: false, value: key });
-  });
-  return map;
-}
-
-const currentDateIso = new Date().toISOString();
-const currentDate = new Date();
-const prevYearDate = new Date();
-prevYearDate.setFullYear(currentDate.getFullYear() - 1);
-const prevYearDateIso = prevYearDate.toISOString();
+const dates = getDate();
 
 const params: StateParams[] = [
   { key: 'species', storageKey: storageKeys.filterModalMySpecies, defaultValue: getDefaultState },
@@ -47,15 +26,23 @@ const params: StateParams[] = [
     storageKey: storageKeys.filterModalMyUsages,
     defaultValue: getDefaultUsageState,
   },
-  { key: 'start', storageKey: storageKeys.filterModalMyStart, defaultValue: () => prevYearDateIso },
-  { key: 'end', storageKey: storageKeys.filterModalMyEnd, defaultValue: () => currentDateIso },
+  {
+    key: 'start',
+    storageKey: storageKeys.filterModalMyStart,
+    defaultValue: () => dates.prevYearDateIso,
+  },
+  {
+    key: 'end',
+    storageKey: storageKeys.filterModalMyEnd,
+    defaultValue: () => dates.currentDateIso,
+  },
 ];
 
 const tmpState: TmpState = {
   species: null,
   usages: getDefaultUsageState(),
-  start: prevYearDateIso,
-  end: currentDateIso,
+  start: dates.prevYearDateIso,
+  end: dates.currentDateIso,
 };
 
 @Component({

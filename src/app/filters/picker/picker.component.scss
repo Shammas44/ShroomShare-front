@@ -13,15 +13,20 @@
 //   overflow-y: scroll;
 // }
 
- .favorites__list {
+.favorites__list {
   overflow: scroll;
   height: 100%;
-  max-height:20vh;
+  max-height: 20vh;
 }
 
-.users__content  {
+.users__content {
   overflow: scroll;
   height: 100%;
-  max-height:20vh;
+  max-height: 20vh;
 }
 
+label {
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

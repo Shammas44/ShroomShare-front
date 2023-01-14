@@ -32,6 +32,7 @@ export enum storageKeys {
   filterModalSpecies = 'filters-modal-species',
   filterModalUsages = 'filters-modal-usages',
   filterModalUsers = 'filters-modal-users',
+  filterModalCity = 'filters-modal-city',
   // filters-modal-my-mushrooms
   filterModalMyEnd = 'filters-modal-end',
   filterModalMyStart = 'filters-modal-start',
@@ -42,6 +43,7 @@ export enum storageKeys {
   species = 'species',
   filterModalMyMushrooms = 'filters-modal-my-mushrooms',
   getMushroomsRequestParams = 'getMushrooms-request-params',
+  getMapRequestParams = 'getMap-request-params',
   getSpeciesRequestParams = 'getSpecies-request-params',
 }
 

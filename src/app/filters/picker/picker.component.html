@@ -5,7 +5,7 @@
   <ion-icon name="close" (click)="onChipClick(user.key)"></ion-icon>
 </ion-chip>
 
-<ion-accordion-group>
+<ion-accordion-group #accordionGroup [multiple]="true">
   <!-- Favorites items -->
   <ion-accordion value="first" *ngIf="useFavorite">
     <ion-item slot="header" color="light">
@@ -20,7 +20,7 @@
     </ion-list>
   </ion-accordion>
   <!-- All items -->
-  <ion-accordion>
+  <ion-accordion value="second">
     <ion-item slot="header" color="light">
       <ion-label>Tout</ion-label>
     </ion-item>

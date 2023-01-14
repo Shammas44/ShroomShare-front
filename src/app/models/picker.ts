@@ -26,3 +26,21 @@ export type PickerState = {
    */
   lastPage: number;
 };
+
+export type Coordinates = {
+  lat: number;
+  lon: number;
+};
+
+export type PickerCityState = {
+  search: string;
+  items: City[];
+  coordinates?: Coordinates;
+};
+
+export type City = {
+  lat: string;
+  lon: string;
+  display_name: string;
+  icon: string;
+};

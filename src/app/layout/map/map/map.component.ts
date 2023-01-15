@@ -1,6 +1,8 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core';
 import * as L from 'leaflet';
-import { Marker } from '../Marker';
+import { MushroomWithPic } from 'src/app/models/mushrooms';
+import { MarkerService } from 'src/app/utils/marker.service';
+import { FeatureGroup } from '../FeatureGroup';
 
 const position = { lat: 46.7785, long: 6.6412 };
 
@@ -10,8 +12,10 @@ const position = { lat: 46.7785, long: 6.6412 };
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit, OnDestroy {
+  @Output() layer$: EventEmitter<L.FeatureGroup<any>> = new EventEmitter<L.FeatureGroup<any>>();
   @Output() map$: EventEmitter<L.Map> = new EventEmitter<L.Map>();
   @Output() zoom$: EventEmitter<number> = new EventEmitter<number>();
+
   @Input() options: L.MapOptions = {
     layers: [
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -28,8 +32,9 @@ export class MapComponent implements OnInit, OnDestroy {
 
   public map!: L.Map;
   public zoom: number = 18;
+  mushroom: MushroomWithPic | null = null;
 
-  constructor() {}
+  constructor(private marker: MarkerService) {}
 
   ngOnInit() {}
 
@@ -39,10 +44,24 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   onMapReady(map: L.Map) {
-    console.log('ready');
     setTimeout(() => {
       map.invalidateSize();
       this.map = map;
+
+      const setMushroom = (event: any) => {
+        if (event.layer.mushroom) this.mushroom = event.layer.mushroom;
+      };
+
+      const unsetMushroom = (event: any) => {
+        if (!event.layer?.mushroom) this.mushroom = null;
+      };
+
+      this.map.on('click', unsetMushroom);
+      const markerLayer = new FeatureGroup(this.mushroom);
+      markerLayer.addTo(this.map);
+      // const markerLayer = L.featureGroup().addTo(this.map);
+      markerLayer.on('click', setMushroom);
+      this.layer$.emit(markerLayer);
       this.map$.emit(map);
       this.zoom = map.getZoom();
       this.zoom$.emit(this.zoom);

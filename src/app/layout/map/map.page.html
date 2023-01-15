@@ -1,15 +1,14 @@
-<ion-content>
+<ion-content class="wrapper">
   <div class="loading" *ngIf="showLoading">
     <ion-progress-bar type="indeterminate"></ion-progress-bar>
     <p>Chargement de la carte en cours</p>
   </div>
 
-  <div>
-    <h2>Map</h2>
+  <div class="wrapper__button">
     <ion-button (click)="openModal()">
       <ion-icon name="filter-circle-outline"></ion-icon>
     </ion-button>
   </div>
 
-  <map (map$)="receiveMap($event)" (zoom$)="receiveZoom($event)" id='main-map'></map>
+  <map (map$)="receiveMap($event)" (layer$)="receiveLayer($event)" (zoom$)="receiveZoom($event)" id='main-map'></map>
 </ion-content>

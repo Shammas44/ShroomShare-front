@@ -7,6 +7,7 @@ import { MapPageRoutingModule } from './map-routing.module';
 import { MapPage } from './map.page';
 import { MapComponent } from './map/map.component';
 import { FiltersModule } from 'src/app/filters/filters.module';
+import { CardModule } from 'src/app/cards/cards.module';
 
 @NgModule({
   declarations: [MapPage, MapComponent],
@@ -17,6 +18,7 @@ import { FiltersModule } from 'src/app/filters/filters.module';
     MapPageRoutingModule,
     LeafletModule,
     FiltersModule,
+    CardModule
   ],
 })
 export class MapPageModule {}

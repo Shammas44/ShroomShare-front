@@ -18,12 +18,12 @@ export class MarkerService {
     return this.api.getMushrooms$(filters) as Observable<PaginatedResponse<MushroomWithPic>>;
   }
 
-  setCircle(position: Coordinates, radius: number, map: L.Map) {
+  setCircle(position: Coordinates, radius: number, layer: L.FeatureGroup) {
     const color = '#512A18';
-    L.circleMarker([position.lat, position.lon], { radius, fillColor: color, color }).addTo(map);
+    L.circle([position.lat, position.lon], { radius, fillColor: color, color }).addTo(layer);
   }
 
-  fetchItems(params: MushroomsFilter, map: L.Map) {
+  fetchItems(params: MushroomsFilter, layer: L.FeatureGroup) {
     const defaultParams = {
       showPictures: true,
       currentPage: 1,
@@ -38,8 +38,8 @@ export class MarkerService {
             { icon: defaultIcon },
             item
           );
-          console.log({ marker, map });
-          marker.addTo(map);
+          console.log({ marker, map: layer });
+          marker.addTo(layer);
         }
       },
       error: (err: any) => {

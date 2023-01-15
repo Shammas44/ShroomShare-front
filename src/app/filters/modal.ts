@@ -4,10 +4,12 @@ import { Observable } from 'rxjs';
 import { User, UserFilter } from '../models/users';
 import { PaginatedResponse } from '../models/response';
 import { Specy, SpeciesFilter } from '../models/species';
-import { PickerState } from '../models/picker';
+import { PickerCityState, PickerState } from '../models/picker';
 import { Storage } from '@ionic/storage';
 import { FiltersModalState, StateParams } from './Filters-modal-state';
 import { UsageMap, TmpState } from '../models/filters';
+import { RangeCustomEvent } from '@ionic/angular';
+import { RangeValue } from '@ionic/core';
 
 const currentDate = new Date();
 const previousYearDate = new Date();
@@ -26,6 +28,7 @@ export abstract class Modal {
   species: ChoosenItem[] = [];
   userKeys = { id: 'id', searchable: 'username' };
   specyKeys = { id: 'id', searchable: 'name' };
+  rangeValue!: RangeValue;
   abstract allFavorites: User[];
 
   constructor(protected storage: Storage, params: StateParams[], tmpState: TmpState) {
@@ -68,9 +71,15 @@ export abstract class Modal {
     this.tmpState.end = event.detail.value;
   }
 
+  onChoosenCity(state: PickerCityState) {
+    this.tmpState.city = state;
+    console.log({ state });
+  }
+
   onRadiusChange(e: Event) {
     const event = e as CustomEvent;
     this.tmpState.radius = event.detail.value;
+    this.rangeValue = event.detail.value;
   }
 
   onCheck(e: Event) {

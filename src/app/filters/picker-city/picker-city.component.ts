@@ -17,7 +17,7 @@ export class PickerCityComponent implements OnInit {
   /**
    * @description Emit an event containing the state of the component
    */
-  @Output() choosenItem = new EventEmitter<PickerCityState>();
+  @Output() choosenCity = new EventEmitter<PickerCityState>();
 
   @ViewChild('accordionGroup', { static: true }) accordionGroup!: IonAccordionGroup;
 
@@ -53,7 +53,7 @@ export class PickerCityComponent implements OnInit {
   }
 
   emitValues() {
-    this.choosenItem.emit(this.state);
+    this.choosenCity.emit(this.state);
   }
 
   onInputChange(e: Event) {
@@ -74,7 +74,8 @@ export class PickerCityComponent implements OnInit {
   }
 
   onCheck(city: City) {
-    const coordinates = { lat: city.lat, lon: city.lon };
+    const coordinates = { lat: +city.lat, lon: +city.lon };
+    this.state.coordinates = coordinates
     console.log({ coordinates });
     this.accordionGroup.value = [];
     this.emitValues();

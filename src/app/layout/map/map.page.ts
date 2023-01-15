@@ -7,11 +7,11 @@ import { MushroomsFilter } from 'src/app/models/mushrooms';
 import { Storage } from '@ionic/storage';
 import { FiltersModalMapComponent } from 'src/app/filters/filters-modal-map/filters-modal-map.component';
 import { setApiParams } from '../../utils/modal-utility-functions';
-import { Marker } from './Marker';
 import { MarkerService } from 'src/app/utils/marker.service';
 import * as L from 'leaflet';
-
-const position = { lat: 46.7785, long: 6.6412 };
+import {FeatureGroup} from './FeatureGroup'
+ 
+const position = { lat: 46.7785, lon: 6.6412 };
 
 @Component({
   selector: 'app-map',
@@ -22,24 +22,28 @@ export class MapPage {
   showLoading: boolean = true;
   pickerCityState = { items: [], search: '' };
   storageRequestParamKey: string = storageKeys.getMapRequestParams;
-  markers: Marker[] = [];
   filters: PaginatedFilters = {};
   private map!: L.Map;
+  private markerLayer!: FeatureGroup;
   private zoom!: number;
+
+  receiveLayer(layer: any) {
+    layer as FeatureGroup;
+    const radius = 30000;
+    this.showLoading = false;
+    this.markerLayer = layer;
+    const options: MushroomsFilter = {
+      radius: radius,
+      longitude: position.lon,
+      latitude: position.lat,
+    };
+    this.marker.fetchItems(options, this.markerLayer);
+    this.marker.setCircle({ lat: position.lat, lon: position.lon }, radius, this.markerLayer);
+  }
 
   receiveMap(map: any) {
     map as L.Map;
-    const radius = 100000;
-    console.log('Map received');
-    this.showLoading = false;
-    this.map = map as L.Map;
-    const options: MushroomsFilter = {
-      radius: radius,
-      longitude: position.long,
-      latitude: position.lat,
-    };
-    this.marker.fetchItems(options, this.map);
-    this.marker.setCircle({ lat: position.lat, lon: position.long }, radius / 1000, this.map);
+    this.map = map;
   }
 
   receiveZoom(zoom: any) {
@@ -59,12 +63,20 @@ export class MapPage {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === modalRole.confirm) {
-      console.log({ data });
       const params = this.fromModaResponseToApiParams(data);
-      this.markers = [];
       this.storage.set(this.storageRequestParamKey, params);
       this.filters = params;
-      this.marker.fetchItems(params, this.map);
+      params.latitude = params?.latitude ?? position.lat;
+      params.longitude = params?.longitude ?? position.lon;
+      params.radius = params?.radius ?? 1000;
+      this.markerLayer.clear();
+      this.marker.fetchItems(params, this.markerLayer);
+      this.marker.setCircle(
+        { lat: params.latitude, lon: params.longitude },
+        params.radius,
+        this.markerLayer
+      );
+      this.map.setView([params.latitude, params.longitude]);
     }
   }
 

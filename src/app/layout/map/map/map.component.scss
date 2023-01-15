@@ -4,3 +4,9 @@
     position: inherit;
 }
 
+.card {
+  z-index:1000;
+  position: absolute;
+  width: 100%;
+  bottom:0;
+}

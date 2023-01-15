@@ -14,7 +14,7 @@
   <ion-title *ngIf="states.city">
     <h3>Ville</h3>
   </ion-title>
-  <app-picker-city *ngIf="states.city | async as state" [state]="state"></app-picker-city>
+  <app-picker-city (choosenCity)="onChoosenCity($event)" *ngIf="states.city | async as state" [state]="state"></app-picker-city>
 
   <ion-title *ngIf="states.users">
     <h3>Utilisateurs</h3>
@@ -46,6 +46,7 @@
     <h3>Radius</h3>
   </ion-title>
 
+  <p *ngIf="states.radius | async as state">{{rangeValue || state || 1}} KM</p>
   <ion-range *ngIf="states.radius | async as state" (ionChange)="onRadiusChange($event)" [ticks]="true" [snaps]="true"
     [min]="1" [max]="100" [step]="1" value="{{state}}"></ion-range>
 

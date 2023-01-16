@@ -11,10 +11,10 @@
         <ion-card-subtitle>{{mushroom?.specy?.usage}}</ion-card-subtitle>
         <ion-card-subtitle>{{mushroom?.date}}</ion-card-subtitle>
       </ion-card-header>
-
       <div class="wrapper__buttons">
-        <ion-button fill="clear">
-          <ion-icon name="heart"></ion-icon>
+        <ion-button  (click)="addToFavorites(mushroom)"  fill="clear">
+          <ion-icon *ngIf="isfav;" name="heart"></ion-icon>
+          <ion-icon *ngIf="!isfav;" name="heart-outline"></ion-icon>
         </ion-button>
         <ion-button (click)="onToggleTextExpand()" fill="clear">
           <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>

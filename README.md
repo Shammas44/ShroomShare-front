@@ -44,8 +44,7 @@ Ce menu est constitué de 4 onglets : espèce, champignons, photographie et maps
 
 ### Espèce :
 
-C'est un mini wikipédia sur les différentes espèces qui sont possible de sélectionner lorsque vous créez un nouveau champignon. Chaque espèce a une description et vous pouvez directement 
-grâce au bouton "Liste des champignons" une liste des champignons créés par les utilisateurs de l'application.
+Ceci est une mini-encyclopédie des différentes espèces de champignons que vous pouvez sélectionner lorsque vous créez un nouveau champignon. Chacune des espèces est accompagnée d'une description détaillée. En utilisant le bouton "Liste des champignons", vous pouvez accéder à une liste des champignons créés par les utilisateurs de l'application.
 
 ### Champignons :
 
@@ -67,5 +66,4 @@ Vous pouvez directement à partir de l'appplication prendre en photo ce que vous
 
 ### Maps :
 
-Sur la maps, vous pouvez voir où les utilisateurs ont photographié des champignons. En cliquant dessus, vous pouvez voir la photo et la description du champignon. 
-Vous pouvez aussi filtrer ce que vous voulez voir avec pratiquement le même type de filtre que pour la page champignon à la seule différence qu'il y a un filtre ville.
+Sur la carte, vous pouvez voir les emplacements où les utilisateurs ont photographié des champignons. En cliquant sur un emplacement, vous pouvez voir la photo et la description du champignon. Vous pouvez également utiliser des filtres pour afficher les champignons que vous souhaitez voir, avec pratiquement les mêmes options de filtrage que sur la page des champignons, à la seule différence qu'il y a un filtre de ville supplémentaire.

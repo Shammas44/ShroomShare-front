@@ -44,31 +44,22 @@ export class ChatPage implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log('submit message');
-
-    //this.lastMessage.timestamp = Date.now();
     const ok = this.updateCurrentUser();
     if (ok) {
-      // const lastMessageToStore = {
-      //   value: this.lastMessage.value,
-      //   timestamp: this.lastMessage.timestamp,
-      //   username: this.currentUserName,
-      //   userId: this.currentUserName,
-      // };
-      // this.messages.push(lastMessageToStore);
-
-      // this.lastMessage.value = '';
       this.sendMessage(this.lastMessage.value);
+      this.lastMessage.value = '';
     }
-    //Appeler le service addMessage
   }
 
   onLanguageChange(form: NgForm) {
-    console.log('change language');
+    console.log(`change language for: ${this.language}`);
     const ok = this.updateCurrentUser();
     if (ok) {
       this.socket = new WebSocket(
         `ws://127.0.0.1:3000/?language=${this.language}&id=${this.currentUserId}`
       );
+      this.initChat();
+      this.messages = [];
     }
   }
 
@@ -96,9 +87,7 @@ export class ChatPage implements OnInit {
 
   initChat() {
     // Ouverture de la connexion
-    this.socket.addEventListener('open', (event) => {
-      this.sendMessage('Opening of connexion');
-    });
+    this.socket.addEventListener('open', (event) => {});
     // Ecoute des nouveaux messages du serveur
     this.socket.addEventListener('message', (event) => {
       console.log('Voici un message du serveur', event.data);

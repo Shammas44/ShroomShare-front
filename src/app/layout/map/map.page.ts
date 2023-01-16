@@ -3,14 +3,13 @@ import { storageKeys } from 'src/app/models/standard';
 import { ModalController } from '@ionic/angular';
 import { modalRole } from 'src/app/models/modal';
 import { PaginatedFilters, TmpState } from 'src/app/models/filters';
-import { MushroomsFilter } from 'src/app/models/mushrooms';
+import { MushroomsFilter, MushroomWithPic } from 'src/app/models/mushrooms';
 import { Storage } from '@ionic/storage';
 import { FiltersModalMapComponent } from 'src/app/filters/filters-modal-map/filters-modal-map.component';
 import { setApiParams } from '../../utils/modal-utility-functions';
 import { MarkerService } from 'src/app/utils/marker.service';
 import * as L from 'leaflet';
-import {FeatureGroup} from './FeatureGroup'
- 
+
 const position = { lat: 46.7785, lon: 6.6412 };
 
 @Component({
@@ -22,13 +21,14 @@ export class MapPage {
   showLoading: boolean = true;
   pickerCityState = { items: [], search: '' };
   storageRequestParamKey: string = storageKeys.getMapRequestParams;
+  mushroom: MushroomWithPic | null = null;
   filters: PaginatedFilters = {};
   private map!: L.Map;
-  private markerLayer!: FeatureGroup;
+  private markerLayer!: L.FeatureGroup;
   private zoom!: number;
 
   receiveLayer(layer: any) {
-    layer as FeatureGroup;
+    layer as L.FeatureGroup;
     const radius = 30000;
     this.showLoading = false;
     this.markerLayer = layer;
@@ -69,7 +69,7 @@ export class MapPage {
       params.latitude = params?.latitude ?? position.lat;
       params.longitude = params?.longitude ?? position.lon;
       params.radius = params?.radius ?? 1000;
-      this.markerLayer.clear();
+      this.markerLayer.clearLayers();
       this.marker.fetchItems(params, this.markerLayer);
       this.marker.setCircle(
         { lat: params.latitude, lon: params.longitude },
@@ -77,6 +77,7 @@ export class MapPage {
         this.markerLayer
       );
       this.map.setView([params.latitude, params.longitude]);
+      this.mushroom = null;
     }
   }
 

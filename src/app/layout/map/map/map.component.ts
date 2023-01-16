@@ -1,8 +1,7 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, Input } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, NgZone } from '@angular/core';
 import * as L from 'leaflet';
 import { MushroomWithPic } from 'src/app/models/mushrooms';
 import { MarkerService } from 'src/app/utils/marker.service';
-import { FeatureGroup } from '../FeatureGroup';
 
 const position = { lat: 46.7785, long: 6.6412 };
 
@@ -15,6 +14,8 @@ export class MapComponent implements OnInit, OnDestroy {
   @Output() layer$: EventEmitter<L.FeatureGroup<any>> = new EventEmitter<L.FeatureGroup<any>>();
   @Output() map$: EventEmitter<L.Map> = new EventEmitter<L.Map>();
   @Output() zoom$: EventEmitter<number> = new EventEmitter<number>();
+  @Output() mushroomClicked: EventEmitter<MushroomWithPic | null> =
+    new EventEmitter<MushroomWithPic | null>();
 
   @Input() options: L.MapOptions = {
     layers: [
@@ -34,7 +35,7 @@ export class MapComponent implements OnInit, OnDestroy {
   public zoom: number = 18;
   mushroom: MushroomWithPic | null = null;
 
-  constructor(private marker: MarkerService) {}
+  constructor(private marker: MarkerService, private ngzone: NgZone) {}
 
   ngOnInit() {}
 
@@ -49,17 +50,20 @@ export class MapComponent implements OnInit, OnDestroy {
       this.map = map;
 
       const setMushroom = (event: any) => {
-        if (event.layer.mushroom) this.mushroom = event.layer.mushroom;
+        this.ngzone.run(() => {
+          if (event.layer.mushroom) this.mushroomClicked.emit(event.layer.mushroom);
+        });
       };
 
       const unsetMushroom = (event: any) => {
-        if (!event.layer?.mushroom) this.mushroom = null;
+        this.ngzone.run(() => {
+          if (!event.layer?.mushroom) this.mushroomClicked.emit(null);
+        });
       };
 
       this.map.on('click', unsetMushroom);
-      const markerLayer = new FeatureGroup(this.mushroom);
+      const markerLayer = new L.FeatureGroup();
       markerLayer.addTo(this.map);
-      // const markerLayer = L.featureGroup().addTo(this.map);
       markerLayer.on('click', setMushroom);
       this.layer$.emit(markerLayer);
       this.map$.emit(map);

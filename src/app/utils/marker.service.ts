@@ -38,7 +38,6 @@ export class MarkerService {
             { icon: defaultIcon },
             item
           );
-          console.log({ marker, map: layer });
           marker.addTo(layer);
         }
       },

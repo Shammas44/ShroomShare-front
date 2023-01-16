@@ -12,6 +12,7 @@ import { Coordinates } from '../models/picker';
   providedIn: 'root',
 })
 export class MarkerService {
+  user!: L.CircleMarker;
   constructor(private api: ShroomShareApiService) {}
 
   getItems$(filters: MushroomsFilter): Observable<PaginatedResponse<MushroomWithPic>> {
@@ -21,6 +22,24 @@ export class MarkerService {
   setCircle(position: Coordinates, radius: number, layer: L.FeatureGroup) {
     const color = '#512A18';
     L.circle([position.lat, position.lon], { radius, fillColor: color, color }).addTo(layer);
+  }
+
+  setUser(position: Coordinates, layer: L.FeatureGroup) {
+    const color = '#FFFFFF';
+    const radius = 10;
+    const fillColor = '#1D7CED';
+    const fillOpacity = 1;
+    const user = L.circleMarker([position.lat, position.lon], {
+      radius,
+      fillColor,
+      color,
+      fillOpacity,
+    }).addTo(layer);
+    this.user = user;
+  }
+
+  setUserPosition(latlng: L.LatLngExpression) {
+    if (this.user) this.user.setLatLng(latlng);
   }
 
   fetchItems(params: MushroomsFilter, layer: L.FeatureGroup) {

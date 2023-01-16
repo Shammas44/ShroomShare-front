@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, NgZone } from '@angular/core';
 import * as L from 'leaflet';
 import { MushroomWithPic } from 'src/app/models/mushrooms';
-import { MarkerService } from 'src/app/utils/marker.service';
 
 const position = { lat: 46.7785, long: 6.6412 };
 
@@ -35,7 +34,7 @@ export class MapComponent implements OnInit, OnDestroy {
   public zoom: number = 18;
   mushroom: MushroomWithPic | null = null;
 
-  constructor(private marker: MarkerService, private ngzone: NgZone) {}
+  constructor(private ngzone: NgZone) {}
 
   ngOnInit() {}
 

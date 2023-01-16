@@ -9,8 +9,23 @@ import { FiltersModalMapComponent } from 'src/app/filters/filters-modal-map/filt
 import { setApiParams } from '../../utils/modal-utility-functions';
 import { MarkerService } from 'src/app/utils/marker.service';
 import * as L from 'leaflet';
+import { Geolocation, Position } from '@capacitor/geolocation';
+import { Usage } from 'src/app/models/usages';
 
 const position = { lat: 46.7785, lon: 6.6412 };
+
+export type MapMushroomsFilter = PaginatedFilters & {
+  latitude: number;
+  longitude: number;
+  specyIds?: string;
+  userIds?: string;
+  showPictures?: boolean;
+  usage?: Usage;
+  from?: string;
+  to?: string;
+  radius: number;
+  usages?: string;
+};
 
 @Component({
   selector: 'app-map',
@@ -22,28 +37,71 @@ export class MapPage {
   pickerCityState = { items: [], search: '' };
   storageRequestParamKey: string = storageKeys.getMapRequestParams;
   mushroom: MushroomWithPic | null = null;
-  filters: PaginatedFilters = {};
+  filters: MapMushroomsFilter | null = null;
+  positionWatcherId!: string;
   private map!: L.Map;
   private markerLayer!: L.FeatureGroup;
   private zoom!: number;
 
+  ionViewDidEnter() {
+    const option: PositionOptions = {};
+    const callback = (position: Position | null) => {
+      const coordinates = position
+        ? {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }
+        : null;
+      if (coordinates) this.marker.setUserPosition(coordinates);
+    };
+    Geolocation.watchPosition(option, callback).then((id) => {
+      this.positionWatcherId = id;
+    });
+  }
+
+  ionViewDidLeave() {
+    Geolocation.clearWatch({ id: this.positionWatcherId });
+  }
+
   receiveLayer(layer: any) {
     layer as L.FeatureGroup;
-    const radius = 30000;
     this.showLoading = false;
     this.markerLayer = layer;
-    const options: MushroomsFilter = {
-      radius: radius,
-      longitude: position.lon,
-      latitude: position.lat,
+
+    const updateMap = (options: MapMushroomsFilter) => {
+      const coordinates = { lat: options.latitude, lon: options.longitude };
+      this.marker.fetchItems(options, this.markerLayer);
+      this.marker.setCircle(coordinates, options.radius, this.markerLayer);
+      this.marker.setUser(coordinates, this.markerLayer);
     };
-    this.marker.fetchItems(options, this.markerLayer);
-    this.marker.setCircle({ lat: position.lat, lon: position.lon }, radius, this.markerLayer);
+
+    this.storage
+      .get(storageKeys.getMapRequestParams)
+      .then((res) => {
+        this.filters = res;
+        if (this.filters === null) throw Error();
+        console.log({ filters: this.filters });
+        updateMap(this.filters);
+      })
+      .catch(() => {
+        console.log('error');
+        const options: MapMushroomsFilter = {
+          radius: 30000,
+          longitude: position.lon,
+          latitude: position.lat,
+        };
+        updateMap(options);
+      });
   }
 
   receiveMap(map: any) {
     map as L.Map;
     this.map = map;
+    const coordinates = {
+      lon: this.filters?.longitude || position.lon,
+      lat: this.filters?.latitude || position.lat,
+    };
+    this.map.setView([coordinates.lat, coordinates.lon]);
   }
 
   receiveZoom(zoom: any) {
@@ -63,7 +121,7 @@ export class MapPage {
     modal.present();
     const { data, role } = await modal.onWillDismiss();
     if (role === modalRole.confirm) {
-      const params = this.fromModaResponseToApiParams(data);
+      const params = this.fromModaResponseToApiParams(data) as MapMushroomsFilter;
       this.storage.set(this.storageRequestParamKey, params);
       this.filters = params;
       params.latitude = params?.latitude ?? position.lat;

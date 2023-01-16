@@ -9,6 +9,93 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
+// =====================================================================
+// Typography
+// =================================================================================
+
+@mixin font-style($color, $text-align){
+    color: $color;
+    text-align: $text-align;
+}
+
+// "Main titles" in figma
+@mixin font-main-title($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 3.6rem;
+    
+}
+
+// "H2" in figma
+@mixin font-h2($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 2.4rem;
+    
+}
+
+// "H3" in figma
+@mixin font-h3($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 1.6rem;
+    
+}
+
+// "paragraphes normaux" in figma
+@mixin font-paragraph($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 0.75rem;
+    line-height: 1.2rem;
+}
+
+// "BoutonText1" in figma (Bouton d'importance élevé. Exeple: déconnexion, supprimer, etc)
+@mixin font-button-text1($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 2.4rem;
+    
+}
+
+
+// "Label Inputs" in figma
+@mixin font-label-input($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 1.6rem;
+    line-height: 1.375rem;
+    font-weight: 400;
+    font-family: Inter;  
+}
+
+// "BoutonText2" in figma (Bouton d'importance moyenne. Exemple: modifier, etc)
+@mixin font-button-text2($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 1.5rem;
+    
+}
+
+// "Nom d'utilisateurs" in figma
+@mixin font-username($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 1.2rem;
+    
+}
+
+// "Mini-titre" in figma (exemple : Titre des filtres)
+@mixin font-mini-title($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 0.813rem;
+    line-height: 1.3rem;
+    
+}
+
+// "Supprimer compte" in figma
+@mixin font-delete-account($color, $text-align){
+    @include font-style($color, $text-align);
+    font-size: 0.7rem;
+    
+}
+
+// =====================================================================
+// Layers
+// =====================================================================
+
 @layer default,custom; 
 
 /* Core CSS required for Ionic components to work properly */

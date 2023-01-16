@@ -10,16 +10,15 @@ pour discuter par exemple des différents points de récoltes.
 
 ## Header 
 
-Dans le header, il y a le logo de l'application avec l'icône favoris, profil et chat.
+Dans le header, il y a le logo de l'application accompagné des icônes des favoris, du profil et de la messagerie.
 
 ### Favoris :
 
-Vous pouvez gérer les favoris comme bon vous semble. Il y a la possibilité de rechercher des utilisateurs pour les ajouter aux favoris. Vous pouvez voir
-votre liste de favoris et enlever ceux que vous ne voulez plus avoir.
+Vous pouvez gérer vos favoris à votre guiseison. Il est possible de rechercher des utilisateurs pour les ajouter à la liste. Vous pouvez consulter votre liste de favoris et supprimer ceux que vous ne souhaitez plus conserver.
 
 ### Profil :
 
-Vous pouvez atteindre vos données personnelles et vos champignons que vous avez créé. Vous pouvez aussi vous déconnectez et supprimez votre compte.
+Vous pouvez accéder à vos données personnelles et à vos champignons créés. Vous pouvez également vous déconnecter et supprimer votre compte.
 
   - Données personnelles :
 				
@@ -28,7 +27,7 @@ Vous pouvez atteindre vos données personnelles et vos champignons que vous avez
   - Mes champignons :
 				
     - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la photographie, 
-		l'espèce, la description et l'usage (comestible ou non-comestible). Vous pouvez filtrer les champignons avec : Espèce, Usage, Proximité et période de temps.
+		l'espèce, la description et l'usage (comestible ou non-comestible). Il est possible de filtrer les champignons selon : l'espèce, l'utilisation, la proximité et la       période de temps.
 
 ### Chat :
 

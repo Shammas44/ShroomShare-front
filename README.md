@@ -23,11 +23,11 @@ Vous pouvez atteindre vos données personnelles et vos champignons que vous avez
 
   - Données personnelles :
 				
-		- Vous pouvez modifier votre nom d'utilisateurs, votre e-mail et votre password.
+    - Vous pouvez modifier votre nom d'utilisateurs, votre e-mail et votre password.
 
-	- Mes champignons :
+  - Mes champignons :
 				
-		- Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la photographie, 
+    - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la photographie, 
 		l'espèce, la description et l'usage (comestible ou non-comestible). Vous pouvez filtrer les champignons avec : Espèce, Usage, Proximité et période de temps.
 
 ### Chat :
@@ -54,13 +54,13 @@ Vous pouvez voir une liste des champignons par défaut défini par l'application
 
   - Utilisateurs
 		
-	- Espèces
+  - Espèces
 	
-	- Usage (Comestible ou non-comestible)
+  - Usage (Comestible ou non-comestible)
 
-	- Proximité
+  - Proximité
 
-	- Par une période de temps
+  - Par une période de temps
 
 ### Photographie :
 

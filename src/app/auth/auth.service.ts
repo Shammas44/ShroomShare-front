@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { AuthResponse, AuthRequest } from '../models/auth';
 import { AddUserRequest, AddUserResponse, User, UserResponse } from '../models/users';
 import { environment } from 'src/environments/environment';
+import { StorageService } from './../localStorage/local-storage.service';
 
 // const API_URL = "https://shroom-share.onrender.com/api";
 const API_URL = environment.apiUrl;
@@ -19,9 +20,9 @@ const API_URL = environment.apiUrl;
 export class AuthService {
   #auth$: ReplaySubject<AuthResponse | undefined>;
 
-  constructor(private http: HttpClient, private storage: Storage) {
+  constructor(private http: HttpClient, private storage: StorageService) {
     this.#auth$ = new ReplaySubject(1);
-    this.storage.get('auth').then((auth) => {
+    this.storage.get<AuthResponse>('auth').subscribe((auth) => {
       // Emit the loaded value into the observable stream.
       this.#auth$.next(auth);
     });
@@ -62,7 +63,7 @@ export class AuthService {
   }
 
   private saveAuth$(auth: AuthResponse): Observable<void> {
-    return from(this.storage.set('auth', auth));
+    return this.storage.set('auth', auth);
   }
 
   logOut(): void {

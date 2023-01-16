@@ -7,14 +7,11 @@
 <ion-content>
  
   <ion-list [inset]="true">
-  <ion-item *ngIf="isfavorites"> 
-   <ion-item *ngFor="let favorite of favoriteslist "> 
+   <ion-item *ngFor="let favorite of favoriteslist$ | async "> 
   <ion-label>{{favorite.username}}</ion-label> 
-  <ion-button (click)="deleteFavorite('favorites', favorite.id )"  fill="clear">
-    <ion-icon name="heart"></ion-icon>
+  <ion-button (click)="deleteFavorite(favorite.id)" fill="clear">
+    <ion-icon  name="heart"></ion-icon>
   </ion-button>
-    </ion-item>
-    
   </ion-item>
     </ion-list>
 </ion-content>

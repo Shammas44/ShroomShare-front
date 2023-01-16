@@ -11,7 +11,10 @@ const position = { lat: 46.7785, long: 6.6412 };
 })
 export class MapComponent implements OnInit, OnDestroy {
   @Output() layer$: EventEmitter<L.FeatureGroup<any>> = new EventEmitter<L.FeatureGroup<any>>();
-  @Output() map$: EventEmitter<L.Map> = new EventEmitter<L.Map>();
+  @Output() map$: EventEmitter<{ map: L.Map; layer: L.FeatureGroup<any> }> = new EventEmitter<{
+    map: L.Map;
+    layer: L.FeatureGroup<any>;
+  }>();
   @Output() zoom$: EventEmitter<number> = new EventEmitter<number>();
   @Output() mushroomClicked: EventEmitter<MushroomWithPic | null> =
     new EventEmitter<MushroomWithPic | null>();
@@ -65,7 +68,7 @@ export class MapComponent implements OnInit, OnDestroy {
       markerLayer.addTo(this.map);
       markerLayer.on('click', setMushroom);
       this.layer$.emit(markerLayer);
-      this.map$.emit(map);
+      this.map$.emit({ map, layer: markerLayer });
       this.zoom = map.getZoom();
       this.zoom$.emit(this.zoom);
     }, 0);

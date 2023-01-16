@@ -10,8 +10,8 @@
     </ion-button>
   </div>
 
-  <map (map$)="receiveMap($event)" (mushroomClicked)="mushroom = $event" (layer$)="receiveLayer($event)"
-    (zoom$)="receiveZoom($event)" id='main-map'></map>
+  <map (map$)="receiveMap($event)" (mushroomClicked)="mushroom = $event" (zoom$)="receiveZoom($event)"
+    id='main-map'></map>
   <app-mushroom-card class="card" *ngIf="mushroom" [mushroom]="mushroom"></app-mushroom-card>
 
 </ion-content>

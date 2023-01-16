@@ -63,16 +63,21 @@ export class MapPage {
     Geolocation.clearWatch({ id: this.positionWatcherId });
   }
 
-  receiveLayer(layer: any) {
-    layer as L.FeatureGroup;
+  receiveMap(map: any) {
+    console.log({ map });
+    map.map as L.Map;
+    map.layer as L.FeatureGroup;
+    this.map = map.map;
+
     this.showLoading = false;
-    this.markerLayer = layer;
+    this.markerLayer = map.layer;
 
     const updateMap = (options: MapMushroomsFilter) => {
       const coordinates = { lat: options.latitude, lon: options.longitude };
       this.marker.fetchItems(options, this.markerLayer);
       this.marker.setCircle(coordinates, options.radius, this.markerLayer);
       this.marker.setUser(coordinates, this.markerLayer);
+      this.map.setView([coordinates.lat, coordinates.lon]);
     };
 
     this.storage
@@ -92,16 +97,6 @@ export class MapPage {
         };
         updateMap(options);
       });
-  }
-
-  receiveMap(map: any) {
-    map as L.Map;
-    this.map = map;
-    const coordinates = {
-      lon: this.filters?.longitude || position.lon,
-      lat: this.filters?.latitude || position.lat,
-    };
-    this.map.setView([coordinates.lat, coordinates.lon]);
   }
 
   receiveZoom(zoom: any) {

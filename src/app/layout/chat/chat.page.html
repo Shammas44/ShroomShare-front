@@ -5,7 +5,26 @@
 </ion-header>
 
 <ion-content>
-  <h1>Messages</h1>
+  <h1>Chat</h1>
+  <div class="language-selection-form">
+    <form #languageForm="ngForm" (change)="onLanguageChange(languageForm)">
+      <select [(ngModel)]="language">
+        <option value="fr" disabled selected>Langue du chat</option>
+        <option class="flag-option french" value="fr">
+          français
+        </option>
+        <option class="flag-option italian" value="it">
+          italiano
+        </option>
+        <option class="flag-option german" value="de">
+          deutsh
+        </option>
+        <option class="flag-option french" value="en">
+          english
+        </option>
+      </select>
+    </form>
+  </div>
   <ion-item>
     <div *ngFor="let message of messages; index as i;">
       <div *ngIf=" message.userId === currentUserId" class="message-right-align">
@@ -19,22 +38,6 @@
     </div>
     <br /><br />
   </ion-item>
-  <form #languageForm="ngForm" (change)="onLanguageChange(languageForm)">
-    <select [(ngModel)]="language">
-      <option class="flag-option french" value="fr">
-        french
-      </option>
-      <option class="flag-option italian" value="it">
-        italian
-      </option>
-      <option class="flag-option german" value="de">
-        german
-      </option>
-      <option class="flag-option french" value="en">
-        english
-      </option>
-    </select>
-  </form>
   <form #messageForm="ngForm" (submit)="onSubmit(messageForm)">
     <ion-list>
       <!-- Username input -->

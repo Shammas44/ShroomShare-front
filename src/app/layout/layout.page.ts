@@ -14,19 +14,19 @@ declare type PageTab = {
 })
 export class LayoutPage {
   tabs: PageTab[];
-  secondaryTabs: PageTab[]
+  secondaryTabs: PageTab[];
 
   constructor() {
     this.tabs = [
-      { title: 'Map', icon: 'earth', path: 'map' },
-      { title: 'Wiki', icon: 'book', path: 'wiki' },
-      { title: 'Mushrooms', icon: 'list', path: 'mushrooms' },
-      { title: 'Camera', icon: 'camera', path: 'camera' },
+      { title: 'Wiki', icon: 'assets/icon/globe.svg', path: 'wiki' },
+      { title: 'Mushrooms', icon: 'assets/icon/mushroom.svg', path: 'mushrooms' },
+      { title: 'Camera', icon: 'assets/icon/camera.svg', path: 'camera' },
+      { title: 'Map', icon: 'assets/icon/map.svg', path: 'map' },
     ];
     this.secondaryTabs = [
       { title: 'favorites', icon: 'heart', path: 'favorites' },
       { title: 'chat', icon: 'chatbox-ellipses', path: 'chat' },
       { title: 'profil', icon: 'person-circle-outline', path: 'profil' },
-    ]
+    ];
   }
 }

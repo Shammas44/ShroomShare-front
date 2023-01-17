@@ -25,16 +25,8 @@ const routes: Routes = [
           import('./mushrooms/mushrooms.module').then((m) => m.MushroomsPageModule),
       },
       {
-        path: 'message',
-        loadChildren: () => import('./message/message.module').then((m) => m.MessagePageModule),
-      },
-      {
         path: 'chat',
-        loadChildren: () => import('./message/message.module').then((m) => m.MessagePageModule),
-      },
-      {
-        path: 'favorites',
-        loadChildren: () => import('./message/message.module').then((m) => m.MessagePageModule),
+        loadChildren: () => import('./chat/chat.module').then((m) => m.MessagePageModule),
       },
       {
         path: 'profil',

@@ -95,6 +95,10 @@ export class ChatPage implements OnInit {
       console.log('Voici un message du serveur', event.data);
       this.handleServerMessage(JSON.parse(event.data));
     });
+    //Réouvre le socket au cas où l'utilisateur n'a rien fait pendant un moment et retourne sur le chat
+    addEventListener('close', (event) => {
+      this.initChat();
+    });
   }
 
   sendMessage(message: string) {
@@ -103,12 +107,14 @@ export class ChatPage implements OnInit {
 
   handleServerMessage(message: webSocketResponse) {
     console.log('message from server recieved to handle', message);
-    const newMessage = {
-      value: message.message,
-      timestamp: message.timestamp,
-      username: message.user.username,
-      userId: message.user.id,
-    };
-    this.messages.push(newMessage);
+    if (message.message !== undefined) {
+      const newMessage = {
+        value: message.message,
+        timestamp: message.timestamp,
+        username: message.user.username,
+        userId: message.user.id,
+      };
+      this.messages.push(newMessage);
+    }
   }
 }

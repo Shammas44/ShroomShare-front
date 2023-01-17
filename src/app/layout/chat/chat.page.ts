@@ -19,6 +19,7 @@ export class ChatPage implements OnInit {
   language: string;
   currentUserId: string;
   currentUserName: string;
+  socketServerUrl: string;
   socket: WebSocket;
 
   constructor(private auth: AuthService) {
@@ -33,8 +34,9 @@ export class ChatPage implements OnInit {
     this.language = 'fr';
     this.currentUserId = this.getBaseUserId();
     this.currentUserName = 'base string';
+    this.socketServerUrl = 'ws://shroom-share.onrender.com/';
     this.socket = new WebSocket(
-      `ws://127.0.0.1:3000/?language=${this.language}&id=${this.currentUserId}`
+      `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
     );
   }
 
@@ -56,7 +58,7 @@ export class ChatPage implements OnInit {
     const ok = this.updateCurrentUser();
     if (ok) {
       this.socket = new WebSocket(
-        `ws://127.0.0.1:3000/?language=${this.language}&id=${this.currentUserId}`
+        `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
       );
       this.initChat();
       this.messages = [];

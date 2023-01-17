@@ -1,11 +1,15 @@
-<ion-content>
+<ion-content class="ion-padding">
 
   <div class="wrapper">
     <div>
-      <h2>page Mushroom</h2>
-      <ion-button (click)="openModal()">
-        <ion-icon name="filter-circle-outline"></ion-icon>
-      </ion-button>
+      <h2>Champignons</h2>
+      <ion-toolbar color="light">
+        <ion-buttons slot="end">
+          <ion-button slot="icon-only" (click)="openModal()">
+            <ion-icon src="assets/icon/filter.svg" class="filter-button"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
     </div>
 
     <div class="ion-padding wrapper__list ion-content-scroll-host">

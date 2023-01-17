@@ -95,10 +95,6 @@ export class ChatPage implements OnInit {
       console.log('Voici un message du serveur', event.data);
       this.handleServerMessage(JSON.parse(event.data));
     });
-    //Réouvre le socket au cas où l'utilisateur n'a rien fait pendant un moment et retourne sur le chat
-    addEventListener('close', (event) => {
-      this.initChat();
-    });
   }
 
   sendMessage(message: string) {

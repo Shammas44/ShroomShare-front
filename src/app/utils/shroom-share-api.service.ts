@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Specy, SpecyResponse, SpeciesFilter, SpecyWithPic } from '../models/species';
-import { environment } from 'src/environments/environment.sample';
+import { environment } from 'src/environments/environment';
 import {
   Mushroom,
   MushroomsResponse,

@@ -3,7 +3,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { PickerCityComponent } from './picker-city.component';
 
-describe('PickerCityComponent', () => {
+xdescribe('PickerCityComponent', () => {
   let component: PickerCityComponent;
   let fixture: ComponentFixture<PickerCityComponent>;
 

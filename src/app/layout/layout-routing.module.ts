@@ -29,6 +29,10 @@ const routes: Routes = [
         loadChildren: () => import('./chat/chat.module').then((m) => m.MessagePageModule),
       },
       {
+        path: 'favorites',
+        loadChildren: () => import('./favorites/favorites.module').then((m) => m.FavoritesPageModule),
+      },
+      {
         path: 'profil',
         loadChildren: () => import('./profil/profil.module').then((m) => m.ProfilPageModule),
       },
@@ -39,6 +43,11 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'favorites',
+    loadChildren: () => import('./favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },
+
 ];
 
 @NgModule({

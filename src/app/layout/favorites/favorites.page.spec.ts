@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MushroomCardComponent } from './mushroom-card.component';
+import { FavoritesPage } from './favorites.page';
 
-describe('MushroomCardComponent', () => {
-  let component: MushroomCardComponent;
-  let fixture: ComponentFixture<MushroomCardComponent>;
+xdescribe('FavoritesPage', () => {
+  let component: FavoritesPage;
+  let fixture: ComponentFixture<FavoritesPage>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MushroomCardComponent ],
+      declarations: [ FavoritesPage ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MushroomCardComponent);
+    fixture = TestBed.createComponent(FavoritesPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

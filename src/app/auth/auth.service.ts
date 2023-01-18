@@ -2,11 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable, from, delayWhen } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Storage } from '@ionic/storage';
 import { AuthResponse, AuthRequest } from '../models/auth';
 import { AddUserRequest, AddUserResponse, User } from '../models/users';
 import { environment } from 'src/environments/environment';
 import { storageKeys } from '../models/standard';
+import { StorageService } from './../localStorage/local-storage.service';
 
 // const API_URL = "https://shroom-share.onrender.com/api";
 const API_URL = environment.apiUrl;
@@ -20,9 +20,9 @@ const API_URL = environment.apiUrl;
 export class AuthService {
   #auth$: ReplaySubject<AuthResponse | undefined>;
 
-  constructor(private http: HttpClient, private storage: Storage) {
+  constructor(private http: HttpClient, private storage: StorageService) {
     this.#auth$ = new ReplaySubject(1);
-    this.storage.get('auth').then((auth) => {
+    this.storage.get<AuthResponse>('auth').subscribe((auth) => {
       // Emit the loaded value into the observable stream.
       this.#auth$.next(auth);
     });

@@ -1,3 +1,67 @@
+@import '../../../mixin';
+
 .message-value {
     color: var(--shroom-secondary);
 }
+
+.language-selection-form {
+    display: flex;
+}
+
+
+.language-select {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6rem;
+    color: var(--black-nuancy-1);
+    margin-left: 1rem;
+}
+
+.chat-messages-div {
+    height: 53vh;
+    overflow-y: scroll;
+}
+
+.chat-username {
+    @include font-button-text2(var(--black-nuancy-1), left);
+}
+
+.chat-message-right {
+    background-color: var(--shroom-strong-background);
+    border-radius: 3rem 0rem 3rem 3rem;
+    padding: 1.5rem 1.5rem;
+    margin-right: 3.4rem;
+}
+
+.chat-message-left {
+    background-color: var(--shroom-strong-background);
+    border-radius: 3rem 3rem 3rem 0rem;
+    padding: 1.5rem 1.5rem;
+    margin-left: 3.4rem;
+}
+
+.new-message-input {
+    background-color: var(--grey-nuancy-2);
+    width: 80vw;
+    height: 3.2rem;
+    color: var(--black-nuancy-1);
+    border-radius: 1.8rem;
+    --padding-start: 3.4rem;
+}
+
+.chat-message-wrapper {
+    margin-bottom: 3.4rem;
+}
+
+.submit-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    align-items: flex-end
+}
+
+.submit-messages-button {
+    display: flex;
+    align-items: flex-end;
+    padding-top: 2.1rem;
+}
+

@@ -1,3 +1,16 @@
 ion-tabs {
   padding-top: 60px;
 }
+
+ion-tab-button {
+  background-color: var(--shroom-strong-background);
+  border: 0.1rem solid var(--shroom-secondary);
+}
+
+.tab-selected {
+  background-color: white;
+}
+
+ion-button button.button-native {
+  background-color: white;
+} 

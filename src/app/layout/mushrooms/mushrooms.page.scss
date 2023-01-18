@@ -7,3 +7,9 @@
 .wrapper__list {
   overflow-y: scroll;
 }
+
+.head-filter-div {
+  display: flex;
+  align-items: row;
+  flex-direction: flex-end;
+}

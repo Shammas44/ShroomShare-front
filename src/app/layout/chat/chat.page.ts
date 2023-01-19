@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Message } from '../../models/message';
-import { Storage } from '@ionic/storage';
 import { AuthService } from 'src/app/auth/auth.service';
-import { NumberSymbol } from '@angular/common';
-import { MessagePageModule } from './chat.module';
-import { userInfo } from 'os';
+
 import { webSocketResponse } from 'src/app/models/webSocketResponse';
 
 @Component({
@@ -111,6 +108,18 @@ export class ChatPage implements OnInit {
         userId: message.user.id,
       };
       this.messages.push(newMessage);
+      //Défilement automatique avec délais des derniers messages
+      setTimeout(() => {
+        this.scrollToBottomChat();
+      }, 250);
+    }
+  }
+
+  scrollToBottomChat() {
+    const chatMessagesDiv = document.querySelector('.chat-messages-div');
+    if (chatMessagesDiv !== null) {
+      console.log('scroll to bottom: chatmessgsDiv', chatMessagesDiv.scrollTop);
+      chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
     }
   }
 }

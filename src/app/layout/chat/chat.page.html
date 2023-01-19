@@ -1,8 +1,9 @@
 <ion-content class="ion-padding">
-  <h1>Chat</h1>
-
+  <div class="chat-title">
+    <h1>Chat</h1>
+  </div>
   <!-- language form -->
-  <ion-grid>
+  <ion-grid class="language-div">
     <ion-row class="ion-justify-content-end">
       <ion-col class="ion-justify-content-end" style="display: flex !important">
         <form #languageForm="ngForm" (change)="onLanguageChange(languageForm)" class="ion-justify-content-end">

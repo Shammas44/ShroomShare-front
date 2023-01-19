@@ -1,5 +1,23 @@
 @import '../../../mixin';
 
+
+.chat-title {
+    height: 11%;
+}
+
+.language-div {
+    height: 8%;
+}
+
+.chat-messages {
+    height: 63.5%;
+}
+
+.submit-form-div {
+    height: 10%;
+}
+
+
 .message-value {
     color: var(--shroom-secondary);
 }

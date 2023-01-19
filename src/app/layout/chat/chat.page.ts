@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Message } from '../../models/message';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -32,16 +32,10 @@ export class ChatPage implements OnInit {
     this.currentUserId = this.getBaseUserId();
     this.currentUserName = 'base string';
     this.socketServerUrl = 'ws://shroom-share.onrender.com/';
-    this.socket = new WebSocket(
-      `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
-    );
+    this.socket = this.createBaseWebSocket();
   }
 
   ngOnInit() {
-    // this.initChat();
-  }
-
-  ngAfterViewInit() {
     this.initChat();
   }
 
@@ -96,6 +90,11 @@ export class ChatPage implements OnInit {
       console.log('Voici un message du serveur', event.data);
       this.handleServerMessage(JSON.parse(event.data));
     });
+    // Relance un websocket lorsque le protocol est fermé
+    addEventListener('close', (event) => {
+      this.socket = this.createBaseWebSocket();
+      this.initChat();
+    });
   }
 
   sendMessage(message: string) {
@@ -122,8 +121,13 @@ export class ChatPage implements OnInit {
   scrollToBottomChat() {
     const chatMessagesDiv = document.querySelector('.chat-messages-div');
     if (chatMessagesDiv !== null) {
-      console.log('scroll to bottom: chatmessgsDiv', chatMessagesDiv.scrollTop);
       chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
     }
+  }
+
+  createBaseWebSocket(): WebSocket {
+    return new WebSocket(
+      `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
+    );
   }
 }

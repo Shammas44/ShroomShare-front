@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Message } from '../../models/message';
 import { AuthService } from 'src/app/auth/auth.service';
@@ -38,6 +38,10 @@ export class ChatPage implements OnInit {
   }
 
   ngOnInit() {
+    // this.initChat();
+  }
+
+  ngAfterViewInit() {
     this.initChat();
   }
 

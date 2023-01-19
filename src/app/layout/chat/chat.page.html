@@ -66,8 +66,8 @@
   <ion-grid class="submit-form-div">
     <ion-row class="ion-justify-content-flex-end">
       <form #messageForm="ngForm" (submit)="onSubmit(messageForm)" class="submit-form">
-        <ion-input inputmode="text" #username="ngModel" required="true" name="message"
-          class="new-message-input ion-padding" [(ngModel)]="lastMessage.value" placeholder="message">
+        <ion-input inputmode="text" #username="ngModel" required="true" name="message" class="new-message-input"
+          [(ngModel)]="lastMessage.value" placeholder="message">
         </ion-input>
         <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
           <ion-icon src="assets/icon/chat/send.svg"></ion-icon>

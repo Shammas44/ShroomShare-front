@@ -3,6 +3,11 @@
 
 /** Ionic CSS Variables **/
 :root {
+
+  --ion-font-family:     font-family: 'Quando', serif;
+  --border-radius: 17px;
+
+
   /** hand added properties **/
   .ion-padding {
     padding: 2rem 1.6rem;
@@ -22,8 +27,8 @@
   --ion-color-secondary-rgb: 236, 103, 60;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #36abe0;
-  --ion-color-secondary-tint: #50c8ff;
+  --ion-color-secondary-shade: #D75A32.;
+  --ion-color-secondary-tint: #C2461C;
 
   /** tertiary **/
   --ion-color-tertiary: #D2C08D;

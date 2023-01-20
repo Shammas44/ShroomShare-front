@@ -1,4 +1,5 @@
 <ion-content>
+
   <div class="register-top-div">
     <h2>Créer votre compte</h2>
   </div>
@@ -72,7 +73,7 @@
 
       <div class="ion-padding">
         <!-- Submit button -->
-        <ion-button type="submit" [disabled]="!form.valid" size="default" color="secondary"><span
+        <ion-button type="submit" [disabled]="!form.valid" size="large" color="secondary"><span
             class="big-button-text">Créer</span></ion-button>
         <!-- Error message displayed if the login failed -->
         <ion-text color="danger" *ngIf="errorMessage">{{errorMessage}}</ion-text>
@@ -86,4 +87,5 @@
       <span class="small-button-text">Connexion</span>
     </ion-button>
   </div>
+
 </ion-content>

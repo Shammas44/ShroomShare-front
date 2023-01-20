@@ -125,10 +125,20 @@ label {
 }
 
 ion-input {
-    --padding-start: 3.4rem;
-    --padding-end: 3.4rem;
     --placeholder-font-style: 'Inter, sans-serif'
 }
+
+ion-input.custom {
+    --background: var(--grey-nuancy-2);
+    --placeholder-opacity: .8; 
+    --padding-bottom: 1rem;
+    --padding-end: 3.4rem;
+    --padding-start: 3.4rem;
+    --padding-top: 1rem;
+    color: var(--black-nuancy-1);
+    border-radius: 1.8rem;
+    font-size: 1.6rem;
+  }
 
 ion-button {
     --border-radius: 8px;
@@ -138,14 +148,14 @@ ion-button {
 .small-button-text {
     font-size: 1.5rem;
     color: white;
-    padding: 1.2rem 0.6rem;
+    //padding: 1.2rem 0.6rem;
     text-transform: none;
 }
 
 .big-button-text {
     font-size: 2.4rem;
     color: white;
-    padding: 0.9rem 2.6rem;
+    //padding: 0.9rem 2.6rem;
     text-transform: none;
 }
 

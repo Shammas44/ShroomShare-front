@@ -8,24 +8,24 @@
         <!-- Username input -->
         <ion-item>
           <ion-input inputmode="text" #username="ngModel" required="true" name="username"
-            [(ngModel)]="authRequest.username" placeholer="E-mail ou nom d'utilisateur"
-            class="input-login-primary"></ion-input>
+            [(ngModel)]="authRequest.username" placeholer="E-mail ou nom d'utilisateur" class="input-login-primary">
+          </ion-input>
         </ion-item>
 
         <!-- Error message displayed if the username is invalid -->
         <ion-item lines="none" *ngIf="username.invalid && username.touched">
-          <ion-text color="danger">Username is required.</ion-text>
+          <ion-text color="danger">Un nom d'utilisateur est requis.</ion-text>
         </ion-item>
 
         <!-- Password input -->
         <ion-item>
           <ion-input inputmode="text" #password="ngModel" required="true" type="password" name="password"
-            [(ngModel)]="authRequest.password" aria-placeholder="Mot de passe" class="input-primary"></ion-input>
+            [(ngModel)]="authRequest.password" aria-placeholder="Mot de passe" class="input-login-primary"></ion-input>
         </ion-item>
 
         <!-- Error message displayed if the password is invalid -->
         <ion-item lines="none" *ngIf="password.invalid && password.touched">
-          <ion-text color="danger">Password is required.</ion-text>
+          <ion-text color="danger">Un mot de passe est requis.</ion-text>
         </ion-item>
       </ion-list>
 

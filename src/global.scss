@@ -125,10 +125,9 @@ label {
 }
 
 ion-input {
-    --background: var(--grey-nuancy-2);
     --padding-start: 3.4rem;
-    --padding-top: 0.8rem;
-    --padding-bottom: 0.8rem;
+    --padding-end: 3.4rem;
+    --placeholder-font-style: 'Inter, sans-serif'
 }
 
 ion-button {

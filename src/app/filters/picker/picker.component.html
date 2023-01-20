@@ -9,13 +9,13 @@
   <!-- Favorites items -->
   <ion-accordion value="first" *ngIf="useFavorite">
     <ion-item slot="header" color="light">
-      <ion-label>Mes favoris</ion-label>
+      <ion-label class="filter-title-label">Mes favoris</ion-label>
     </ion-item>
     <ion-list class="ion-padding favorites__list" slot="content">
       <ion-item *ngFor="let item of state.favorites">
         <ion-checkbox slot="start" (ionChange)="onCheck($event)" [checked]="item.checked" [value]="item">
         </ion-checkbox>
-        <ion-label>{{item[itemKeys.searchable]}}</ion-label>
+        <ion-label class="inter-font-item">{{item[itemKeys.searchable]}}</ion-label>
       </ion-item>
     </ion-list>
   </ion-accordion>
@@ -29,7 +29,7 @@
         <ion-item *ngFor="let item of state.items">
           <ion-checkbox slot="start" (ionChange)="onCheck($event)" [checked]="item.checked" [value]="item">
           </ion-checkbox>
-          <ion-label>{{item[itemKeys.searchable]}}</ion-label>
+          <ion-label class="inter-font-item">{{item[itemKeys.searchable]}}</ion-label>
         </ion-item>
       </ion-list>
       <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">

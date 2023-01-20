@@ -3,7 +3,7 @@ import { StorageService } from 'src/app/localStorage/local-storage.service';
 import { concat, delay, Observable, of } from 'rxjs';
 import { Favorite } from 'src/app/models/favorite';
 import { Storage } from '@ionic/storage-angular';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-favorites',
@@ -13,29 +13,46 @@ import { AlertController } from '@ionic/angular';
 export class FavoritesPage implements OnInit {
   //FavoritesList$: Observable<any[]>;
   favoriteslist$: Observable<Favorite[]>;
+  _favoritesList$: Observable<Favorite[]>;
   //itemlist: any = []
   constructor(
     private favoriteStorage: StorageService,
+    private modalController: ModalController,
     private storage: Storage,
     private alertController: AlertController
-  ) {
-    // this.localStorage.get("favorites").then((favorites)=>{
-    //   console.log("ici", favorites);
-    //})
-  }
+  ) {}
 
   ngOnInit() {
-    this.favoriteslist$ = this.favoriteStorage.getFavorites();
-    console.log('fav2', this.favoriteslist$);
+    //this.favoriteslist$ = this.favoriteStorage.getFavorites();
+    this._favoritesList$ = this.favoriteStorage.favoriesList$;
+    //console.log('fav2', this.favoriteslist$);
   }
 
-  async deleteFavorite(id: string) {
-    this.favoriteStorage.deleteFaovrite(id);
+  // async deleteFavorite(id: string) {
+  //   this.favoriteStorage.deleteFaovrite(id);
+  //   const alert = await this.alertController.create({
+  //     header: `Are you sure you want to delete this user`,
+  //     buttons: ['Yes', 'no'],
+  //   });
+  //   await alert.present();
+  //   this.favoriteslist$ = this.favoriteStorage.getFavorites();
+  // }
+
+  async deleteFavorite2(id: string) {
     const alert = await this.alertController.create({
-      header: `Are you sure you want to delete this user`,
-      buttons: ['Yes', 'no'],
+      header: `Are you sure you want to delete this user?`,
+      buttons: [
+        { text: 'Cancel', role: 'cancel', cssClass: 'secondary' },
+        {
+          text: 'Delete',
+          role: 'delete',
+          cssClass: 'primary',
+          handler: () => {
+            this.favoriteStorage.deleteFavorite2(id);
+          },
+        },
+      ],
     });
     await alert.present();
-    this.favoriteslist$ = this.favoriteStorage.getFavorites();
   }
 }

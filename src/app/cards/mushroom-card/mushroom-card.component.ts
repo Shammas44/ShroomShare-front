@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/users';
 import { StorageService } from './../../localStorage/local-storage.service';
 import { ToastController } from '@ionic/angular';
+import { Favorite } from 'src/app/models/favorite';
 
 @Component({
   selector: 'app-mushroom-card',
@@ -15,19 +16,28 @@ import { ToastController } from '@ionic/angular';
 export class MushroomCardComponent implements OnInit {
   @Input() mushroom: MushroomWithPic | null = null;
   showFullText: boolean = false;
-  constructor(private LocalStorage: StorageService, private toastController: ToastController) {}
+
+  _favoritesList$: Observable<Favorite[]>;
+
+  constructor(private favoriteStorage: StorageService, private toastController: ToastController) {}
   isfav = false;
   ngOnInit() {
-    console.log('le mushroom', this.mushroom?.user?.id);
-    this.LocalStorage.getFavorites().subscribe((FavoriteList) => {
-      FavoriteList.forEach((favorite: any) => {
-        if (favorite.id == this.mushroom?.user?.id) {
-          console.log("C'est fav");
-          this.isfav = true;
-        }
-      });
-    });
-    console.log('isfav?', this.isfav);
+    this._favoritesList$ = this.favoriteStorage.favoriesList$;
+
+    // this._favoritesList$.subscribe((a) => {
+    //   console.log('oui', a);
+    // });
+
+    // console.log('le mushroom', this.mushroom?.user?.id);
+    // this._favoritesList$.subscribe((FavoriteList) => {
+    //   FavoriteList.forEach((favorite: any) => {
+    //     if (favorite.id == this.mushroom?.user?.id) {
+    //       console.log("C'est fav");
+    //       this.isfav = true;
+    //     }
+    //   });
+    // });
+    // console.log('isfav?', this.isfav);
   }
 
   onToggleTextExpand() {
@@ -35,11 +45,12 @@ export class MushroomCardComponent implements OnInit {
   }
 
   async addToFavorites(mushroom: null | MushroomWithPic) {
-    this.LocalStorage.addFavorite({
+    this.favoriteStorage.addFavorite2({
       id: mushroom?.user?.id,
       username: mushroom?.user?.username,
     });
     this.isfav = true;
+
     const toast = await this.toastController.create({
       message: `${mushroom?.user?.username} has been added to favorites`,
       duration: 1500,

@@ -12,10 +12,24 @@
         <ion-card-subtitle>{{mushroom?.date}}</ion-card-subtitle>
       </ion-card-header>
       <div class="wrapper__buttons">
+        
+        
         <ion-button  (click)="addToFavorites(mushroom)"  fill="clear">
-          <ion-icon *ngIf="isfav;" name="heart"></ion-icon>
-          <ion-icon *ngIf="!isfav;" name="heart-outline"></ion-icon>
+          
+          <ng-container *ngFor="let favorite of _favoritesList$ | async ">
+          <!-- <ion-icon *ngIf="isfav" name="heart"></ion-icon>  -->
+          <!-- <ion-icon *ngIf="[_favoritesList$ | async].includes({id: mushroom?.user?.id, username: mushroom?.user?.username}) | async" name="heart"></ion-icon>   -->
+          
+          <!-- <ng-template *ngIf="favorite === {id: mushroom?.user?.id, username: mushroom?.user?.username}; else notfav "name="heart" ></ng-template> -->
+          <!-- <ion-icon #notfav name="heart-outline"></ion-icon> -->
+
+          <!-- <ng-template [ngIf]="favorite?.id !== mushroom?.user?.id"><ion-icon name="heart-outline"></ion-icon></ng-template> -->
+          <ion-icon *ngIf="favorite.id === mushroom?.user?.id" name="heart"></ion-icon>
+          <!-- <ion-icon #heartoutline name="heart-outline"></ion-icon> -->
+        </ng-container>
         </ion-button>
+      
+      
         <ion-button (click)="onToggleTextExpand()" fill="clear">
           <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
         </ion-button>

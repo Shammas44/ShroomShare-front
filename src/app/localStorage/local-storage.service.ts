@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
-import { Observable, from, ReplaySubject } from 'rxjs';
+import { Observable, from, ReplaySubject, BehaviorSubject, tap } from 'rxjs';
 import { Favorite } from '../models/favorite';
-import { map, switchMap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
   // private _storage: Storage | null = null;
+  private _favoriteList$ = new BehaviorSubject<Favorite[]>([]);
 
   #storage = new ReplaySubject<Storage>(1);
 
   constructor(private storage: Storage) {
     this.storage.create().then((storage) => this.#storage.next(storage));
+    this.getFavoritesList();
   }
 
   get<T = unknown>(key: string): Observable<T> {
@@ -59,6 +61,48 @@ export class StorageService {
     return this.get('favorites');
   }
 
+  get favoriesList$() {
+    return this._favoriteList$.asObservable();
+  }
+
+  getFavoritesList() {
+    this.get<Favorite[]>('favorites')
+      .pipe(tap((favlist: Favorite[]) => this._favoriteList$.next(favlist)))
+      .subscribe();
+  }
+
+  deleteFavorite2(id: string) {
+    this._favoriteList$.subscribe((values) => {
+      console.log(values);
+    });
+    let index = -1;
+    this._favoriteList$.subscribe((favoritesList) => {
+      favoritesList.forEach((favorite: Favorite, i: any) => {
+        if (favorite.id == id) {
+          index = i;
+        }
+      });
+      if (index > -1) {
+        favoritesList.splice(index, 1);
+        this.set('favorites', favoritesList).subscribe();
+      }
+    });
+  }
+
+  //   isFaovrite(id:string, username:string){
+  // this.get<Favorite[]>('favorites')
+  //       .pipe(tap((favlist: Favorite[]) => this._favoriteList$.next(favlist.includes({id: id, username: username}))))
+  //       .subscribe();
+  //   }
+
+  isFaovrite(id: string, username: string) {
+    let isit = false;
+    this._favoriteList$.subscribe((value) => {
+      value.includes({ id: id, username: username });
+    });
+    return isit;
+  }
+
   public addFavorite(value: any) {
     //let favoritesList = this.getFavorites().subscribe();
     this.getFavorites().subscribe((val) => {
@@ -78,6 +122,25 @@ export class StorageService {
       }
     });
     //console.log('favlist', favoritesList);
+  }
+
+  addFavorite2(value: any) {
+    this._favoriteList$.subscribe((val) => {
+      console.log(val);
+      if (val == null) {
+        console.log('oui');
+        this.set('favorites', [value]).subscribe();
+      } else {
+        let listfilter = val.filter((x: any) => x.id === value.id);
+        console.log('la list filter', listfilter);
+        if (listfilter.length == 0) {
+          val.push(value);
+          this.set('favorites', val).subscribe();
+        }
+
+        //const listfilter = favoritesList.filter((x: any) => x.id === value.id);
+      }
+    });
   }
 
   public deleteFaovrite(id: string) {

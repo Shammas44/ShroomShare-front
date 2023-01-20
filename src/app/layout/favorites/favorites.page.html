@@ -5,13 +5,18 @@
 </ion-header>
 
 <ion-content>
- 
+
   <ion-list [inset]="true">
-   <ion-item *ngFor="let favorite of favoriteslist$ | async "> 
+   <ion-item *ngFor="let favorite of _favoritesList$ | async "> 
   <ion-label>{{favorite.username}}</ion-label> 
-  <ion-button (click)="deleteFavorite(favorite.id)" fill="clear">
+  
+  <ion-button (click)="deleteFavorite2(favorite.id)" fill="clear">
     <ion-icon  name="heart"></ion-icon>
   </ion-button>
   </ion-item>
     </ion-list>
+  
+  <ng-template #noFavs>You don't have any faovrites: to add one, click on the heart on a mushroom card</ng-template>
+  
+ 
 </ion-content>

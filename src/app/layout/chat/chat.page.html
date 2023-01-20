@@ -7,7 +7,7 @@
     <ion-row class="ion-justify-content-end">
       <ion-col class="ion-justify-content-end" style="display: flex !important">
         <form #languageForm="ngForm" (change)="onLanguageChange(languageForm)" class="ion-justify-content-end">
-          <label>Langue du chat</label>
+          <label class="inter-font-label">Langue du chat</label>
           <select [(ngModel)]="language" class="language-select">
             <option class="flag-option french" value="fr">
               français

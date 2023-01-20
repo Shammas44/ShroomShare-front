@@ -1,3 +1,9 @@
+.inter-font-span {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.6rem;
+  color: var(--black-nuancy-1);
+}
+
 .profil-top-div {
   text-align: center;
 }
@@ -15,7 +21,7 @@
 }
 
 .profil-div-button-wrapper {
-  margin: 1.1rem 0;
+  margin: 0 0 1.1rem 0;
 }
 
 .warning-delete-account-text {

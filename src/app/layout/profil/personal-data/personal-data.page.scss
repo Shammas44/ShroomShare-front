@@ -1,0 +1,20 @@
+.inter-font-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6rem;
+    color: var(--black-nuancy-1);
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.personal-data-top-div {
+    text-align: center
+}
+
+.label-icon-div {
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+}
+
+.logout-button-div {
+    text-align: center;
+}

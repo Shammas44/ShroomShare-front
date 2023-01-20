@@ -43,6 +43,10 @@ export class ChatPage implements OnInit {
     console.log('submit message');
     const ok = this.updateCurrentUser();
     if (ok) {
+      if (this.socket.readyState == WebSocket.CLOSED) {
+        this.socket = this.createBaseWebSocket();
+        this.initChat();
+      }
       this.sendMessage(this.lastMessage.value);
       this.lastMessage.value = '';
     }
@@ -89,11 +93,6 @@ export class ChatPage implements OnInit {
     this.socket.addEventListener('message', (event) => {
       console.log('Voici un message du serveur', event.data);
       this.handleServerMessage(JSON.parse(event.data));
-    });
-    // Relance un websocket lorsque le protocol est fermé
-    addEventListener('close', (event) => {
-      this.socket = this.createBaseWebSocket();
-      this.initChat();
     });
   }
 

@@ -6,12 +6,11 @@
   <div class="profil-middle-div">
     <ion-list>
       <ion-item routerLink="personal-data" [state]="user" expand="block">
-        Données personnels
-        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+        <span position="floating" class="inter-font-span">Données personnels</span>
       </ion-item>
       <ion-item routerLink="my-mushrooms" [state]="user" expand="block">
-        Mes champignons
-        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+        <span class="inter-font-span">
+          Mes champignons</span>
       </ion-item>
     </ion-list>
   </div>

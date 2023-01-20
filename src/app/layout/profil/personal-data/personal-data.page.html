@@ -1,16 +1,17 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Données personelle</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <div class="personal-data-top-div">
+    <h2>Profil</h2>
+  </div>
   <form [formGroup]="form" (submit)="login()">
     <ion-list>
       <!-- Username input -->
       <ion-item>
-        <ion-label position="floating">Nom d'utilisateur</ion-label>
+        <div class="label-icon-div">
+          <ion-label class="inter-font-label">Nom d'utilisateur</ion-label>
+          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+          </ion-button>
+        </div>
         <ion-input inputmode="text" formControlName="username"></ion-input>
       </ion-item>
       <!-- Error message displayed if the username is invalid -->
@@ -26,7 +27,12 @@
 
       <!-- Email input -->
       <ion-item>
-        <ion-label position="floating">Email</ion-label>
+        <div class="label-icon-div">
+          <ion-label class="inter-font-label">Email</ion-label>
+          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+          </ion-button>
+        </div>
         <ion-input inputmode="text" formControlName="email"></ion-input>
       </ion-item>
       <!-- Error message displayed if the Email is invalid -->
@@ -39,7 +45,12 @@
 
       <!-- Old password input -->
       <ion-item>
-        <ion-label position="floating">Ancien mot de passe</ion-label>
+        <div class="label-icon-div">
+          <ion-label class="inter-font-label">Ancien mot de passe</ion-label>
+          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+          </ion-button>
+        </div>
         <ion-input inputmode="text" type="password" formControlName="oldPassword"></ion-input>
       </ion-item>
       <!-- Error message displayed if the old password is invalid -->
@@ -55,7 +66,12 @@
 
       <!-- Password input -->
       <ion-item>
-        <ion-label position="floating">Mot de passe</ion-label>
+        <div class="label-icon-div">
+          <ion-label class="inter-font-label">Mot de passe</ion-label>
+          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+          </ion-button>
+        </div>
         <ion-input inputmode="text" type="password" formControlName="password"></ion-input>
       </ion-item>
       <!-- Error message displayed if the password is invalid -->
@@ -71,7 +87,12 @@
 
       <!-- RePassword input -->
       <ion-item>
-        <ion-label position="floating">Mot de passe confirmation</ion-label>
+        <div class="label-icon-div">
+          <ion-label class="inter-font-label">Mot de passe confirmation</ion-label>
+          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+          </ion-button>
+        </div>
         <ion-input inputmode="text" type="password" formControlName="rePassword"></ion-input>
       </ion-item>
       <!-- Error message displayed if the RePassword is invalid -->
@@ -89,10 +110,11 @@
       </ion-item>
     </ion-list>
 
-    <div class="ion-padding">
+    <div class="ion-padding logout-button-div">
       <!-- Submit button -->
-      <ion-button type="submit" [disabled]="!form.valid && !errorMessage" expand="block">Enregistrer</ion-button>
-
+      <ion-button type="submit" [disabled]="!form.valid && !errorMessage" size="large" color="secondary">
+        <span class="big-button-text">Déconnexion</span>
+      </ion-button>
       <!-- Error message displayed if the login failed -->
       <ion-text color="danger" *ngIf="errorMessage">{{errorMessage}}</ion-text>
     </div>

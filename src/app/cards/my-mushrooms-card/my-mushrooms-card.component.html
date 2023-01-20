@@ -3,32 +3,35 @@
     <img src="{{mushroom?getPicture(mushroom.picture):''}}" alt="">
   </div>
 
-  <div class="rows">
-    <div class="header">
-      <ion-card-header>
-        <ion-card-title>{{mushroom?.specy?.name}}</ion-card-title>
-        <ion-card-subtitle>{{mushroom?.user?.username}}</ion-card-subtitle>
-      </ion-card-header>
-
-      <div class="wrapper__buttons">
-        <ion-button fill="clear">
-          <ion-icon name="heart"></ion-icon>
-        </ion-button>
-        <ion-button (click)="onToggleTextExpand()" fill="clear">
-          <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
-        </ion-button>
+  <div class="card-text-icons-div">
+    <div class="card-text">
+      <div class="card-header-div">
+        <ion-card-header>
+          <ion-card-title>{{mushroom?.specy?.name}}</ion-card-title>
+          <ion-card-subtitle class="card-user-name">{{mushroom?.user?.username}}</ion-card-subtitle>
+        </ion-card-header>
+      </div>
+      <div class="card-content-div">
+        <ion-card-content>
+          <p class="{{showFullText? '': 'show-partial-text'}}">
+            {{mushroom?.description}} {{mushroom?.description}} {{mushroom?.description}}
+          </p>
+          <div class="extra-small-buttons-div">
+            <ion-button (click)="modifyMushroom(mushroom?.id)"><span
+                class="extra-small-button-text">Modifier</span></ion-button>
+            <ion-button (click)="deleteMushroom(mushroom?.id)"><span
+                class="extra-small-button-text">Supprimer</span></ion-button>
+          </div>
+        </ion-card-content>
       </div>
     </div>
-
-    <div class="row">
-      <ion-card-content>
-        <p class="{{showFullText? '': 'show-partial-text'}}">
-          {{mushroom?.description}} {{mushroom?.description}} {{mushroom?.description}}
-        </p>
-        <ion-button (click)="modifyMushroom(mushroom?.id)">Modifier</ion-button>
-        <ion-button (click)="deleteMushroom(mushroom?.id)">Supprimer</ion-button>
-      </ion-card-content>
+    <div class="wrapper__buttons">
+      <ion-button fill="clear">
+        <ion-icon name="heart"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onToggleTextExpand()" fill="clear">
+        <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
+      </ion-button>
     </div>
   </div>
-
 </ion-card>

@@ -1,0 +1,78 @@
+<ion-content class="ion-padding">
+  <div class="chat-title">
+    <h1>Chat</h1>
+  </div>
+  <!-- language form -->
+  <ion-grid class="language-div">
+    <ion-row class="ion-justify-content-end">
+      <ion-col class="ion-justify-content-end" style="display: flex !important">
+        <form #languageForm="ngForm" (change)="onLanguageChange(languageForm)" class="ion-justify-content-end">
+          <label>Langue du chat</label>
+          <select [(ngModel)]="language" class="language-select">
+            <option class="flag-option french" value="fr">
+              français
+            </option>
+            <option class="flag-option italian" value="it">
+              italiano
+            </option>
+            <option class="flag-option german" value="de">
+              deutsh
+            </option>
+            <option class="flag-option french" value="en">
+              english
+            </option>
+          </select>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- messages display -->
+  <ion-grid class="chat-messages-div">
+    <div *ngFor="let message of messages; index as i;" class="chat-message-wrapper">
+
+      <!-- user icon + username -->
+      <!-- message from user -->
+      <ion-row *ngIf="message.userId === currentUserId" class="ion-justify-content-end ion-align-items-end">
+        <ion-col *ngIf="message.userId === currentUserId" size="auto" class="ion-no-padding" offset="0.3">
+          <span class="chat-username">{{ message.username }}</span>
+        </ion-col>
+        <ion-col *ngIf="message.userId === currentUserId" size="auto" class="ion-no-padding" offset="0.3">
+          <img src="assets/icon/chat/person-circle-outline.svg">
+        </ion-col>
+      </ion-row>
+
+      <!-- message from other -->
+      <ion-row *ngIf="message.userId !== currentUserId" class="ion-justify-content-start ion-align-items-end">
+        <ion-col *ngIf="message.userId !== currentUserId" size="auto" class="ion-no-padding" offset="0.3">
+          <img src="assets/icon/chat/person-circle-outline.svg">
+        </ion-col>
+        <ion-col *ngIf="message.userId !== currentUserId" size="auto" class="ion-no-padding" offset="0.3">
+          <span class="chat-username">{{ message.username }}</span>
+        </ion-col>
+      </ion-row>
+
+      <!-- user message -->
+      <ion-row *ngIf="message.userId === currentUserId" class="ion-justify-content-end">
+        <span class="chat-message-right">{{ message.value }}</span>
+      </ion-row>
+      <ion-row *ngIf="message.userId !== currentUserId" class="ion-justify-content-end">
+        <span class="chat-message-left">{{ message.value }}</span>
+      </ion-row>
+
+    </div>
+  </ion-grid>
+  <!-- submit form -->
+  <ion-grid class="submit-form-div">
+    <ion-row class="ion-justify-content-flex-end">
+      <form #messageForm="ngForm" (submit)="onSubmit(messageForm)" class="submit-form">
+        <ion-input inputmode="text" #username="ngModel" required="true" name="message" class="new-message-input"
+          [(ngModel)]="lastMessage.value" placeholder="message">
+        </ion-input>
+        <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+          <ion-icon src="assets/icon/chat/send.svg"></ion-icon>
+        </ion-button>
+      </form>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,24 +1,23 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import {Storage} from '@ionic/storage';
+import { Storage } from '@ionic/storage';
 
-import { MessagePage } from './message.page';
+import { ChatPage } from './chat.page';
 
-xdescribe('MessagePage', () => {
-  let component: MessagePage;
-  let fixture: ComponentFixture<MessagePage>;
+describe('ChatPage', () => {
+  let component: ChatPage;
+  let fixture: ComponentFixture<ChatPage>;
 
   beforeEach(waitForAsync(() => {
     const storage = new Storage();
     storage.create();
     TestBed.configureTestingModule({
-      declarations: [ MessagePage ],
-      imports: [IonicModule.forRoot(),HttpClientTestingModule],
-      providers: [{ provide: Storage, useValue: storage }],
+      declarations: [ChatPage],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MessagePage);
+    fixture = TestBed.createComponent(ChatPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

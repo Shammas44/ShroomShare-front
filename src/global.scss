@@ -9,6 +9,10 @@
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
 
+// =====================================================================
+// Layers
+// =====================================================================
+
 @layer default,custom; 
 
 /* Core CSS required for Ionic components to work properly */
@@ -27,13 +31,121 @@
 @import "~@ionic/angular/css/text-transformation.css" layer(default);
 @import "~@ionic/angular/css/flex-utils.css" layer(default);
 
+@import "~@ionic/angular/css/core.css";
+
+// /* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+// /* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
 @layer custom {
+    .alert .alert-head h2 {
+    text-align: center;
+    }
 
-.alert .alert-head h2 {
-  text-align: center;
+    .alert .alert-wrapper .alert-button-group {
+    justify-content: space-between !important;
+    }
+
+    ion-input {
+        --background: var(--grey-nuancy-2);
+        --padding-start: 3.4rem;
+        --padding-top: 0.8rem;
+        --padding-bottom: 0.8rem;
+    }
 }
 
-.alert .alert-wrapper .alert-button-group {
-  justify-content: space-between !important;
+:root {
+    --shroom-strong-background: #D2C08D;
+    --shroom-highlight: #EC673C;
+    --black-nuancy-1: #0C0C0C;
+    --grey-nuancy-one: #666666;
+    --white: #FFFFFF;
+    --shroom-secondary: #512A18;
+    --grey-nuancy-2: #DADADA;
+    --shroom-delete: #DC0000;
+    --background: rgba(210, 192, 141, 0.44);
+    --unavailable-background: rgba(255, 0, 0, 0.76);
+
+    font-size: 10px;
 }
+
+
+h1 {
+    font-family: 'Quando', serif;
+    font-size: 3.6rem;
+    text-align: center;
+    color: var(--black-nuancy-1);
 }
+
+h2 {
+    font-family: 'Quando', serif;
+    font-size: 2.4rem;
+    text-align: center;
+    color: var(--black-nuancy-1);
+}
+
+h3 {
+    font-family: 'Quando', serif;
+    font-size: 1.6rem;
+    text-align: center;
+    color: var(--black-nuancy-1);
+}
+
+.button-text-1 {
+    font-family: 'Quando', serif;
+    font-size: 2.4rem;
+    color: var(--white);
+}
+
+.button-text-2 {
+    font-family: 'Quando', serif;
+    font-size: 1.5rem;
+    color: var(--white);
+}
+
+p, span {
+    font-family: 'Quando', serif;
+    font-size: 1.2rem;
+    color: var(--black-nuancy-1);
+}
+
+label {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6rem;
+    color: var(--black-nuancy-1);
+}
+
+ion-input {
+    --padding-start: 3.4rem;
+    --padding-end: 3.4rem;
+    --placeholder-font-style: 'Inter, sans-serif'
+}
+
+ion-button {
+    --border-radius: 8px;
+    --box-shadow: 0 0 0 0 rgb(0, 0, 0, 0.25);
+}
+
+.small-button-text {
+    font-size: 1.5rem;
+    color: white;
+    padding: 1.2rem 0.6rem;
+    text-transform: none;
+}
+
+.big-button-text {
+    font-size: 2.4rem;
+    color: white;
+    padding: 0.9rem 2.6rem;
+    text-transform: none;
+}
+

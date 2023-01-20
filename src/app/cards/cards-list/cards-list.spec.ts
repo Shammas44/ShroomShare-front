@@ -87,9 +87,11 @@ describe('CardList abstract class', () => {
     fixture = TestBed.createComponent(CardsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    console.log(await storage.keys());
   });
 
   it('should add new items on scroll', () => {
+    console.log({ component });
     expect(component.items.length).toEqual(5);
     jasmine.clock().install();
     const mockEvent = jasmine.createSpyObj('', [], {

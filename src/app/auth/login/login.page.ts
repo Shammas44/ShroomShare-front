@@ -9,6 +9,7 @@ import { AuthRequest } from '../../models/auth';
  */
 @Component({
   templateUrl: 'login.page.html',
+  styleUrls: ['./login.page.scss'],
 }) // eslint-disable-line
 export class LoginPage {
   /**

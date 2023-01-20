@@ -3,25 +3,36 @@
 
 /** Ionic CSS Variables **/
 :root {
+
+  --ion-font-family:     font-family: 'Quando', serif;
+  --border-radius: 17px;
+
+
+  /** hand added properties **/
+  .ion-padding {
+    padding: 2rem 1.6rem;
+  }
+
+
   /** primary **/
-  --ion-color-primary: #3880ff;
-  --ion-color-primary-rgb: 56, 128, 255;
+  --ion-color-primary: #512A18;
+  --ion-color-primary-rgb: 81, 42, 24;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #3171e0;
-  --ion-color-primary-tint: #4c8dff;
+  --ion-color-primary-shade: #3D1909;
+  --ion-color-primary-tint: #813D1F;
 
   /** secondary **/
-  --ion-color-secondary: #3dc2ff;
-  --ion-color-secondary-rgb: 61, 194, 255;
+  --ion-color-secondary: #EC673C;
+  --ion-color-secondary-rgb: 236, 103, 60;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #36abe0;
-  --ion-color-secondary-tint: #50c8ff;
+  --ion-color-secondary-shade: #D75A32.;
+  --ion-color-secondary-tint: #C2461C;
 
   /** tertiary **/
-  --ion-color-tertiary: #5260ff;
-  --ion-color-tertiary-rgb: 82, 96, 255;
+  --ion-color-tertiary: #D2C08D;
+  --ion-color-tertiary-rgb: 210, 192, 141;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
   --ion-color-tertiary-shade: #4854e0;
@@ -44,8 +55,8 @@
   --ion-color-warning-tint: #ffca22;
 
   /** danger **/
-  --ion-color-danger: #eb445a;
-  --ion-color-danger-rgb: 235, 68, 90;
+  --ion-color-danger: #DC0000;
+  --ion-color-danger-rgb: 220, 0, 0;
   --ion-color-danger-contrast: #ffffff;
   --ion-color-danger-contrast-rgb: 255, 255, 255;
   --ion-color-danger-shade: #cf3c4f;
@@ -60,7 +71,7 @@
   --ion-color-dark-tint: #383a3e;
 
   /** medium **/
-  --ion-color-medium: #92949c;
+  --ion-color-medium: #DADADA;
   --ion-color-medium-rgb: 146, 148, 156;
   --ion-color-medium-contrast: #ffffff;
   --ion-color-medium-contrast-rgb: 255, 255, 255;
@@ -68,8 +79,8 @@
   --ion-color-medium-tint: #9d9fa6;
 
   /** light **/
-  --ion-color-light: #f4f5f8;
-  --ion-color-light-rgb: 244, 245, 248;
+  --ion-color-light: #ffffff;
+  --ion-color-light-rgb: 218, 218, 218;
   --ion-color-light-contrast: #000000;
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
@@ -233,4 +244,16 @@
 
     --ion-card-background: #1e1e1e;
   }
+
+  /*
+  * shroom-share variables
+  *
+  */
+  :root {
+    --shroom-strong-background: #D2C08D;
+    --shroom-highlight: #EC673C;
+    --shroom-delete: #DC0000;
+    --shroom-secondary: #512A18;
+  }
+
 }

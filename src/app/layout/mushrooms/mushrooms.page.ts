@@ -11,6 +11,7 @@ import { modalRole } from '../../models/modal';
 import { Storage } from '@ionic/storage';
 import { FiltersModalMushroomComponent } from 'src/app/filters/filters-modal-mushroom/filters-modal-mushroom.component';
 import { setApiParams } from '../../utils/modal-utility-functions';
+import { timeStamp } from 'console';
 
 const currentDate = new Date();
 const previousYearDate = new Date();

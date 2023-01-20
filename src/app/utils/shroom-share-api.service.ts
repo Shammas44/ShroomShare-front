@@ -105,4 +105,13 @@ export class ShroomShareApiService {
     const url = `${API_URL}/users:${userId}`;
     return this.http.get<UserResponse>(url).pipe(map((res) => res.user));
   }
+
+  // getMessages$(userName, userId, admin, language) {
+  //   const baseUrl = 'ws://shroom-share.onrender.com';
+  // }
+
+  // addMessage(body: AddMessageRequest): Observable<Message> {
+  //   const url = 'ws://shroom-share.onrender.com';
+  //   return
+  // }
 }

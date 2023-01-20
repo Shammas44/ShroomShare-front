@@ -13,3 +13,8 @@
   align-items: row;
   flex-direction: flex-end;
 }
+
+.mushrooms-subtitle-and-icon {
+  display: grid;
+  grid-template-columns: 7fr 1fr;
+}

@@ -3,32 +3,28 @@
     <img src="{{mushroom?getPicture(mushroom.picture):''}}" alt="">
   </div>
 
-  <div class="rows">
-    <div class="header">
-      <ion-card-header>
-        <ion-card-title>{{mushroom?.specy?.name}}</ion-card-title>
-        <ion-card-subtitle>{{mushroom?.user?.username}}</ion-card-subtitle>
-        <ion-card-subtitle>{{mushroom?.specy?.usage}}</ion-card-subtitle>
-        <ion-card-subtitle>{{mushroom?.date}}</ion-card-subtitle>
-      </ion-card-header>
-      <div class="wrapper__buttons">
-        <ion-button  (click)="addToFavorites(mushroom)"  fill="clear">
-          <ion-icon *ngIf="isfav;" name="heart"></ion-icon>
-          <ion-icon *ngIf="!isfav;" name="heart-outline"></ion-icon>
-        </ion-button>
-        <ion-button (click)="onToggleTextExpand()" fill="clear">
-          <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
-        </ion-button>
+  <div class="card-text-icons-div">
+    <div class="card-text">
+      <div class="card-header-div">
+        <ion-card-header>
+          <ion-card-title>{{mushroom?.specy?.name}}</ion-card-title>
+          <ion-card-subtitle class="card-user-name">{{mushroom?.user?.username}}</ion-card-subtitle>
+        </ion-card-header>
+      </div>
+      <div class="card-content-div">
+        <ion-card-content class="{{showFullText? '': 'show-partial-text'}}">
+          {{mushroom?.description}}
+        </ion-card-content>
       </div>
     </div>
-
-    <div class="row">
-      <ion-card-content>
-        <p class="{{showFullText? '': 'show-partial-text'}}">
-          {{mushroom?.description}} {{mushroom?.description}} {{mushroom?.description}}
-        </p>
-      </ion-card-content>
+    <div class="wrapper__buttons">
+      <ion-button (click)="addToFavorites(mushroom)" fill="clear">
+        <ion-icon *ngIf="isfav;" name="heart"></ion-icon>
+        <ion-icon *ngIf="!isfav;" name="heart-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onToggleTextExpand()" fill="clear">
+        <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
+      </ion-button>
     </div>
   </div>
-
 </ion-card>

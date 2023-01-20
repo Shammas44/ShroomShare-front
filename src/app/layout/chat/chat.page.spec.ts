@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Storage } from '@ionic/storage';
 
 import { ChatPage } from './chat.page';

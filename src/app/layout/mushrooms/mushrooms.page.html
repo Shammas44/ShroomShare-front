@@ -1,20 +1,19 @@
-<ion-content class="ion-padding">
+<ion-content class="ion-padding-start">
 
   <div class="wrapper">
     <div>
       <h2>Champignons</h2>
-      <ion-toolbar color="light">
-        <ion-buttons slot="end">
-          <ion-button slot="icon-only" (click)="openModal()">
-            <ion-icon src="assets/icon/filter.svg" class="filter-button"></ion-icon>
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
+      <div class="mushrooms-subtitle-and-icon">
+        <h3 class="page-main-subtitle">Tous les champignons</h3>
+        <ion-button fill="clear" slot="icon-only" (click)="openModal()">
+          <ion-icon src="assets/icon/filter.svg" class="filter-button"></ion-icon>
+        </ion-button>
+      </div>
     </div>
 
-    <div class="ion-padding wrapper__list ion-content-scroll-host">
+    <div class="wrapper__list ion-content-scroll-host">
       <ion-list>
-        <ion-item *ngFor="let mushroom of items">
+        <ion-item *ngFor="let mushroom of items" class="ion-no-padding">
           <app-mushroom-card [mushroom]="mushroom">
           </app-mushroom-card>
         </ion-item>

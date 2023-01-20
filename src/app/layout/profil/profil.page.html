@@ -1,30 +1,32 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>profil</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <ion-button routerLink="personal-data" [state]="user" expand="block">
-    Données personnels
-    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-  </ion-button>
-  <ion-button routerLink="my-mushrooms" [state]="user" expand="block">
-    Mes champignons
-    <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
-  </ion-button>
 
-  <div class="wrapper">
-    <ion-button color="warning" (click)="logOut()">
-      Déconnexion
-    </ion-button>
-    <ion-button color="warning" (click)="deleteLocalData()">
-      Supprimer les données locales
-    </ion-button>
-    <ion-button color="danger" (click)="presentAlert()">
-      Supprimer
-    </ion-button>
-    <p>
+  <div class="profil-top-div">
+    <h2>Profil</h2>
+  </div>
+  <div class="profil-middle-div">
+    <ion-list>
+      <ion-item routerLink="personal-data" [state]="user" expand="block">
+        <span position="floating" class="inter-font-span">Données personnels</span>
+      </ion-item>
+      <ion-item routerLink="my-mushrooms" [state]="user" expand="block">
+        <span class="inter-font-span">
+          Mes champignons</span>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div class="profil-bottom-div">
+    <div class="profil-div-button-wrapper">
+      <ion-button (click)="logOut()" size="large" color="secondary">
+        <span class="big-button-text">Déconnexion</span>
+      </ion-button>
+    </div>
+    <div class="profil-div-button-wrapper">
+      <ion-button (click)="presentAlert()" size="large" color="danger" expand="block">
+        <span class="big-button-text">Supprimer</span>
+      </ion-button>
+    </div>
+    <p class="warning-delete-account-text">
       Cette action supprimera votre compte
       définitivement
     </p>

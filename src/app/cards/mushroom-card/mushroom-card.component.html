@@ -33,16 +33,33 @@
         <ion-button (click)="onToggleTextExpand()" fill="clear">
           <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
         </ion-button>
+  <div class="card-text-icons-div">
+    <div class="card-text">
+      <div class="card-header-div">
+        <ion-card-header>
+          <ion-card-title>{{mushroom?.specy?.name}}</ion-card-title>
+          <ion-card-subtitle class="card-user-name">{{mushroom?.user?.username}}</ion-card-subtitle>
+        </ion-card-header>
+      </div>
+      <div class="card-content-div">
+        <ion-card-content class="{{showFullText? '': 'show-partial-text'}}">
+          {{mushroom?.description}}
+          <div class="extra-small-button-div">
+            <ion-button *ngIf="showFullText" (click)="navToWiki()" size="small">
+              <span class="extra-small-button-text">Liste des champignons</span>
+            </ion-button>
+          </div>
+        </ion-card-content>
       </div>
     </div>
-
-    <div class="row">
-      <ion-card-content>
-        <p class="{{showFullText? '': 'show-partial-text'}}">
-          {{mushroom?.description}} {{mushroom?.description}} {{mushroom?.description}}
-        </p>
-      </ion-card-content>
+    <div class="wrapper__buttons">
+      <ion-button (click)="addToFavorites(mushroom)" fill="clear">
+        <ion-icon *ngIf="isfav;" name="heart"></ion-icon>
+        <ion-icon *ngIf="!isfav;" name="heart-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onToggleTextExpand()" fill="clear">
+        <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
+      </ion-button>
     </div>
   </div>
-
 </ion-card>

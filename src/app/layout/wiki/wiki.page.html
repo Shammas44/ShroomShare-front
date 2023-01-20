@@ -1,12 +1,12 @@
-<ion-content>
+<ion-content class="ion-padding-start">
 
   <div class="wrapper">
     <div>
-      <h2>page Wiki</h2>
+      <h2>Wiki des espèces</h2>
       <ion-searchbar (ionChange)="onInputChange($event)" [value]="search"></ion-searchbar>
     </div>
 
-    <div class="ion-padding wrapper__list ion-content-scroll-host">
+    <div class="wrapper__list ion-content-scroll-host">
       <ion-list>
         <ion-item *ngFor="let specy of items">
           <app-specy-card [specy]="specy"></app-specy-card>

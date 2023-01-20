@@ -1,37 +1,34 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
-    </ion-buttons>
-    <ion-title>Filtres</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="confirm()">Confirm</ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content class="ion-padding">
 
+  <ion-buttons slot="start">
+    <ion-button slot="icon-only" (click)="cancel()">
+      <ion-icon fill="clear" name="close"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <h2>Filtres</h2>
+
   <ion-title *ngIf="states.city">
-    <h3>Ville</h3>
+    <h3 class="filter-title ion-text-start">Ville</h3>
   </ion-title>
-  <app-picker-city (choosenCity)="onChoosenCity($event)" *ngIf="states.city | async as state" [state]="state"></app-picker-city>
+  <app-picker-city (choosenCity)="onChoosenCity($event)" *ngIf="states.city | async as state"
+    [state]="state"></app-picker-city>
 
   <ion-title *ngIf="states.users">
-    <h3>Utilisateurs</h3>
+    <h3 class="filter-title ion-text-start">Utilisateurs</h3>
   </ion-title>
   <app-picker [pageSize]="3" (choosenItem)="onChoosenUser($event)" [getItem]="getUsers" [itemKeys]="userKeys"
     [useFavorite]="true" [allFavorites]="allFavorites" [state]="state" *ngIf="states.users | async as state;">
   </app-picker>
 
   <ion-title *ngIf="states.species">
-    <h3>Espèces</h3>
+    <h3 class="filter-title ion-text-start">Espèces</h3>
   </ion-title>
   <app-picker [pageSize]="3" (choosenItem)="onChoosenSpecies($event)" [getItem]="getSpecies" [itemKeys]="specyKeys"
     [useFavorite]="false" [state]="state" *ngIf="states.species | async as state;">
   </app-picker>
 
   <ion-title *ngIf="states.usages">
-    <h3>Usage</h3>
+    <h3 class="filter-title ion-text-start">Usage</h3>
   </ion-title>
 
   <ion-list class="ion-padding" *ngIf="states.usages | async as state">
@@ -43,7 +40,7 @@
   </ion-list>
 
   <ion-title *ngIf="states.radius">
-    <h3>Radius</h3>
+    <h3 class="filter-title">Radius</h3>
   </ion-title>
 
   <p *ngIf="states.radius | async as state">{{rangeValue || state || 1}} KM</p>
@@ -80,10 +77,15 @@
         </ng-template>
       </ion-modal>
 
+      <div class="filters-bottom-div">
+        <ion-buttons slot="end">
+          <ion-button (click)="confirm()" size="small">
+            <span class="small-button-text">Appliquer les filtres</span>
+          </ion-button>
+        </ion-buttons>
+      </div>
+
     </div>
   </div>
-
-
-
 
 </ion-content>

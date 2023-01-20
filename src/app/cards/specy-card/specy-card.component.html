@@ -3,29 +3,28 @@
     <img src="{{specy?.picture ? getPicture(specy?.picture): ''}}" alt="">
   </div>
 
-  <div class="rows">
-    <div class="header">
-      <ion-card-header>
-        <ion-card-title>{{specy?.name}}</ion-card-title>
-        <ion-card-subtitle>{{specy?.usage}}</ion-card-subtitle>
-      </ion-card-header>
-
-      <div class="wrapper__buttons">
-        <ion-button fill="clear">
-          <ion-icon name="heart"></ion-icon>
-        </ion-button>
-        <ion-button (click)="onToggleTextExpand()" fill="clear">
-          <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
-        </ion-button>
+  <div class="card-text-icons-div">
+    <div class="card-text">
+      <div class="card-header-div">
+        <ion-card-header>
+          <ion-card-title>{{specy?.name}}</ion-card-title>
+          <ion-card-subtitle class="card-usage">{{specy?.usage}}</ion-card-subtitle>
+        </ion-card-header>
+      </div>
+      <div class="card-content-div">
+        <ion-card-content class="{{showFullText? '': 'show-partial-text'}}">
+          {{specy?.description}} {{specy?.description}} {{specy?.description}}
+        </ion-card-content>
       </div>
     </div>
 
-    <div class="row">
-      <ion-card-content>
-        <p class="{{showFullText? '': 'show-partial-text'}}">
-          {{specy?.description}} {{specy?.description}} {{specy?.description}}
-        </p>
-      </ion-card-content>
+    <div class="wrapper__buttons">
+      <ion-button fill="clear">
+        <ion-icon name="heart"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onToggleTextExpand()" fill="clear">
+        <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
+      </ion-button>
     </div>
   </div>
 

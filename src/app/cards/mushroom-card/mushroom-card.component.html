@@ -3,7 +3,7 @@
     <img src="{{mushroom?getPicture(mushroom.picture):''}}" alt="">
   </div>
 
-  <div class="rows">
+  <!-- <div class="rows">
     <div class="header">
       <ion-card-header>
         <ion-card-title>{{mushroom?.specy?.name}}</ion-card-title>
@@ -16,18 +16,26 @@
         
         <ion-button  (click)="addToFavorites(mushroom)"  fill="clear">
           
-          <ng-container *ngFor="let favorite of _favoritesList$ | async ">
+          <ng-container *ngFor="let favorite of _favoritesList$ | async "> -->
+
           <!-- <ion-icon *ngIf="isfav" name="heart"></ion-icon>  -->
           <!-- <ion-icon *ngIf="[_favoritesList$ | async].includes({id: mushroom?.user?.id, username: mushroom?.user?.username}) | async" name="heart"></ion-icon>   -->
           
           <!-- <ng-template *ngIf="favorite === {id: mushroom?.user?.id, username: mushroom?.user?.username}; else notfav "name="heart" ></ng-template> -->
           <!-- <ion-icon #notfav name="heart-outline"></ion-icon> -->
 
-          <!-- <ng-template [ngIf]="favorite?.id !== mushroom?.user?.id"><ion-icon name="heart-outline"></ion-icon></ng-template> -->
-          <ion-icon *ngIf="favorite.id === mushroom?.user?.id" name="heart"></ion-icon>
-          <!-- <ion-icon #heartoutline name="heart-outline"></ion-icon> -->
-        </ng-container>
-        </ion-button>
+        
+        
+      <!-- <ng-template [ngIf]="favorite?.id !== mushroom?.user?.id"><ion-icon name="heart-outline"></ion-icon></ng-template> -->
+         
+      <!-- fonctionnel -->
+      <!-- <ion-icon *ngIf="favorite.id === mushroom?.user?.id" name="heart"></ion-icon> -->
+      
+      
+      <!-- <ion-icon #heartoutline name="heart-outline"></ion-icon> -->
+      
+        <!-- </ng-container>
+        </ion-button> -->
       
       
         <ion-button (click)="onToggleTextExpand()" fill="clear">

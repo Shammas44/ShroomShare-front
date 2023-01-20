@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { StorageService } from './../../localStorage/local-storage.service';
 import { ToastController } from '@ionic/angular';
 import { Favorite } from 'src/app/models/favorite';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-mushroom-card',

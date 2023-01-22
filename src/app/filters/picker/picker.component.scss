@@ -53,6 +53,7 @@ ion-accordion::after {
   z-index: 100000000;
   @include font-paragraph(var(--black-nuancy-1), right);
 }
+
 .accordion-expanded::after {
   content: 'réduire';
 }
@@ -60,4 +61,3 @@ ion-accordion::after {
 .accordion-collapsed::after {
   content: 'tout afficher';
 }
-

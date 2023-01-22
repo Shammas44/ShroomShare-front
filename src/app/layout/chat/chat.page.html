@@ -56,7 +56,7 @@
       <ion-row *ngIf="message.userId === currentUserId" class="ion-justify-content-end">
         <span class="chat-message-right">{{ message.value }}</span>
       </ion-row>
-      <ion-row *ngIf="message.userId !== currentUserId" class="ion-justify-content-end">
+      <ion-row *ngIf="message.userId !== currentUserId" class="ion-justify-content-start">
         <span class="chat-message-left">{{ message.value }}</span>
       </ion-row>
 

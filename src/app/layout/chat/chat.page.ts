@@ -39,16 +39,10 @@ export class ChatPage implements OnInit {
     this.initChat();
   }
 
-  onSubmit(form: NgForm) {
-    console.log('submit message');
-    const ok = this.updateCurrentUser();
-    if (ok) {
-      if (this.socket.readyState == WebSocket.CLOSED) {
-        this.socket = this.createBaseWebSocket();
-        this.initChat();
-      }
-      this.sendMessage(this.lastMessage.value);
-      this.lastMessage.value = '';
+  scrollToBottomChat() {
+    const chatMessagesDiv = document.querySelector('.chat-messages-div');
+    if (chatMessagesDiv !== null) {
+      chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
     }
   }
 
@@ -56,9 +50,7 @@ export class ChatPage implements OnInit {
     console.log(`change language for: ${this.language}`);
     const ok = this.updateCurrentUser();
     if (ok) {
-      this.socket = new WebSocket(
-        `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
-      );
+      this.socket = this.createBaseWebSocket();
       this.initChat();
       this.messages = [];
     }
@@ -96,10 +88,6 @@ export class ChatPage implements OnInit {
     });
   }
 
-  sendMessage(message: string) {
-    this.socket.send(message);
-  }
-
   handleServerMessage(message: webSocketResponse) {
     console.log('message from server recieved to handle', message);
     if (message.message !== undefined) {
@@ -117,16 +105,49 @@ export class ChatPage implements OnInit {
     }
   }
 
-  scrollToBottomChat() {
-    const chatMessagesDiv = document.querySelector('.chat-messages-div');
-    if (chatMessagesDiv !== null) {
-      chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
-    }
-  }
-
   createBaseWebSocket(): WebSocket {
     return new WebSocket(
       `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
     );
+  }
+
+  async onSubmit(form: NgForm) {
+    console.log('submit message');
+    const ok = this.updateCurrentUser();
+    if (ok) {
+      if (
+        this.socket.readyState == WebSocket.CLOSED ||
+        this.socket.readyState == WebSocket.CLOSING
+      ) {
+        this.socket = this.createBaseWebSocket();
+        this.initChat();
+      }
+      await this.waitForOpenConnection();
+      this.sendMessage(this.lastMessage.value);
+      this.lastMessage.value = '';
+    }
+  }
+
+  sendMessage(message: string) {
+    this.socket.send(message);
+  }
+
+  waitForOpenConnection() {
+    return new Promise<void>((resolve, reject) => {
+      const maxNumberOfAttempts = 10;
+      const intervalTime = 200; //ms
+
+      let currentAttempt = 0;
+      const interval = setInterval(() => {
+        if (currentAttempt > maxNumberOfAttempts - 1) {
+          clearInterval(interval);
+          reject(new Error('Maximum number of attempts exceeded'));
+        } else if (this.socket.readyState === WebSocket.OPEN) {
+          clearInterval(interval);
+          resolve();
+        }
+        currentAttempt++;
+      }, intervalTime);
+    });
   }
 }

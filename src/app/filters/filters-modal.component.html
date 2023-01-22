@@ -1,33 +1,32 @@
 <ion-content class="ion-padding">
-
-  <ion-buttons slot="start">
-    <ion-button slot="icon-only" (click)="cancel()">
+  <div class="clear-filters-button-div">
+    <ion-button slot="icon-only" fill="clear" (click)="cancel()">
       <ion-icon fill="clear" name="close"></ion-icon>
     </ion-button>
-  </ion-buttons>
+  </div>
   <h2>Filtres</h2>
 
-  <ion-title *ngIf="states.city">
+  <ion-title class="ion-no-padding" *ngIf="states.city">
     <h3 class="filter-title ion-text-start">Ville</h3>
   </ion-title>
   <app-picker-city (choosenCity)="onChoosenCity($event)" *ngIf="states.city | async as state"
     [state]="state"></app-picker-city>
 
-  <ion-title *ngIf="states.users">
+  <ion-title class="ion-no-padding" *ngIf="states.users">
     <h3 class="filter-title ion-text-start">Utilisateurs</h3>
   </ion-title>
   <app-picker [pageSize]="3" (choosenItem)="onChoosenUser($event)" [getItem]="getUsers" [itemKeys]="userKeys"
     [useFavorite]="true" [allFavorites]="allFavorites" [state]="state" *ngIf="states.users | async as state;">
   </app-picker>
 
-  <ion-title *ngIf="states.species">
+  <ion-title class="ion-no-padding" *ngIf="states.species">
     <h3 class="filter-title ion-text-start">Espèces</h3>
   </ion-title>
   <app-picker [pageSize]="3" (choosenItem)="onChoosenSpecies($event)" [getItem]="getSpecies" [itemKeys]="specyKeys"
     [useFavorite]="false" [state]="state" *ngIf="states.species | async as state;">
   </app-picker>
 
-  <ion-title *ngIf="states.usages">
+  <ion-title class="ion-no-padding" *ngIf="states.usages">
     <h3 class="filter-title ion-text-start">Usage</h3>
   </ion-title>
 
@@ -40,14 +39,14 @@
   </ion-list>
 
   <ion-title *ngIf="states.radius">
-    <h3 class="filter-title">Radius</h3>
+    <h3 class="ion-no-padding filter-title">Radius</h3>
   </ion-title>
 
   <p *ngIf="states.radius | async as state">{{rangeValue || state || 1}} KM</p>
   <ion-range *ngIf="states.radius | async as state" (ionChange)="onRadiusChange($event)" [ticks]="true" [snaps]="true"
     [min]="1" [max]="100" [step]="1" value="{{state}}"></ion-range>
 
-  <div class="wrapper__date">
+  <div class="wrapper__date__inputs">
     <div class="wrapper__date" *ngIf="states.start | async as state">
 
       <ion-title>
@@ -76,16 +75,13 @@
             (ionChange)="onEndChange($event)"></ion-datetime>
         </ng-template>
       </ion-modal>
-
-      <div class="filters-bottom-div">
-        <ion-buttons slot="end">
-          <ion-button (click)="confirm()" size="small">
-            <span class="small-button-text">Appliquer les filtres</span>
-          </ion-button>
-        </ion-buttons>
-      </div>
-
     </div>
+  </div>
+
+  <div class="filters-bottom-div">
+    <ion-button (click)="confirm()" size="small">
+      <span class="small-button-text">Appliquer les filtres</span>
+    </ion-button>
   </div>
 
 </ion-content>

@@ -1,5 +1,11 @@
-.wrapper__date {
+.clear-filters-button-div {
   display: flex;
+  justify-content: flex-end;
+}
+
+.wrapper__date__inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .filter-title {
@@ -14,4 +20,5 @@ ion-title {
 .filters-bottom-div {
   text-align: center;
   margin-bottom: 3rem;
+  margin-top: 3rem;
 }

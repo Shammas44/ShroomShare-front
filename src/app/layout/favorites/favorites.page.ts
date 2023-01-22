@@ -41,12 +41,17 @@ export class FavoritesPage implements OnInit {
   async deleteFavorite2(id: string) {
     const alert = await this.alertController.create({
       header: `Are you sure you want to delete this user?`,
+      cssClass: 'custom-alert',
       buttons: [
-        { text: 'Cancel', role: 'cancel', cssClass: 'secondary' },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'primary',
+        },
         {
           text: 'Delete',
           role: 'delete',
-          cssClass: 'primary',
+          cssClass: 'alert-button-delete',
           handler: () => {
             this.favoriteStorage.deleteFavorite2(id);
           },

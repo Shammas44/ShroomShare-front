@@ -31,8 +31,8 @@
 // "paragraphes normaux" in figma
 @mixin font-paragraph($color, $text-align){
     @include font-style($color, $text-align);
-    font-size: 0.75rem;
-    line-height: 1.2rem;
+    font-size: 1.2rem;
+    line-height: 2.2rem;
 }
 
 // "BoutonText1" in figma (Bouton d'importance élevé. Exeple: déconnexion, supprimer, etc)
@@ -69,8 +69,8 @@
 // "Mini-titre" in figma (exemple : Titre des filtres)
 @mixin font-mini-title($color, $text-align){
     @include font-style($color, $text-align);
-    font-size: 0.813rem;
-    line-height: 1.3rem;
+    font-size: 1.3rem;
+    line-height: 2.2rem;
     
 }
 

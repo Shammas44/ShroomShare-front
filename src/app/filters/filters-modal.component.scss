@@ -1,17 +1,126 @@
-.wrapper__date {
+@import '../../mixin';
+
+// =====================================================================
+// Modal
+// =====================================================================
+
+.modal__wrapper {
   display: flex;
+  height: 100%;
+  flex-direction: column;
 }
 
 .filter-title {
-  font-family: 'Quando', sans-serif;
-  font-size: 1.5rem;
+  @include font-mini-title(var(--black-nuancy-1), left);
 }
 
-ion-title {
-  text-align: left;
+.cancel {
+  justify-content: end;
 }
 
 .filters-bottom-div {
+  align-items: end;
+  display: flex;
+  height: -webkit-fill-available;
+  justify-content: center;
   text-align: center;
-  margin-bottom: 3rem;
+  padding: 4rem 0 2rem 0;
+}
+
+ion-button {
+  margin: 0;
+}
+
+ion-title {
+  border-top: 1px solid var(--grey-nuancy-2);
+  width: 100%;
+  text-align: left;
+  padding: 0;
+}
+
+ion-title h3 {
+  color: var(--shroom-secondary);
+}
+
+// =====================================================================
+// Dates
+// =====================================================================
+
+.wrapper__dates {
+  display: flex;
+}
+
+.wrapper__date {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-column-gap: 2rem;
+  width: 100%;
+}
+
+.wrapper__date ion-title {
+  grid-column: 1 /5;
+  grid-row: 1;
+  padding: 0;
+}
+
+.wrapper__date ion-title h3 {
+  text-align: left;
+}
+
+ion-datetime-button {
+  grid-row: 2;
+  grid-column: 1 /4;
+  display: flex;
+  justify-content: start;
+  position: relative;
+  height: min-content;
+}
+
+ion-datetime-button::part(native) {
+  width: 100%;
+  border: 2px solid var(--black-nuancy-1);
+  border-radius: 5px;
+  text-align: left;
+  margin: 0;
+  background: transparent;
+}
+
+ion-datetime-button::part(native)::after {
+  $size: 12px;
+  content: '>';
+  width: $size;
+  height: $size;
+  font-size: $size;
+  position: absolute;
+  display: flex;
+  right: $size / 2;
+  justify-content: center;
+  top: calc(50% - 6px);
+  align-items: center;
+  transform: rotate(90deg);
+}
+
+// =====================================================================
+// Radius
+// =====================================================================
+
+.radius {
+  display: flex;
+  flex-direction: column;
+}
+
+.radius__title-wrapper {
+  display: flex;
+}
+
+.radius__value {
+  border-top: 1px solid var(--grey-nuancy-2);
+  width: 100%;
+  padding: 0;
+}
+
+.radius__value p {
+  margin: 16px 0 10px 0;
+  @include font-mini-title(var(--shroom-secondary), right);
 }

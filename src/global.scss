@@ -13,118 +13,154 @@
 // Layers
 // =====================================================================
 
-@layer default,custom; 
+@layer default,custom;
 
+@import './mixin';
 /* Core CSS required for Ionic components to work properly */
-@import "~@ionic/angular/css/core.css" layer(default);
+@import '~@ionic/angular/css/core.css' layer(default);
 
 /* Basic CSS for apps built with Ionic */
-@import "~@ionic/angular/css/normalize.css" layer(default);
-@import "~@ionic/angular/css/structure.css" layer(default);
-@import "~@ionic/angular/css/typography.css" layer(default);
+@import '~@ionic/angular/css/normalize.css' layer(default);
+@import '~@ionic/angular/css/structure.css' layer(default);
+@import '~@ionic/angular/css/typography.css' layer(default);
 @import '~@ionic/angular/css/display.css' layer(default);
 
 /* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css" layer(default);
-@import "~@ionic/angular/css/float-elements.css" layer(default);
-@import "~@ionic/angular/css/text-alignment.css" layer(default);
-@import "~@ionic/angular/css/text-transformation.css" layer(default);
-@import "~@ionic/angular/css/flex-utils.css" layer(default);
+@import '~@ionic/angular/css/padding.css' layer(default);
+@import '~@ionic/angular/css/float-elements.css' layer(default);
+@import '~@ionic/angular/css/text-alignment.css' layer(default);
+@import '~@ionic/angular/css/text-transformation.css' layer(default);
+@import '~@ionic/angular/css/flex-utils.css' layer(default);
 
-@import "~@ionic/angular/css/core.css";
+@import '~@ionic/angular/css/core.css';
 
 // /* Basic CSS for apps built with Ionic */
-@import "~@ionic/angular/css/normalize.css";
-@import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
 @import '~@ionic/angular/css/display.css';
 
 // /* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
 
 @layer custom {
-    .alert .alert-head h2 {
-    text-align: center;
-    }
-
-    .alert .alert-wrapper .alert-button-group {
-    justify-content: space-between !important;
-    }
-
-    ion-input {
-        --background: var(--grey-nuancy-2);
-        --padding-start: 3.4rem;
-        --padding-top: 0.8rem;
-        --padding-bottom: 0.8rem;
-    }
-}
-
-:root {
-    --shroom-strong-background: #D2C08D;
-    --shroom-highlight: #EC673C;
-    --black-nuancy-1: #0C0C0C;
+  :root {
+    --shroom-strong-background: #d2c08d;
+    --shroom-highlight: #ec673c;
+    --black-nuancy-1: #0c0c0c;
     --grey-nuancy-one: #666666;
-    --white: #FFFFFF;
-    --shroom-secondary: #512A18;
-    --grey-nuancy-2: #DADADA;
-    --shroom-delete: #DC0000;
+    --white: #ffffff;
+    --shroom-secondary: #512a18;
+    --grey-nuancy-2: #dadada;
+    --shroom-delete: #dc0000;
     --background: rgba(210, 192, 141, 0.44);
     --unavailable-background: rgba(255, 0, 0, 0.76);
+    //calendar variables
+    --ion-color-calendar: var(--shroom-secondary);
+    --ion-color-calendar-rgb: 81, 42, 24;
+    --ion-color-calendar-contrast: #ffffff;
+    --ion-color-calendar-contrast-rgb: 255, 255, 255;
 
     font-size: 10px;
-}
+    font-family: 'Quando';
+  }
 
+  .ion-color-calendar {
+    --ion-color-base: var(--ion-color-calendar);
+    --ion-color-base-rgb: var(--ion-color-calendar-rgb);
+    --ion-color-contrast: var(--ion-color-calendar-contrast);
+    --ion-color-contrast-rgb: var(--ion-color-calendar-contrast-rgb);
+  }
 
-h1 {
+  ion-datetime {
+    border: 2px solid black;
+    color: var(--black-nuancy-1);
+    border-radius: 16px;
+  }
+
+  ion-range {
+    --bar-height: 3px;
+    --knob-size: 30px;
+    --bar-border-radius: 3px;
+    --bar-background: var(--grey-nuancy-2);
+    --bar-background-active: var(--shroom-secondary);
+  }
+
+  ion-item {
+    --border-style: none;
+    @include font-paragraph(var(--black-nuancy-1), left);
+  }
+
+  .alert .alert-head h2 {
+    text-align: center;
+  }
+
+  .alert .alert-wrapper .alert-button-group {
+    justify-content: space-between !important;
+  }
+
+  .searchbar-input.sc-ion-searchbar-md {
+    font-size: 12px !important;
+  }
+
+  ion-input {
+    --background: var(--grey-nuancy-2);
+    --padding-start: 3.4rem;
+    --padding-top: 0.8rem;
+    --padding-bottom: 0.8rem;
+  }
+
+  h1 {
     font-family: 'Quando', serif;
     font-size: 3.6rem;
     text-align: center;
     color: var(--black-nuancy-1);
-}
+  }
 
-h2 {
+  h2 {
     font-family: 'Quando', serif;
     font-size: 2.4rem;
     text-align: center;
     color: var(--black-nuancy-1);
-}
+  }
 
-h3 {
+  h3 {
     font-family: 'Quando', serif;
     font-size: 1.6rem;
     text-align: center;
     color: var(--black-nuancy-1);
-}
+  }
 
-.button-text-1 {
+  .button-text-1 {
     font-family: 'Quando', serif;
     font-size: 2.4rem;
     color: var(--white);
-}
+  }
 
-.button-text-2 {
+  .button-text-2 {
     font-family: 'Quando', serif;
     font-size: 1.5rem;
     color: var(--white);
-}
+  }
 
-p, span {
+  p,
+  span {
     font-family: 'Quando', serif;
     font-size: 1.2rem;
     color: var(--black-nuancy-1);
-}
+  }
 
-ion-input {
-    --placeholder-font-style: 'Inter, sans-serif'
-}
+  ion-input {
+    --placeholder-font-style: 'Inter, sans-serif';
+  }
 
-ion-input.custom {
+  ion-input.custom {
     --background: var(--grey-nuancy-2);
-    --placeholder-opacity: .8; 
+    --placeholder-opacity: 0.8;
     --padding-bottom: 1rem;
     --padding-end: 3.4rem;
     --padding-start: 3.4rem;
@@ -134,26 +170,26 @@ ion-input.custom {
     font-size: 1.6rem;
   }
 
-ion-button {
+  ion-button {
     --border-radius: 8px;
     --box-shadow: 0 0 0 0 rgb(0, 0, 0, 0.25);
-}
+  }
 
-.small-button-text {
+  .small-button-text {
     font-size: 1.5rem;
     color: white;
     //padding: 1.2rem 0.6rem;
     text-transform: none;
-}
+  }
 
-.big-button-text {
+  .big-button-text {
     font-size: 2.4rem;
     color: white;
     //padding: 0.9rem 2.6rem;
     text-transform: none;
-}
+  }
 
-.page-main-subtitle {
+  .page-main-subtitle {
     text-align: left;
+  }
 }
-

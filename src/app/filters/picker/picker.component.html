@@ -1,4 +1,4 @@
-<ion-searchbar (ionChange)="onInputChange($event)" [value]="state.search"></ion-searchbar>
+<ion-searchbar (ionChange)="onInputChange($event)" [value]="state.search" class="search" placeholder=""></ion-searchbar>
 
 <ion-chip *ngFor="let user of state.chips|keyvalue">
   <ion-label>{{user.value[itemKeys.searchable]}}</ion-label>

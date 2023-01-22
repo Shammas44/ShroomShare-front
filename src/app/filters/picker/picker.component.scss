@@ -1,17 +1,13 @@
-// .details__favorites-users {
-//   max-height:20vh;
-//   overflow-y: scroll;
-// }
+@import '../../../mixin';
 
-// .details__all-users {
-//   max-height:15vh;
-//   overflow-y: scroll;
-// }
+ion-chip {
+  --background: var(--shroom-strong-background);
+  @include font-paragraph(var(--shroom-secondary), center);
+}
 
-// ion-list {
-//   max-height:15vh;
-//   overflow-y: scroll;
-// }
+ion-icon {
+  color: var(--shroom-secondary);
+}
 
 .favorites__list {
   overflow: scroll;
@@ -31,20 +27,37 @@ label {
   overflow: hidden;
 }
 
-
 .radio-icon {
   visibility: hidden;
 }
 
-
-
 .inter-font-item {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.6rem;
-    color: var(--black-nuancy-1);  
+  font-family: 'Inter', sans-serif;
+  font-size: 1.6rem;
+  color: var(--black-nuancy-1);
 }
-
 
 .shroom-background-chip {
   background-color: var(--shroom-strong-background);
 }
+
+ion-accordion {
+  position: relative;
+}
+
+ion-accordion::after {
+  display: flex;
+  position: absolute;
+  right: 5rem;
+  top: 1.1rem;
+  z-index: 100000000;
+  @include font-paragraph(var(--black-nuancy-1), right);
+}
+.accordion-expanded::after {
+  content: 'réduire';
+}
+
+.accordion-collapsed::after {
+  content: 'tout afficher';
+}
+

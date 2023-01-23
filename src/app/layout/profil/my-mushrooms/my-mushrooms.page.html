@@ -1,15 +1,13 @@
-<ion-content>
+<ion-content class="ion-padding-left">
 
   <div class="wrapper">
-    <div>
-      <h2>Mes champignons</h2>
-      <ion-button (click)="openModal()">
-        <ion-icon name="filter-circle-outline"></ion-icon>
+    <h2>Mes champignons</h2>
+    <div class="mushrooms-subtitle-and-icon">
+      <h3 class="page-main-subtitle">Tous mes champignons</h3>
+      <ion-button fill="clear" slot="icon-only" (click)="openModal()">
+        <ion-icon src="assets/icon/filter.svg" class="filter-button"></ion-icon>
       </ion-button>
     </div>
-
-    <p>Tous mes champignons</p>
-
     <div class="ion-padding wrapper__list ion-content-scroll-host">
       <ion-list>
         <ion-item *ngFor="let mushroom of items">

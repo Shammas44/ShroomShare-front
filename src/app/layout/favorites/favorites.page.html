@@ -1,22 +1,19 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>favorites</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <div class="favourites-top-div">
+    <h2>Utilisateurs</h2>
+  </div>
+  <h3 class="favorites-subtitle">Favoris</h3>
   <ion-list [inset]="true">
-   <ion-item *ngFor="let favorite of _favoritesList$ | async "> 
-  <ion-label>{{favorite.username}}</ion-label> 
-  
-  <ion-button (click)="deleteFavorite2(favorite.id)" fill="clear">
-    <ion-icon  name="heart"></ion-icon>
-  </ion-button>
-  </ion-item>
-    </ion-list>
-  
-  <ng-template #noFavs>You don't have any faovrites: to add one, click on the heart on a mushroom card</ng-template>
-  
- 
+    <ion-item *ngFor="let favorite of _favoritesList$ | async ">
+      <ion-label>{{favorite.username}}</ion-label>
+
+      <ion-button (click)="deleteFavorite2(favorite.id)" fill="clear">
+        <ion-icon name="heart"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #noFavs>Vous n'avez aucun favoris, il faut cliquer sur les cartes pour en ajouter.</ng-template>
+
+
 </ion-content>

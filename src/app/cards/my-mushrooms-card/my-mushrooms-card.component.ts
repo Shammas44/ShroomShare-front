@@ -44,9 +44,8 @@ export class MyMushroomsCardComponent implements OnInit {
         icon: ToastTypes.error,
       });
     }
-    this.modify.emit(id)
+    this.modify.emit(id);
   }
-
 
   async deleteMushroom(id?: string) {
     if (id === undefined) {
@@ -57,16 +56,18 @@ export class MyMushroomsCardComponent implements OnInit {
     }
     const alert = await this.alertController.create({
       header: this.MSG.ASK_DELETION_CONFIRMATION,
-      cssClass: 'alert',
+      cssClass: 'custom-alert',
       buttons: [
         {
           text: 'Annuler',
           role: 'cancel',
+          cssClass: 'alert-button-confirm',
           handler: () => {},
         },
         {
           text: 'Supprimer',
           role: 'confirm',
+          cssClass: 'alert-button-delete',
           handler: () => {
             this.api.deleteMushroom$(id).subscribe({
               next: () => {

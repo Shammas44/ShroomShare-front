@@ -1,6 +1,6 @@
 <ion-searchbar (ionChange)="onInputChange($event)" [value]="state.search" class="search" placeholder=""></ion-searchbar>
 
-<ion-chip *ngFor="let user of state.chips|keyvalue">
+<ion-chip class="shroom-background-chip" *ngFor="let user of state.chips|keyvalue">
   <ion-label>{{user.value[itemKeys.searchable]}}</ion-label>
   <ion-icon name="close" (click)="onChipClick(user.key)"></ion-icon>
 </ion-chip>

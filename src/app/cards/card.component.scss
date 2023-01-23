@@ -70,9 +70,8 @@ ion-card-content {
 }
 
 .extra-small-buttons-div {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .extra-small-button-text {

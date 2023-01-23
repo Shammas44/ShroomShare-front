@@ -6,13 +6,15 @@
     <ion-list>
       <!-- Username input -->
       <ion-item>
-        <div class="label-icon-div">
-          <ion-label class="inter-font-label">Nom d'utilisateur</ion-label>
-          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-          </ion-button>
+        <div class="label-input-wrapper">
+          <div class="label-icon-div">
+            <ion-label class="inter-font-label">Nom d'utilisateur</ion-label>
+            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+            </ion-button>
+            <ion-input inputmode="text" formControlName="username"></ion-input>
+          </div>
         </div>
-        <ion-input inputmode="text" formControlName="username"></ion-input>
       </ion-item>
       <!-- Error message displayed if the username is invalid -->
       <ion-item lines="none" *ngIf="username.hasError('required') && username.touched">
@@ -27,13 +29,15 @@
 
       <!-- Email input -->
       <ion-item>
-        <div class="label-icon-div">
-          <ion-label class="inter-font-label">Email</ion-label>
-          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-          </ion-button>
+        <div class="label-input-wrapper">
+          <div class="label-icon-div">
+            <ion-label class="inter-font-label">Email</ion-label>
+            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+            </ion-button>
+          </div>
+          <ion-input inputmode="text" formControlName="email"></ion-input>
         </div>
-        <ion-input inputmode="text" formControlName="email"></ion-input>
       </ion-item>
       <!-- Error message displayed if the Email is invalid -->
       <ion-item lines="none" *ngIf="email.hasError('required') && email.touched">
@@ -45,11 +49,13 @@
 
       <!-- Old password input -->
       <ion-item>
-        <div class="label-icon-div">
-          <ion-label class="inter-font-label">Ancien mot de passe</ion-label>
-          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-          </ion-button>
+        <div class="label-input-wrapper">
+          <div class="label-icon-div">
+            <ion-label class="inter-font-label">Ancien mot de passe</ion-label>
+            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+            </ion-button>
+          </div>
         </div>
         <ion-input inputmode="text" type="password" formControlName="oldPassword"></ion-input>
       </ion-item>
@@ -66,11 +72,13 @@
 
       <!-- Password input -->
       <ion-item>
-        <div class="label-icon-div">
-          <ion-label class="inter-font-label">Mot de passe</ion-label>
-          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-          </ion-button>
+        <div class="label-input-wrapper">
+          <div class="label-icon-div">
+            <ion-label class="inter-font-label">Mot de passe</ion-label>
+            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+            </ion-button>
+          </div>
         </div>
         <ion-input inputmode="text" type="password" formControlName="password"></ion-input>
       </ion-item>
@@ -87,11 +95,13 @@
 
       <!-- RePassword input -->
       <ion-item>
-        <div class="label-icon-div">
-          <ion-label class="inter-font-label">Mot de passe confirmation</ion-label>
-          <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-            <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-          </ion-button>
+        <div class="label-input-wrapper">
+          <div class="label-icon-div">
+            <ion-label class="inter-font-label">Mot de passe confirmation</ion-label>
+            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
+              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
+            </ion-button>
+          </div>
         </div>
         <ion-input inputmode="text" type="password" formControlName="rePassword"></ion-input>
       </ion-item>

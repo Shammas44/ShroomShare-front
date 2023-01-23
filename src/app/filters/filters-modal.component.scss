@@ -10,6 +10,16 @@
   flex-direction: column;
 }
 
+// .clear-filters-button-div {
+//   display: flex;
+//   justify-content: flex-end;
+// }
+
+// .wrapper__date__inputs {
+//   display: grid;
+//   grid-template-columns: 1fr 1fr;
+// }
+
 .filter-title {
   @include font-mini-title(var(--black-nuancy-1), left);
 }

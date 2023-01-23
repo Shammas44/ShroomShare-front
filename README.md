@@ -4,7 +4,7 @@ L'application ShroomShare permet aux utilisateurs de localiser où ils récolten
 Cette application permet aux administrateurs de créer des espèces, qui sont différents types de champignons qui peuvent être trouvés dans la nature. 
 Ensuite, les utilisateurs de l'application peuvent trouver des champignons dans la nature correspondant aux espèces disponibles. 
 Lorsqu'ils le font, ils peuvent alors les photographier, les localiser, les décrire et envoyer ces informations dans l'application. 
-Ensuite, tous les utilisateurs peuvent savoir que cette espèce particulière peut être trouvée à l'emplacement où l'utilisateur a pris la photo.
+Ensuite, tous les utilisateurs peuvent savoir que cette espèce particulière peut être trouvée à l'emplacement où l'utilisateur a pris la photo. Ils peuvent utiliser des filtres pour améliorer leur recherche. A partir de là, ils peuvent s'orienté grâce à la map où il est spécifiquement mis où sont des points de récoltes selon les champignons de tous les utilisateurs.
 Chaque utilisateur peut ajouter aux favoris des personnes selon leur photographie prise dans la nature. Ils ont aussi la possibilité d'utiliser un chat
 pour discuter par exemple des différents points de récoltes.
 

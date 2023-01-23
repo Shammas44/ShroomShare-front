@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Specy, SpecyPicture } from '../../models/species';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-specy-card',
@@ -9,7 +10,7 @@ import { Specy, SpecyPicture } from '../../models/species';
 export class SpecyCardComponent implements OnInit {
   @Input() specy: Specy | null = null;
   showFullText: boolean = false;
-  constructor() {}
+  constructor(private route: Router) {}
 
   ngOnInit() {}
 
@@ -25,5 +26,9 @@ export class SpecyCardComponent implements OnInit {
       return picture;
     }
     return picture?.value ?? '';
+  }
+
+  navToMushrooms() {
+    this.route.navigate(['mushrooms']);
   }
 }

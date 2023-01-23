@@ -13,15 +13,17 @@
       </div>
       <div class="card-content-div">
         <ion-card-content class="{{showFullText? '': 'show-partial-text'}}">
-          {{specy?.description}} {{specy?.description}} {{specy?.description}}
+          {{specy?.description}}
+          <div class="extra-small-button-div">
+            <ion-button *ngIf="showFullText" (click)="navToMushrooms()" size="small">
+              <span class="extra-small-button-text">Liste des champignons</span>
+            </ion-button>
+          </div>
         </ion-card-content>
       </div>
     </div>
 
     <div class="wrapper__buttons">
-      <ion-button fill="clear">
-        <ion-icon name="heart"></ion-icon>
-      </ion-button>
       <ion-button (click)="onToggleTextExpand()" fill="clear">
         <ion-icon name="{{showFullText? 'chevron-up-outline':'chevron-down-outline'}}"></ion-icon>
       </ion-button>

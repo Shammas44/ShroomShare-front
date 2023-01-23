@@ -47,11 +47,6 @@
       <div class="card-content-div">
         <ion-card-content class="{{showFullText? '': 'show-partial-text'}}">
           {{mushroom?.description}}
-          <div class="extra-small-button-div">
-            <ion-button *ngIf="showFullText" (click)="navToWiki()" size="small">
-              <span class="extra-small-button-text">Liste des champignons</span>
-            </ion-button>
-          </div>
         </ion-card-content>
       </div>
     </div>

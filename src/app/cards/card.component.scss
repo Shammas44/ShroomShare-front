@@ -31,7 +31,7 @@ img {
 .wrapper__buttons {
   display: flex;
   flex-direction: column;
-
+  justify-content: flex-end;
 }
 
 ion-card-header {

@@ -46,7 +46,7 @@ export class FavoritesPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          cssClass: 'primary',
+          cssClass: 'alert-button-confirm',
         },
         {
           text: 'Delete',

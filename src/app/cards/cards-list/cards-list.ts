@@ -60,7 +60,7 @@ export abstract class CardList<Item> {
   }
 
   protected fetchItems(params: PaginatedFilters): Observable<PaginatedResponse<Item>> | undefined {
-    console.log('fetch')
+    console.log('fetch');
     if (this.currentPage > this.lastPage) {
       this.loadingMessage = MSG.noMoreResults;
       return;

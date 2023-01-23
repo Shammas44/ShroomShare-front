@@ -1,23 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Message } from '../../models/message';
 import { AuthService } from 'src/app/auth/auth.service';
 
 import { webSocketResponse } from 'src/app/models/webSocketResponse';
+import { ViewDidEnter } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
 })
-export class ChatPage implements OnInit {
+export class ChatPage implements ViewDidEnter {
   lastMessage: Message;
   messages: Message[];
   language: string;
   currentUserId: string;
   currentUserName: string;
   socketServerUrl: string;
-  socket: WebSocket;
+  socket?: WebSocket;
 
   constructor(private auth: AuthService) {
     // appeler authservice à la place
@@ -32,11 +33,10 @@ export class ChatPage implements OnInit {
     this.currentUserId = this.getBaseUserId();
     this.currentUserName = 'base string';
     this.socketServerUrl = 'ws://shroom-share.onrender.com/';
-    this.socket = this.createBaseWebSocket();
   }
 
-  ngOnInit() {
-    this.initChat();
+  ionViewDidEnter(): void {
+    this.socket = this.createBaseWebSocket();
   }
 
   scrollToBottomChat() {
@@ -51,7 +51,6 @@ export class ChatPage implements OnInit {
     const ok = this.updateCurrentUser();
     if (ok) {
       this.socket = this.createBaseWebSocket();
-      this.initChat();
       this.messages = [];
     }
   }
@@ -78,16 +77,6 @@ export class ChatPage implements OnInit {
     return id;
   }
 
-  initChat() {
-    // Ouverture de la connexion
-    this.socket.addEventListener('open', (event) => {});
-    // Ecoute des nouveaux messages du serveur
-    this.socket.addEventListener('message', (event) => {
-      console.log('Voici un message du serveur', event.data);
-      this.handleServerMessage(JSON.parse(event.data));
-    });
-  }
-
   handleServerMessage(message: webSocketResponse) {
     console.log('message from server recieved to handle', message);
     if (message.message !== undefined) {
@@ -106,21 +95,27 @@ export class ChatPage implements OnInit {
   }
 
   createBaseWebSocket(): WebSocket {
-    return new WebSocket(
+    const socket = new WebSocket(
       `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
-    );
+    ); // Ouverture de la connexion
+    socket.addEventListener('open', (event) => {});
+    // Ecoute des nouveaux messages du serveur
+    socket.addEventListener('message', (event) => {
+      console.log('Voici un message du serveur', event.data);
+      this.handleServerMessage(JSON.parse(event.data));
+    });
+    return socket;
   }
 
   async onSubmit(form: NgForm) {
     console.log('submit message');
     const ok = this.updateCurrentUser();
-    if (ok) {
+    if (ok && this.socket) {
       if (
         this.socket.readyState == WebSocket.CLOSED ||
         this.socket.readyState == WebSocket.CLOSING
       ) {
         this.socket = this.createBaseWebSocket();
-        this.initChat();
       }
       await this.waitForOpenConnection();
       this.sendMessage(this.lastMessage.value);
@@ -129,7 +124,7 @@ export class ChatPage implements OnInit {
   }
 
   sendMessage(message: string) {
-    this.socket.send(message);
+    this.socket?.send(message);
   }
 
   waitForOpenConnection() {
@@ -142,7 +137,7 @@ export class ChatPage implements OnInit {
         if (currentAttempt > maxNumberOfAttempts - 1) {
           clearInterval(interval);
           reject(new Error('Maximum number of attempts exceeded'));
-        } else if (this.socket.readyState === WebSocket.OPEN) {
+        } else if (this.socket?.readyState === WebSocket.OPEN) {
           clearInterval(interval);
           resolve();
         }

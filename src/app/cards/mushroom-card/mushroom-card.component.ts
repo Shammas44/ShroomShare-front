@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MushroomPicture, MushroomWithPic } from '../../models/mushrooms';
 //import { LocalStorageService } from 'src/app/localStorage/local-storage.service';
-import { Router } from '@angular/router';
 import { StorageService } from './../../localStorage/local-storage.service';
 import { ToastController } from '@ionic/angular';
 import { Favorite } from 'src/app/models/favorite';
@@ -18,11 +17,7 @@ export class MushroomCardComponent implements OnInit {
 
   _favoritesList$: Observable<Favorite[]>;
 
-  constructor(
-    private favoriteStorage: StorageService,
-    private toastController: ToastController,
-    private route: Router
-  ) {}
+  constructor(private favoriteStorage: StorageService, private toastController: ToastController) {}
   isfav = false;
   ngOnInit() {
     this._favoritesList$ = this.favoriteStorage.favoriesList$;
@@ -68,9 +63,5 @@ export class MushroomCardComponent implements OnInit {
       return picture;
     }
     return picture?.value ?? '';
-  }
-
-  navToWiki() {
-    this.route.navigate(['wiki']);
   }
 }

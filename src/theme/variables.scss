@@ -6,6 +6,10 @@
 
   --ion-font-family:     font-family: 'Quando', serif;
   --border-radius: 17px;
+  --shroom-strong-background: #D2C08D;
+  --shroom-highlight: #EC673C;
+  --shroom-delete: #DC0000;
+  --shroom-secondary: #512A18;
 
 
   /** hand added properties **/
@@ -87,12 +91,15 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
+
+/*
 @media (prefers-color-scheme: dark) {
+  
   /*
    * Dark Colors
    * -------------------------------------------
    */
-
+  /*
   body {
     --ion-color-primary: #428cff;
     --ion-color-primary-rgb: 66,140,255;
@@ -162,7 +169,7 @@
    * iOS Dark Theme
    * -------------------------------------------
    */
-
+   /*
   .ios body {
     --ion-background-color: #000000;
     --ion-background-color-rgb: 0,0,0;
@@ -201,12 +208,12 @@
     --ion-toolbar-border-color: var(--ion-color-step-250);
   }
 
-
+  */
   /*
    * Material Design Dark Theme
    * -------------------------------------------
    */
-
+  /*
   .md body {
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18,18,18;
@@ -244,16 +251,5 @@
 
     --ion-card-background: #1e1e1e;
   }
-
-  /*
-  * shroom-share variables
-  *
-  */
-  :root {
-    --shroom-strong-background: #D2C08D;
-    --shroom-highlight: #EC673C;
-    --shroom-delete: #DC0000;
-    --shroom-secondary: #512A18;
-  }
-
 }
+*/

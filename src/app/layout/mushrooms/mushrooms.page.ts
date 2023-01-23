@@ -6,7 +6,7 @@ import { PaginatedResponse } from 'src/app/models/response';
 import { Observable } from 'rxjs';
 import { CardList } from '../../cards/cards-list/cards-list';
 import { storageKeys } from '../../models/standard';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ViewDidEnter } from '@ionic/angular';
 import { modalRole } from '../../models/modal';
 import { Storage } from '@ionic/storage';
 import { FiltersModalMushroomComponent } from 'src/app/filters/filters-modal-mushroom/filters-modal-mushroom.component';
@@ -21,10 +21,12 @@ previousYearDate.setFullYear(currentDate.getFullYear() - 1);
   templateUrl: './mushrooms.page.html',
   styleUrls: ['./mushrooms.page.scss'],
 })
-export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit {
+export class MushroomsPage extends CardList<MushroomWithPic> implements OnInit, ViewDidEnter {
   storageRequestParamKey: string = storageKeys.getMushroomsRequestParams;
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewDidEnter(): void {
     this.initalItemSetting();
   }
 

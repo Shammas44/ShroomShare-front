@@ -75,16 +75,18 @@ export class ProfilPage implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: this.MSG.ASK_USER_DELETION,
-      cssClass: 'alert',
+      cssClass: 'custom-alert',
       buttons: [
         {
           text: 'Annuler',
           role: 'cancel',
+          cssClass: 'alert-button-confirm',
           handler: () => {},
         },
         {
           text: 'Supprimer',
           role: 'confirm',
+          cssClass: 'alert-button-delete',
           handler: () => {
             this.user ? this.deleteUser(this.user.id) : console.log('err');
           },

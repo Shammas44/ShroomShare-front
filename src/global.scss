@@ -69,6 +69,9 @@
     font-family: 'Quando';
   }
 
+  ion-item .item-inner {
+    padding-inline-end: none;
+  }
   .input-wrapper {
     flex-direction: column;
   }
@@ -99,6 +102,10 @@
     @include font-paragraph(var(--black-nuancy-1), left);
   }
 
+  ion-list {
+    padding: 0 0 0 1.6rem !important;
+  }
+
   .alert .alert-head h2 {
     text-align: center;
   }
@@ -109,6 +116,10 @@
 
   .searchbar-input.sc-ion-searchbar-md {
     font-size: 12px !important;
+  }
+
+  ion-searchbar {
+    padding: 1.6rem !important;
   }
 
   ion-input {
@@ -134,7 +145,7 @@
 
   h3 {
     font-family: 'Quando', serif;
-    font-size: 1.6rem;
+    font-size: 1.6rem !important;
     text-align: center;
     color: var(--black-nuancy-1);
   }

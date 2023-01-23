@@ -3,12 +3,6 @@
     <ion-button routerLink="/" slot="start" fill="clear">
       <ion-img src="../../assets/logo.svg" color="primary" alt="Logo"></ion-img>
     </ion-button>
-    <!-- Logout button -->
-    <!-- <ion-buttons slot="end"> -->
-    <!--   <ion-button (click)="logOut()"> -->
-    <!--     <ion-icon name="log-out"></ion-icon> -->
-    <!--   </ion-button> -->
-    <!-- </ion-buttons> -->
     <ion-buttons slot="end">
       <ion-button *ngFor="let tab of secondaryTabs" color="primary" [routerLink]="'/'+tab.path">
         <ion-icon [name]="tab.icon"></ion-icon>

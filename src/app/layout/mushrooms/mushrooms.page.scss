@@ -1,5 +1,5 @@
 .wrapper {
-  display:grid;
+  display: grid;
   grid-template-rows: 20% auto;
   height: -webkit-fill-available;
 }
@@ -17,4 +17,11 @@
 .mushrooms-subtitle-and-icon {
   display: grid;
   grid-template-columns: 7fr 1fr;
+}
+
+.page-main-subtitle {
+  padding: 0 0 0 1.6rem;
+  display: flex;
+  align-items: center;
+  margin: 0;
 }

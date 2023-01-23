@@ -7,7 +7,9 @@
   grid-template-columns: 2fr 6fr;
   grid-gap: 2rem;
   margin: 0;
-  padding: 1rem 1.6rem 1rem 0;
+  padding: 1rem 0 1rem 0;
+  border-radius: 0;
+  border-bottom: 2px solid var(--grey-nuancy-2);
 }
 
 .card-text-icons-div {
@@ -22,10 +24,10 @@ img {
 }
 
 .show-partial-text {
-  display: -webkit-box;   
-  -webkit-line-clamp: 2;   
-  -webkit-box-orient: vertical;     
-  overflow: hidden; 
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .wrapper__buttons {
@@ -58,12 +60,20 @@ ion-card-content {
   color: var(--black-nuancy-1);
 }
 
-.card-user-name, .card-usage {
+ion-card-content > div {
+  display: flex;
+}
+
+ion-card-content ion-button {
+  margin: 0.2rem 0;
+}
+
+.card-user-name,
+.card-usage {
   color: var(--shroom-secondary);
   font-size: 1.2rem;
   text-transform: none;
 }
-
 
 .extra-small-button-div {
   text-align: center;

@@ -1,4 +1,4 @@
-<ion-content class="ion-padding-start">
+<ion-content>
 
   <div class="wrapper">
     <div>
@@ -8,7 +8,7 @@
 
     <div class="wrapper__list ion-content-scroll-host">
       <ion-list>
-        <ion-item *ngFor="let specy of items">
+        <ion-item *ngFor="let specy of items" class="ion-no-padding">
           <app-specy-card [specy]="specy"></app-specy-card>
         </ion-item>
       </ion-list>

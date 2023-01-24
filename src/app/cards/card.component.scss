@@ -6,10 +6,11 @@
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-gap: 2rem;
-  margin: 0;
+  margin: 0 0 0 1.6rem;
   padding: 1rem 0 1rem 0;
   border-radius: 0;
   border-bottom: 2px solid var(--grey-nuancy-2);
+  box-shadow:none;
 }
 
 .picture__wrapper {

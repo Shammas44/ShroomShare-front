@@ -1,39 +1,43 @@
 <ion-content>
-  <div class="login-title">
-    <h1>Shroom Share</h1>
-  </div>
-  <div class="login-form-div">
-    <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
-      <ion-list>
-        <ion-item>
-          <ion-input inputmode="text" #username="ngModel" required="true" name="username"
-            [(ngModel)]="authRequest.username" placeholer="E-mail ou nom d'utilisateur" class="input-login-primary">
-          </ion-input>
-        </ion-item>
-        <ion-item lines="none" *ngIf="username.invalid && username.touched">
-          <ion-text color="danger">Un nom d'utilisateur est requis.</ion-text>
-        </ion-item>
-        <ion-item>
-          <ion-input inputmode="text" #password="ngModel" required="true" type="password" name="password"
-            [(ngModel)]="authRequest.password" aria-placeholder="Mot de passe" class="input-login-primary"></ion-input>
-        </ion-item>
-        <ion-item lines="none" *ngIf="password.invalid && password.touched">
-          <ion-text color="danger">Un mot de passe est requis.</ion-text>
-        </ion-item>
-      </ion-list>
-      <div class="ion-padding">
-        <ion-button type="submit" size="large" [disabled]="loginForm.invalid" color="secondary"><span
-            class="big-button-text">Connexion</span></ion-button>
-        <ion-text color="danger" *ngIf="loginError">Le nom d'utilisateur ou le mot de passe est incorrect.</ion-text>
-      </div>
-    </form>
-  </div>
+  <div class="wrapper">
+    <div class="login-title">
+      <h1>Shroom Share</h1>
+    </div>
+    <div class="login-form-div">
+      <form #loginForm="ngForm" (submit)="onSubmit(loginForm)">
+        <ion-list>
+          <ion-item>
+            <ion-input inputmode="text" #username="ngModel" required="true" name="username"
+              placeholder="Nom d'utilisateur" [(ngModel)]="authRequest.username"
+              placeholer="E-mail ou nom d'utilisateur" class="input-login-primary">
+            </ion-input>
+          </ion-item>
+          <ion-item lines="none" *ngIf="username.invalid && username.touched">
+            <ion-text color="danger">Un nom d'utilisateur est requis.</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-input inputmode="text" #password="ngModel" required="true" type="password" name="password"
+              placeholder="Mot de passe" [(ngModel)]="authRequest.password" aria-placeholder="Mot de passe"
+              class="input-login-primary"></ion-input>
+          </ion-item>
+          <ion-item lines="none" *ngIf="password.invalid && password.touched">
+            <ion-text color="danger">Un mot de passe est requis.</ion-text>
+          </ion-item>
+        </ion-list>
+        <div class="ion-padding">
+          <ion-button type="submit" size="large" [disabled]="loginForm.invalid" color="secondary"><span
+              class="big-button-text">Connexion</span></ion-button>
+          <ion-text color="danger" *ngIf="loginError">Le nom d'utilisateur ou le mot de passe est incorrect.</ion-text>
+        </div>
+      </form>
+    </div>
 
-  <div class="login-bottom-div">
-    <p>Pas encore de compte ?</p>
-    <ion-button routerLink="/register" router-direction="back" size="small">
-      <span class="small-button-text">Créer un compte</span>
-    </ion-button>
+    <div class="login-bottom-div">
+      <p>Pas encore de compte ?</p>
+      <ion-button routerLink="/register" router-direction="back" size="small">
+        <span class="small-button-text">Créer un compte</span>
+      </ion-button>
+    </div>
   </div>
 
 </ion-content>

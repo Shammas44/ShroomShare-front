@@ -1,25 +1,24 @@
+@import '../../../mixin';
+
+.wrapper {
+  display: grid;
+  grid-template-rows: 30% auto auto;
+  height: -webkit-fill-available;
+}
+
 .login-title {
-    margin-top: 6.5rem;
-    padding-top: 4.4rem;
-    padding-bottom: 4.5rem;
-    margin-bottom: 6.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  @include font-main-title(var(--black-nuancy-1), center);
 }
 
 .login-form-div {
-    text-align: center;
+  text-align: center;
+  margin: 0 1.6rem;
 }
 
 .login-bottom-div {
-    margin-top: 20rem;
-    margin-bottom: 6.4rem;
-    text-align: center;
+  margin: auto 0 5rem 0;
+  text-align: center;
 }
-
-.input-login-primary {
-    background: var(--grey-nuancy-2);
-    padding-left: 3.4rem;
-    padding-top: 0.8rem;
-    padding-bottom: 0.8rem;
-    border-radius: 17rem;
-}
-

@@ -1,5 +1,5 @@
 <ion-card class="card">
-  <div>
+  <div class="picture__wrapper">
     <img src="{{specy?.picture ? getPicture(specy?.picture): ''}}" alt="">
   </div>
 
@@ -15,7 +15,7 @@
         <ion-card-content class="{{showFullText? '': 'show-partial-text'}}">
           {{specy?.description}}
           <div class="extra-small-button-div">
-            <ion-button *ngIf="showFullText" (click)="navToMushrooms()" size="small">
+            <ion-button *ngIf="showFullText" (click)="navToMushrooms(specy?.id)" size="small">
               <span class="extra-small-button-text">Liste des champignons</span>
             </ion-button>
           </div>

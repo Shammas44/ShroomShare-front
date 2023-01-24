@@ -28,7 +28,7 @@ export class SpecyCardComponent implements OnInit {
     return picture?.value ?? '';
   }
 
-  navToMushrooms() {
-    this.route.navigate(['mushrooms']);
+  navToMushrooms(specyId?: string) {
+    if (specyId) this.route.navigate(['mushrooms'], { state: { id: specyId } });
   }
 }

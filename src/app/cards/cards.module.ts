@@ -6,8 +6,8 @@ import { IonicModule } from '@ionic/angular';
 import { MyMushroomsCardComponent } from './my-mushrooms-card/my-mushrooms-card.component';
 
 @NgModule({
+  imports: [CommonModule, IonicModule ],
   declarations: [SpecyCardComponent, MushroomCardComponent, MyMushroomsCardComponent],
-  imports: [CommonModule, IonicModule],
   exports: [SpecyCardComponent, MushroomCardComponent, MyMushroomsCardComponent],
 })
 export class CardModule {}

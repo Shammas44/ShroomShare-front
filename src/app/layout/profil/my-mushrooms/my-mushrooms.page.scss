@@ -1,9 +1,27 @@
-.my-mushrooms-subtitle-and-icon {
-    display: grid;
-    grid-template-columns: 7fr 1fr;
-  }
-  
-  .mushrooms-subtitle-and-icon {
-    display: grid;
-    grid-template-columns: 7fr 1fr;
-  }
+.mushrooms-subtitle-and-icon {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 2rem;
+  padding: 0 1.6rem;
+}
+
+.page-main-subtitle {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  grid-column: 1/8;
+}
+
+.mushrooms-subtitle-and-icon ion-button::part(native) {
+  padding: 0;
+  margin: 0;
+}
+
+.mushrooms-subtitle-and-icon ion-button {
+  grid-column: 8/9;
+  margin: 0;
+}
+
+.wrapper__buttons ion-button {
+  display: grid;
+}

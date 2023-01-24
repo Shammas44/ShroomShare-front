@@ -10,7 +10,7 @@
     </div>
     <div class="wrapper__list ion-content-scroll-host">
       <ion-list>
-        <ion-item *ngFor="let mushroom of items">
+        <ion-item *ngFor="let mushroom of items" class="ion-no-padding">
           <app-my-mushroom-card [mushroom]="mushroom" (delete)="deleteItem($event)" (modify)="modifyItem($event)">
           </app-my-mushroom-card>
         </ion-item>

@@ -1,91 +1,93 @@
 <ion-content>
+  <div class="wrapper">
+    <div class="register-top-div">
+      <h2>Créer votre compte</h2>
+    </div>
+    <div class="register-middle-div">
+      <form [formGroup]="form" (submit)="onSubmit()">
+        <ion-list>
+          <!-- Username input -->
+          <ion-item>
+            <ion-label class="inter-font-item" position="floating">Nom d'utilisateur</ion-label>
+            <ion-input inputmode="text" name="username" formControlName="username"></ion-input>
+          </ion-item>
+          <!-- Error message displayed if the username is invalid -->
+          <ion-item lines="none" *ngIf="username.hasError('required') && username.touched">
+            <ion-text color="danger">Nom d'utilisateur est requis.</ion-text>
+          </ion-item>
+          <ion-item lines="none" *ngIf="username.hasError('minlength') && username.touched">
+            <ion-text color="danger">Le nom d'utilisateur doit contenir minimum 4 charactères.</ion-text>
+          </ion-item>
+          <ion-item lines="none" *ngIf="username.hasError('maxlength') && username.touched">
+            <ion-text color="danger">Le nom d'utilisateur doit contenir maximum 20 charactères.</ion-text>
+          </ion-item>
 
-  <div class="register-top-div">
-    <h2>Créer votre compte</h2>
+          <!-- Email input -->
+          <ion-item>
+            <ion-label class="inter-font-item" position="floating">Email</ion-label>
+            <ion-input inputmode="text" name="email" formControlName="email"></ion-input>
+          </ion-item>
+          <!-- Error message displayed if the Email is invalid -->
+          <ion-item lines="none" *ngIf="email.hasError('required') && email.touched">
+            <ion-text color="danger">Email est requis.</ion-text>
+          </ion-item>
+          <ion-item lines="none" *ngIf="email.hasError('email') && email.touched">
+            <ion-text color="danger">Ce format d'email n'est pas valid.</ion-text>
+          </ion-item>
+
+          <!-- Password input -->
+          <ion-item>
+            <ion-label class="inter-font-item" position="floating">Mot de passe</ion-label>
+            <ion-input inputmode="text" type="password" name="password" formControlName="password"></ion-input>
+          </ion-item>
+          <!-- Error message displayed if the password is invalid -->
+          <ion-item lines="none" *ngIf="password.hasError('required') && password.touched">
+            <ion-text color="danger">Mot de passe est requis.</ion-text>
+          </ion-item>
+          <ion-item lines="none" *ngIf="password.hasError('minlength') && password.touched">
+            <ion-text color="danger">Le mot de passe doit contenir minimum 8 charactères.</ion-text>
+          </ion-item>
+          <ion-item lines="none" *ngIf="password.hasError('maxlength') && password.touched">
+            <ion-text color="danger">Le mot de passe doit contenir maximum 100 charactères.</ion-text>
+          </ion-item>
+
+          <!-- RePassword input -->
+          <ion-item>
+            <ion-label class="inter-font-item" position="floating">Mot de passe confirmation</ion-label>
+            <ion-input inputmode="text" type="password" name="repassword" formControlName="rePassword"></ion-input>
+          </ion-item>
+          <!-- Error message displayed if the RePassword is invalid -->
+          <ion-item lines="none" *ngIf="rePassword.hasError('required') && rePassword.touched">
+            <ion-text color="danger">Mot de passe confirmation est requis</ion-text>
+          </ion-item>
+          <ion-item lines="none" *ngIf="rePassword.hasError('minlength') && password.touched">
+            <ion-text color="danger">Le mot de passe doit contenir minimum 8 charactères.</ion-text>
+          </ion-item>
+          <ion-item lines="none" *ngIf="rePassword.hasError('maxlength') && password.touched">
+            <ion-text color="danger">Le mot de passe doit contenir maximum 100 charactères.</ion-text>
+          </ion-item>
+          <ion-item lines="none" *ngIf="rePassword.hasError('matching') && password.touched">
+            <ion-text color="danger">Le mot de passe n'est pas identique</ion-text>
+          </ion-item>
+        </ion-list>
+
+        <div class="ion-padding">
+          <!-- Submit button -->
+          <ion-button type="submit" [disabled]="!form.valid" size="large" color="secondary"><span
+              class="big-button-text">Créer</span></ion-button>
+          <!-- Error message displayed if the login failed -->
+          <ion-text color="danger" *ngIf="errorMessage">{{errorMessage}}</ion-text>
+        </div>
+      </form>
+    </div>
+
+    <div class="register-bottom-div">
+      <p>Déjà un compte ?</p>
+      <ion-button routerLink="/login" router-direction="back" size="small">
+        <span class="small-button-text">Connexion</span>
+      </ion-button>
+    </div>
   </div>
-  <div class="register-middle-div">
-    <form [formGroup]="form" (submit)="onSubmit()">
-      <ion-list>
-        <!-- Username input -->
-        <ion-item>
-          <ion-label class="inter-font-item" position="floating">Nom d'utilisateur</ion-label>
-          <ion-input inputmode="text" name="username" formControlName="username"></ion-input>
-        </ion-item>
-        <!-- Error message displayed if the username is invalid -->
-        <ion-item lines="none" *ngIf="username.hasError('required') && username.touched">
-          <ion-text color="danger">Nom d'utilisateur est requis.</ion-text>
-        </ion-item>
-        <ion-item lines="none" *ngIf="username.hasError('minlength') && username.touched">
-          <ion-text color="danger">Le nom d'utilisateur doit contenir minimum 4 charactères.</ion-text>
-        </ion-item>
-        <ion-item lines="none" *ngIf="username.hasError('maxlength') && username.touched">
-          <ion-text color="danger">Le nom d'utilisateur doit contenir maximum 20 charactères.</ion-text>
-        </ion-item>
 
-        <!-- Email input -->
-        <ion-item>
-          <ion-label class="inter-font-item" position="floating">Email</ion-label>
-          <ion-input inputmode="text" name="email" formControlName="email"></ion-input>
-        </ion-item>
-        <!-- Error message displayed if the Email is invalid -->
-        <ion-item lines="none" *ngIf="email.hasError('required') && email.touched">
-          <ion-text color="danger">Email est requis.</ion-text>
-        </ion-item>
-        <ion-item lines="none" *ngIf="email.hasError('email') && email.touched">
-          <ion-text color="danger">Ce format d'email n'est pas valid.</ion-text>
-        </ion-item>
-
-        <!-- Password input -->
-        <ion-item>
-          <ion-label class="inter-font-item" position="floating">Mot de passe</ion-label>
-          <ion-input inputmode="text" type="password" name="password" formControlName="password"></ion-input>
-        </ion-item>
-        <!-- Error message displayed if the password is invalid -->
-        <ion-item lines="none" *ngIf="password.hasError('required') && password.touched">
-          <ion-text color="danger">Mot de passe est requis.</ion-text>
-        </ion-item>
-        <ion-item lines="none" *ngIf="password.hasError('minlength') && password.touched">
-          <ion-text color="danger">Le mot de passe doit contenir minimum 8 charactères.</ion-text>
-        </ion-item>
-        <ion-item lines="none" *ngIf="password.hasError('maxlength') && password.touched">
-          <ion-text color="danger">Le mot de passe doit contenir maximum 100 charactères.</ion-text>
-        </ion-item>
-
-        <!-- RePassword input -->
-        <ion-item>
-          <ion-label class="inter-font-item" position="floating">Mot de passe confirmation</ion-label>
-          <ion-input inputmode="text" type="password" name="repassword" formControlName="rePassword"></ion-input>
-        </ion-item>
-        <!-- Error message displayed if the RePassword is invalid -->
-        <ion-item lines="none" *ngIf="rePassword.hasError('required') && rePassword.touched">
-          <ion-text color="danger">Mot de passe confirmation est requis</ion-text>
-        </ion-item>
-        <ion-item lines="none" *ngIf="rePassword.hasError('minlength') && password.touched">
-          <ion-text color="danger">Le mot de passe doit contenir minimum 8 charactères.</ion-text>
-        </ion-item>
-        <ion-item lines="none" *ngIf="rePassword.hasError('maxlength') && password.touched">
-          <ion-text color="danger">Le mot de passe doit contenir maximum 100 charactères.</ion-text>
-        </ion-item>
-        <ion-item lines="none" *ngIf="rePassword.hasError('matching') && password.touched">
-          <ion-text color="danger">Le mot de passe n'est pas identique</ion-text>
-        </ion-item>
-      </ion-list>
-
-      <div class="ion-padding">
-        <!-- Submit button -->
-        <ion-button type="submit" [disabled]="!form.valid" size="large" color="secondary"><span
-            class="big-button-text">Créer</span></ion-button>
-        <!-- Error message displayed if the login failed -->
-        <ion-text color="danger" *ngIf="errorMessage">{{errorMessage}}</ion-text>
-      </div>
-    </form>
-  </div>
-
-  <div class="register-bottom-div">
-    <p>Déjà un compte ?</p>
-    <ion-button routerLink="/login" router-direction="back" size="small">
-      <span class="small-button-text">Connexion</span>
-    </ion-button>
-  </div>
 
 </ion-content>

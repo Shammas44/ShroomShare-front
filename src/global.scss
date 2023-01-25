@@ -60,14 +60,13 @@
     --background: rgba(210, 192, 141, 0.44);
     --unavailable-background: rgba(255, 0, 0, 0.76);
     --border-color: var(--grey-nuancy-2);
+    --secondary-font: 'Inter', sans-serif;
+    --main-font: 'Quando', serif;
     //calendar variables
     --ion-color-calendar: var(--shroom-secondary);
     --ion-color-calendar-rgb: 81, 42, 24;
     --ion-color-calendar-contrast: #ffffff;
     --ion-color-calendar-contrast-rgb: 255, 255, 255;
-
-    font-size: 10px;
-    font-family: 'Quando';
   }
 
   ion-item .item-inner {
@@ -78,22 +77,28 @@
   // Base style
   // =====================================================================
 
+  html {
+    background-color: white;
+    font-size: 10px;
+    font-family: 'Quando';
+  }
+
   h1 {
-    font-family: 'Quando', serif;
+    font-family: var(--main-font);
     font-size: 3.6rem;
     text-align: center;
     color: var(--black-nuancy-1);
   }
 
   h2 {
-    font-family: 'Quando', serif;
+    font-family: var(--main-font);
     font-size: 2.4rem;
     text-align: center;
     color: var(--black-nuancy-1);
   }
 
   h3 {
-    font-family: 'Quando', serif;
+    font-family: var(--main-font);
     font-size: 1.6rem !important;
     text-align: center;
     color: var(--black-nuancy-1);
@@ -101,7 +106,7 @@
 
   p,
   span {
-    font-family: 'Quando', serif;
+    font-family: var(--main-font);
     font-size: 1.2rem;
     color: var(--black-nuancy-1);
   }
@@ -121,10 +126,18 @@
   // ion style
   // =====================================================================
 
+  toolbar-container {
+    display: grid;
+  }
+
   ion-datetime {
     border: 2px solid black;
     color: var(--black-nuancy-1);
     border-radius: 16px;
+  }
+
+  ion-infinite-scroll-content {
+    border: none;
   }
 
   ion-range {
@@ -160,7 +173,17 @@
 
   ion-input input,
   ion-text {
-    font-family: 'inter' !important;
+    font-family: var(--secondary-font) !important;
+  }
+
+  ion-input input {
+    font-size: 1.2rem !important;
+  }
+
+  ion-label {
+    font-size: 1.4rem !important;
+    font-family: var(--secondary-font) !important;
+    color: var(--black-nuancy-1) !important;
   }
 
   ion-button {
@@ -170,6 +193,10 @@
 
   ion-searchbar {
     padding: 1.6rem !important;
+  }
+
+  .header-md::after {
+    height: 0 !important;
   }
 
   .alert .alert-head h2 {
@@ -187,14 +214,12 @@
   .small-button-text {
     font-size: 1.5rem;
     color: white;
-    //padding: 1.2rem 0.6rem;
     text-transform: none;
   }
 
   .big-button-text {
     font-size: 2.4rem;
     color: white;
-    //padding: 0.9rem 2.6rem;
     text-transform: none;
   }
 
@@ -231,13 +256,13 @@
   }
 
   .button-text-1 {
-    font-family: 'Quando', serif;
+    font-family: var(--main-font);
     font-size: 2.4rem;
     color: var(--white);
   }
 
   .button-text-2 {
-    font-family: 'Quando', serif;
+    font-family: var(--main-font);
     font-size: 1.5rem;
     color: var(--white);
   }

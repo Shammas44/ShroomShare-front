@@ -1,10 +1,11 @@
 <ion-header>
   <ion-toolbar>
-    <ion-button routerLink="/" slot="start" fill="clear">
+    <ion-buttons slot="end" class="buttons--wrapper">
+    <ion-button routerLink="/" fill="clear">
       <ion-img src="../../assets/logo.svg" color="primary" alt="Logo"></ion-img>
     </ion-button>
-    <ion-buttons slot="end">
-      <ion-button *ngFor="let tab of secondaryTabs" color="primary" [routerLink]="'/'+tab.path">
+      <div></div>
+      <ion-button *ngFor="let tab of secondaryTabs" color="primary" [routerLink]="'/'+tab.path" class="button--custom">
         <ion-icon [name]="tab.icon"></ion-icon>
       </ion-button>
     </ion-buttons>

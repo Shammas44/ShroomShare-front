@@ -48,3 +48,12 @@ ion-button::part(native) {
   padding: 0;
   font-size: 1.5em;
 }
+
+.button--custom {
+  position: relative;
+  left: 4px;
+}
+
+.selected::part(native) {
+  color: var(--shroom-strong-background);
+}

@@ -41,7 +41,7 @@
     </ion-title>
 
     <ion-list class="ion-padding" *ngIf="states.usages | async as state">
-      <ion-item *ngFor="let u of state|keyvalue">
+      <ion-item *ngFor="let u of state|keyvalue" lines="none">
         <ion-checkbox slot="start" [value]="u.value" (ionChange)="onCheck($event)" [checked]="u.value.checked">
         </ion-checkbox>
         <ion-label>{{capitalizeFirstLetter(u.value.name)}}</ion-label>

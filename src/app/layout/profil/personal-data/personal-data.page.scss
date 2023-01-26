@@ -1,26 +1,26 @@
-.inter-font-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.6rem;
-    color: var(--black-nuancy-1);
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.personal-data-top-div {
-    text-align: center;
-}
-
 .label-input-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-}
-
-.label-icon-div {
-    display: grid;
-    grid-template-columns: 7fr 1fr;
+  width: 100%;
 }
 
 .logout-button-div {
-    text-align: center;
+  text-align: center;
+}
+
+.wrapper__label {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 2rem;
+  width: 100%;
+}
+
+.wrapper__label ion-label {
+  grid-column: 1/8;
+}
+
+.wrapper__label ion-icon {
+  grid-column: 8/9;
+}
+
+ion-list {
+  margin: 1.6rem;
 }

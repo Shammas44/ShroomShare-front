@@ -1,7 +1,7 @@
 .map-container {
-    width:100%;
-    height:100%;
-    position: inherit;
+  width: 100%;
+  height: 100%;
+  position: inherit;
 }
 
 .loading p {
@@ -9,24 +9,37 @@
 }
 
 map {
-  position:relative;
+  position: relative;
 }
 
 .wrapper {
-  position:relative;
+  position: relative;
 }
 
 .wrapper__button {
   width: 100%;
-  z-index:1000;
-  position:absolute;
-  display:flex;
-  justify-content:end;
+  z-index: 1000;
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 2rem;
+  padding: 0 1.6rem;
 }
 
-.card {
-  z-index:1000;
+.wrapper__button ion-button {
+  grid-column: 8/9;
+}
+
+.wrapper__button ion-button::part(native) {
+  padding: 0;
+}
+
+.map__card {
+  z-index: 1000;
   position: absolute;
   width: 100%;
-  bottom:0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
 }
+

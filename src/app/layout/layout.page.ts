@@ -5,6 +5,7 @@ declare type PageTab = {
   title: string; // The title of the tab in the tab bar
   icon: string; // The icon of the tab in the tab bar
   path: string; // The route's path of the tab to display
+  class?: string;
 };
 
 @Component({
@@ -24,9 +25,21 @@ export class LayoutPage {
       { title: 'Map', icon: 'assets/icon/map.svg', path: 'map' },
     ];
     this.secondaryTabs = [
-      { title: 'favorites', icon: 'heart', path: 'favorites' },
-      { title: 'chat', icon: 'chatbox-ellipses', path: 'chat' },
-      { title: 'profil', icon: 'person-circle-outline', path: 'profil' },
+      { title: 'favorites', icon: 'heart', path: 'favorites', class: 'button--custom' },
+      { title: 'chat', icon: 'chatbox-ellipses', path: 'chat', class: 'button--custom' },
+      { title: 'profil', icon: 'person-circle-outline', path: 'profil', class: 'button--custom' },
     ];
+  }
+
+  changeColor(index: number) {
+    this.secondaryTabs.forEach((tab, i) => {
+      tab.class = index === i ? 'button--custom selected' : 'button--custom';
+    });
+  }
+
+  unsetColor() {
+    this.secondaryTabs.forEach((tab) => {
+      tab.class = 'button--custom';
+    });
   }
 }

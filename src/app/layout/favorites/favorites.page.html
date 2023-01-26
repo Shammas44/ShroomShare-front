@@ -1,15 +1,16 @@
 <ion-content>
   <div class="favourites-top-div">
-    <h2>Utilisateurs</h2>
+    <h2>Utilisateurs favoris</h2>
   </div>
-  <h3 class="favorites-subtitle">Favoris</h3>
   <ion-list [inset]="true">
     <ion-item *ngFor="let favorite of _favoritesList$ | async ">
-      <ion-label>{{favorite.username}}</ion-label>
+      <div class="wrapper__item">
+        <ion-label>{{favorite.username}}</ion-label>
 
-      <ion-button (click)="deleteFavorite2(favorite.id)" fill="clear">
-        <ion-icon name="heart"></ion-icon>
-      </ion-button>
+        <ion-button (click)="deleteFavorite2(favorite.id)" fill="clear">
+          <ion-icon name="heart"></ion-icon>
+        </ion-button>
+      </div>
     </ion-item>
   </ion-list>
 

@@ -3,40 +3,37 @@
 
 /** Ionic CSS Variables **/
 :root {
-
   --ion-font-family: 'Quando', serif;
   --border-radius: 17px;
-  --shroom-strong-background: #D2C08D;
-  --shroom-highlight: #EC673C;
-  --shroom-delete: #DC0000;
-  --shroom-secondary: #512A18;
+  --shroom-strong-background: #d2c08d;
+  --shroom-highlight: #ec673c;
+  --shroom-delete: #dc0000;
+  --shroom-secondary: #512a18;
   --padding-end: var(--ion-padding, 16px);
-
 
   /** hand added properties **/
   .ion-padding {
     padding: 2rem 1.6rem;
   }
 
-
   /** primary **/
-  --ion-color-primary: #512A18;
+  --ion-color-primary: #512a18;
   --ion-color-primary-rgb: 81, 42, 24;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #3D1909;
-  --ion-color-primary-tint: #813D1F;
+  --ion-color-primary-shade: #3d1909;
+  --ion-color-primary-tint: #813d1f;
 
   /** secondary **/
-  --ion-color-secondary: #EC673C;
+  --ion-color-secondary: #ec673c;
   --ion-color-secondary-rgb: 236, 103, 60;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #D75A32.;
-  --ion-color-secondary-tint: #C2461C;
+  --ion-color-secondary-tint: #c2461c;
 
   /** tertiary **/
-  --ion-color-tertiary: #D2C08D;
+  --ion-color-tertiary: #d2c08d;
   --ion-color-tertiary-rgb: 210, 192, 141;
   --ion-color-tertiary-contrast: #ffffff;
   --ion-color-tertiary-contrast-rgb: 255, 255, 255;
@@ -60,7 +57,7 @@
   --ion-color-warning-tint: #ffca22;
 
   /** danger **/
-  --ion-color-danger: #DC0000;
+  --ion-color-danger: #dc0000;
   --ion-color-danger-rgb: 220, 0, 0;
   --ion-color-danger-contrast: #ffffff;
   --ion-color-danger-contrast-rgb: 255, 255, 255;
@@ -76,7 +73,7 @@
   --ion-color-dark-tint: #383a3e;
 
   /** medium **/
-  --ion-color-medium: #DADADA;
+  --ion-color-medium: #dadada;
   --ion-color-medium-rgb: 146, 148, 156;
   --ion-color-medium-contrast: #ffffff;
   --ion-color-medium-contrast-rgb: 255, 255, 255;
@@ -205,7 +202,6 @@
 //     --ion-toolbar-background: var(--ion-color-step-150);
 //     --ion-toolbar-border-color: var(--ion-color-step-250);
 //   }
-
 
 //   /*
 //    * Material Design Dark Theme

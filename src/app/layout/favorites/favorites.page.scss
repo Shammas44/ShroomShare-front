@@ -1,9 +1,34 @@
 .favourites-top-div {
-    text-align: center;
+  text-align: center;
 }
 
 .favourites-subtitle {
-    font-family: 'Quando', serif;
-    font-size: 1.6rem;
-    color: var(--shroom-secondary);
+  font-family: 'Quando', serif;
+  font-size: 1.6rem;
+  color: var(--shroom-secondary);
+}
+
+ion-item::part(native) {
+  padding: 0 !important;
+  --inner-padding-end: 0;
+}
+
+.wrapper__item {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 2rem;
+  width:100%;
+}
+
+.wrapper__item ion-label {
+  grid-column: 1/8;
+}
+
+.wrapper__item ion-button {
+  grid-column: 8/9;
+}
+
+.wrapper__item ion-button::part(native) {
+  margin:0;
+  padding:0;
 }

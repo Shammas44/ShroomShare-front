@@ -1,11 +1,12 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="end" class="buttons--wrapper">
-    <ion-button routerLink="/" fill="clear">
-      <ion-img src="../../assets/logo.svg" color="primary" alt="Logo"></ion-img>
-    </ion-button>
+      <ion-button routerLink="/" fill="clear">
+        <ion-img src="../../assets/logo.svg" color="primary" alt="Logo"></ion-img>
+      </ion-button>
       <div></div>
-      <ion-button *ngFor="let tab of secondaryTabs" color="primary" [routerLink]="'/'+tab.path" class="button--custom">
+      <ion-button (click)="changeColor(i)" *ngFor="let tab of secondaryTabs; index as i" color="primary"
+        [routerLink]="'/'+tab.path" [class]="tab.class">
         <ion-icon [name]="tab.icon"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -15,7 +16,7 @@
 
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button [tab]="tab.path" *ngFor="let tab of tabs">
+    <ion-tab-button [tab]="tab.path" *ngFor="let tab of tabs" (click)="unsetColor()">
       <ion-icon [src]="tab.icon"></ion-icon>
     </ion-tab-button>
   </ion-tab-bar>

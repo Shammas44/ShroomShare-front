@@ -6,15 +6,8 @@
     <ion-list>
       <!-- Username input -->
       <ion-item>
-        <div class="label-input-wrapper">
-          <div class="label-icon-div">
-            <ion-label class="inter-font-label">Nom d'utilisateur</ion-label>
-            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-            </ion-button>
-            <ion-input inputmode="text" formControlName="username"></ion-input>
-          </div>
-        </div>
+        <ion-label class="inter-font-item" position="floating">Nom d'utilisateur</ion-label>
+        <ion-input inputmode="text" formControlName="username"></ion-input>
       </ion-item>
       <!-- Error message displayed if the username is invalid -->
       <ion-item lines="none" *ngIf="username.hasError('required') && username.touched">
@@ -29,15 +22,8 @@
 
       <!-- Email input -->
       <ion-item>
-        <div class="label-input-wrapper">
-          <div class="label-icon-div">
-            <ion-label class="inter-font-label">Email</ion-label>
-            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-            </ion-button>
-          </div>
-          <ion-input inputmode="text" formControlName="email"></ion-input>
-        </div>
+        <ion-label class="inter-font-item" position="floating">Email</ion-label>
+        <ion-input inputmode="text" formControlName="email"></ion-input>
       </ion-item>
       <!-- Error message displayed if the Email is invalid -->
       <ion-item lines="none" *ngIf="email.hasError('required') && email.touched">
@@ -49,14 +35,7 @@
 
       <!-- Old password input -->
       <ion-item>
-        <div class="label-input-wrapper">
-          <div class="label-icon-div">
-            <ion-label class="inter-font-label">Ancien mot de passe</ion-label>
-            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
+        <ion-label class="inter-font-item" position="floating">Ancien mot de passe</ion-label>
         <ion-input inputmode="text" type="password" formControlName="oldPassword"></ion-input>
       </ion-item>
       <!-- Error message displayed if the old password is invalid -->
@@ -72,14 +51,7 @@
 
       <!-- Password input -->
       <ion-item>
-        <div class="label-input-wrapper">
-          <div class="label-icon-div">
-            <ion-label class="inter-font-label">Mot de passe</ion-label>
-            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
+        <ion-label class="inter-font-item" position="floating">Mot de passe</ion-label>
         <ion-input inputmode="text" type="password" formControlName="password"></ion-input>
       </ion-item>
       <!-- Error message displayed if the password is invalid -->
@@ -95,14 +67,7 @@
 
       <!-- RePassword input -->
       <ion-item>
-        <div class="label-input-wrapper">
-          <div class="label-icon-div">
-            <ion-label class="inter-font-label">Mot de passe confirmation</ion-label>
-            <ion-button fill="clear" type="submit" slot="icon-only" class="submit-messages-button">
-              <ion-icon src="assets/icon/personal-data/pen.svg"></ion-icon>
-            </ion-button>
-          </div>
-        </div>
+        <ion-label class="inter-font-item" position="floating">Mot de passe confirmation</ion-label>
         <ion-input inputmode="text" type="password" formControlName="rePassword"></ion-input>
       </ion-item>
       <!-- Error message displayed if the RePassword is invalid -->
@@ -123,7 +88,7 @@
     <div class="ion-padding logout-button-div">
       <!-- Submit button -->
       <ion-button type="submit" [disabled]="!form.valid && !errorMessage" size="large" color="secondary">
-        <span class="big-button-text">Déconnexion</span>
+        <span class="big-button-text">Modifier</span>
       </ion-button>
       <!-- Error message displayed if the login failed -->
       <ion-text color="danger" *ngIf="errorMessage">{{errorMessage}}</ion-text>

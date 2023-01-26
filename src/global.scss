@@ -67,6 +67,7 @@
     --ion-color-calendar-rgb: 81, 42, 24;
     --ion-color-calendar-contrast: #ffffff;
     --ion-color-calendar-contrast-rgb: 255, 255, 255;
+    --inner-padding-end: 0 !important;
   }
 
   ion-item .item-inner {
@@ -152,10 +153,6 @@
     @include font-paragraph(var(--black-nuancy-1), left);
   }
 
-  ion-item::part(native) {
-    --border-width: 0 0 2px 0;
-  }
-
   .wrapper__list ion-item {
     --border-style: none;
   }
@@ -209,6 +206,7 @@
 
   .searchbar-input.sc-ion-searchbar-md {
     font-size: 12px !important;
+    font-family: var(--secondary-font) !important;
   }
 
   .small-button-text {
@@ -243,6 +241,12 @@
     color: var(--ion-color-success-contrast);
   }
 
+  app-mushroom-card,
+  app-my-mushroom-card,
+  app-specy-card {
+    padding: 0 0 0 1.6rem;
+  }
+
   // =====================================================================
   // custom classes
   // =====================================================================
@@ -265,5 +269,13 @@
     font-family: var(--main-font);
     font-size: 1.5rem;
     color: var(--white);
+  }
+
+  .leaflet-control-attribution.leaflet-control {
+    display: none;
+  }
+
+  .map__card .card {
+    padding: 1rem 1.6rem !important;
   }
 }

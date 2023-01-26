@@ -12,6 +12,6 @@
 
   <map (map$)="receiveMap($event)" (mushroomClicked)="mushroom = $event" (zoom$)="receiveZoom($event)"
     id='main-map'></map>
-  <app-mushroom-card class="card" *ngIf="mushroom" [mushroom]="mushroom"></app-mushroom-card>
+  <app-mushroom-card *ngIf="mushroom" class="map__card" [mushroom]="mushroom"></app-mushroom-card>
 
 </ion-content>

@@ -8,11 +8,11 @@
 <ion-accordion-group #accordionGroup [multiple]="true">
   <!-- Favorites items -->
   <ion-accordion value="first" *ngIf="useFavorite">
-    <ion-item slot="header" color="light">
+    <ion-item slot="header" color="light" lines="none">
       <ion-label class="filter-title-label">Mes favoris</ion-label>
     </ion-item>
     <ion-list class="ion-padding favorites__list" slot="content">
-      <ion-item *ngFor="let item of state.favorites">
+      <ion-item *ngFor="let item of state.favorites" lines="none">
         <ion-checkbox slot="start" (ionChange)="onCheck($event)" [checked]="item.checked" [value]="item">
         </ion-checkbox>
         <ion-label class="inter-font-item">{{item[itemKeys.searchable]}}</ion-label>
@@ -21,12 +21,12 @@
   </ion-accordion>
   <!-- All items -->
   <ion-accordion value="second">
-    <ion-item slot="header" color="light">
+    <ion-item slot="header" color="light" lines="none">
       <ion-label>Tout</ion-label>
     </ion-item>
     <div class="ion-padding users__content ion-content-scroll-host" slot="content">
       <ion-list>
-        <ion-item *ngFor="let item of state.items">
+        <ion-item *ngFor="let item of state.items" lines="none">
           <ion-checkbox slot="start" (ionChange)="onCheck($event)" [checked]="item.checked" [value]="item">
           </ion-checkbox>
           <ion-label class="inter-font-item">{{item[itemKeys.searchable]}}</ion-label>

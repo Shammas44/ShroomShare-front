@@ -32,7 +32,7 @@ ion-button {
 }
 
 ion-title {
-  border-top: 1px solid var(--grey-nuancy-2);
+  border-top: 2px solid var(--grey-nuancy-2);
   width: 100%;
   text-align: left;
   padding: 0;
@@ -84,6 +84,7 @@ ion-datetime-button::part(native) {
   text-align: left;
   margin: 0;
   background: transparent;
+  font-family: var(--secondary-font);
 }
 
 ion-datetime-button::part(native)::after {
@@ -115,7 +116,7 @@ ion-datetime-button::part(native)::after {
 }
 
 .radius__value {
-  border-top: 1px solid var(--grey-nuancy-2);
+  border-top: 2px solid var(--grey-nuancy-2);
   width: 100%;
   padding: 0;
 }

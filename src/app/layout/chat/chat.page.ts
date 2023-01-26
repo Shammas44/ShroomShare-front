@@ -37,6 +37,8 @@ export class ChatPage implements ViewDidEnter {
 
   ionViewDidEnter(): void {
     this.socket = this.createBaseWebSocket();
+    //For unknown reason, the first webSocket created does not recieve messages, so two are created in a row to fix it.
+    this.socket = this.createBaseWebSocket();
   }
 
   scrollToBottomChat() {

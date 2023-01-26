@@ -27,18 +27,8 @@ export class ModifyMushroomModalComponent implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
   presentToast: (options: ToastOptions | string) => void;
 
-  cancel2() {
-    this.modal.dismiss();
-  }
-
-  // mushroom: MushroomWithPic;
   @Input('mushroom') mushroom: MushroomWithPic;
-  // @Input() public mushroom: MushroomWithPic;
-  // @Input('master') masterName = '';
-  // @Input() currentmushroom: MushroomWithPic;
-  // @Input() mushroomName: string;
-  // @Input() public mushroom;
-  // @Output('test') masterName = '';
+
   pictureBase64: any;
   speciesList$: Observable<Specy[]>;
   ModifySpecy: Boolean = false;
@@ -96,11 +86,8 @@ export class ModifyMushroomModalComponent implements OnInit {
       total = res;
     });
     this.apiService.countSpecies$().subscribe((result: any) => {
-      console.log('nombre de species', result);
       let filter: SpeciesFilter = { pageSize: result?.count };
-      this.apiService.getSpecies$(filter).subscribe((r: any) => {
-        console.log(r);
-      });
+      this.apiService.getSpecies$(filter).subscribe((r: any) => {});
     });
     return this.apiService
       .getSpecies$({ pageSize: 20 })
@@ -115,7 +102,6 @@ export class ModifyMushroomModalComponent implements OnInit {
 
   modifyMushroom(form: FormGroup) {
     if (form.value.specyId) {
-      console.log('oi specyID');
     }
     if (form.value.description != this.currentDescription) {
       this.currentDescription = form.value.description;
@@ -128,7 +114,7 @@ export class ModifyMushroomModalComponent implements OnInit {
       picture: this.pictureBase64,
       description: this.currentDescription,
     };
-    console.log('mushroom to add', mushroom);
+
     this.apiService.modifyMushroom$(id, mushroom).subscribe({
       next: () => {
         this.presentToast({

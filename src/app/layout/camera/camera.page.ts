@@ -52,8 +52,6 @@ export class CameraPage implements OnInit {
   SpeciesSelect: Boolean;
   isDone: Boolean;
 
-  // }
-
   ngOnInit() {
     this.MushroomForm2 = this.formBuilder.group({
       description: ['', Validators.maxLength(800)],
@@ -64,19 +62,6 @@ export class CameraPage implements OnInit {
     this.printCurrentPosition();
 
     this.takePicture();
-    // this.takePicture();
-    // this.MushroomForm = new FormGroup({
-    //   specy_id: new FormControl('', {
-    //     nonNullable: true,
-    //     validators: [Validators.required],
-    //   }),
-    //   description: new FormControl('', {
-    //     nonNullable: false,
-    //     validators: [Validators.maxLength(800)],
-    //   }),
-    // });
-
-    // this.map = L.map('map').setView([46.7785, 6.6412]);
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -93,26 +78,14 @@ export class CameraPage implements OnInit {
     );
   }
 
-  // takePicture() {
-  //   this.pictureTaked = false;
-  //   this.pictureService.takePicture().subscribe((data) => {
-  //     this.pictureTaked = true;
-  //     this.pictureBase64 = `data:image/${data.format};base64,${data.base64String}`;
-  //     console.log(data);
-  //   });
-  // }
-
   public getSpecies(): Observable<Specy[]> {
     let total;
     this.apiService.countSpecies$().subscribe((res: any) => {
       total = res;
     });
     this.apiService.countSpecies$().subscribe((result: any) => {
-      console.log('nombre de species', result);
       let filter: SpeciesFilter = { pageSize: result?.count };
-      this.apiService.getSpecies$(filter).subscribe((r: any) => {
-        console.log(r);
-      });
+      this.apiService.getSpecies$(filter).subscribe((r: any) => {});
     });
     return this.apiService
       .getSpecies$({ pageSize: 20 })
@@ -122,7 +95,6 @@ export class CameraPage implements OnInit {
   printCurrentPosition = async () => {
     const coordinates: any = await Geolocation.getCurrentPosition();
 
-    console.log('Current position:', coordinates);
     this.userLocation = coordinates;
     if (this.userLocation) {
     }
@@ -137,14 +109,6 @@ export class CameraPage implements OnInit {
   }
 
   addMushroom() {
-    // console.log('finalement', this.MushroomForm2.value);
-    // console.log('la specy id', this.MushroomForm2.value.Species);
-    // console.log('la description', this.MushroomForm2.value.Description);
-    // if (this.notNow) {
-    //   this.date = new Date(this.MushroomForm.value.dateNotNow).getTime();
-    // }
-    // console.log(this.MushroomForm);
-    // console.log(this.userLocation.coords);
     const mushroom: AddMushroomRequest = {
       specy_id: this.MushroomForm2.value.specyId,
       picture: this.pictureBase64,
@@ -155,7 +119,7 @@ export class CameraPage implements OnInit {
         coordinates: [this.userLocation.coords.latitude, this.userLocation.coords.longitude],
       },
     };
-    console.log('mushroom to add', mushroom);
+
     this.apiService.addMushroom$(mushroom).subscribe({
       next: () => {
         this.presentToast({
@@ -177,7 +141,7 @@ export class CameraPage implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.MushroomForm2.value);
+
     if (this.MushroomForm2.invalid) {
       return;
     }

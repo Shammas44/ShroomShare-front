@@ -30,7 +30,8 @@ const routes: Routes = [
       },
       {
         path: 'favorites',
-        loadChildren: () => import('./favorites/favorites.module').then((m) => m.FavoritesPageModule),
+        loadChildren: () =>
+          import('./favorites/favorites.module').then((m) => m.FavoritesPageModule),
       },
       {
         path: 'profil',
@@ -45,13 +46,8 @@ const routes: Routes = [
   },
   {
     path: 'favorites',
-    loadChildren: () => import('./favorites/favorites.module').then( m => m.FavoritesPageModule)
-  },  {
-    path: 'create-mushroom',
-    loadChildren: () => import('./create-mushroom/create-mushroom.module').then( m => m.CreateMushroomPageModule)
+    loadChildren: () => import('./favorites/favorites.module').then((m) => m.FavoritesPageModule),
   },
-
-
 ];
 
 @NgModule({

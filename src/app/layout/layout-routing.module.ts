@@ -46,7 +46,11 @@ const routes: Routes = [
   {
     path: 'favorites',
     loadChildren: () => import('./favorites/favorites.module').then( m => m.FavoritesPageModule)
+  },  {
+    path: 'create-mushroom',
+    loadChildren: () => import('./create-mushroom/create-mushroom.module').then( m => m.CreateMushroomPageModule)
   },
+
 
 ];
 

@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>CreateMushroom</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- <form formGroup="form" (submit)="addMushroom()">
+    <ion-list>
+      </ion-list>
+      </form> -->
+    <form #MushroomForm="ngForm" (ngSubmit)="addMushroom(MushroomForm)" novalidate>
+      <ion-item>
+        <ion-select interface="popover" placeholder="Select Species" ngModel name="Species">
+          <ion-select-option *ngFor="let species of speciesList$ | async " [value]="species.id" >{{species.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-textarea ngModel name="Description"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-item>
+          <ion-checkbox slot="start" ngModel name="Now" (ionChange)="checkBoxNow($event)" unchecked></ion-checkbox>
+          <ion-label>now</ion-label>
+        </ion-item>
+
+        <ion-datetime *ngIf="!Now" presentation="date-time" [preferWheel]="true" ngModel name="Date" [max]="Maintenant"></ion-datetime>
+        <!-- <ion-datetime-button datetime="datetime"  [(ngModel)]="dateSelect"></ion-datetime-button>
+  <ion-modal [keepContentsMounted]="true" [(ngModel)]="dateSelect">
+    <ng-template>
+      <ion-datetime id="datetime"></ion-datetime>
+    </ng-template>
+  </ion-modal> -->
+      </ion-item>
+      <ion-item>
+        <ion-label>Image</ion-label>
+        <ion-input type="text" [(ngModel)]="picture" name="Image"></ion-input>
+      </ion-item> 
+      <ion-item>
+        <ion-label>Lattitude</ion-label>
+        <ion-input type="text" ngModel name="Lattitude"></ion-input>
+      </ion-item> 
+      <ion-item>
+        <ion-label>Longitude</ion-label>
+        <ion-input type="text" ngModel name="Lattitude"></ion-input>
+      </ion-item> 
+      <button ion-button type="submit" block>Add mushroom</button>
+    <!-- </form> -->
+  </form>
+
+
+</ion-content>

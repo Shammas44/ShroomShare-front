@@ -60,7 +60,7 @@ export type AddMushroomRequest = {
   specy_id: string;
   picture: string;
   description?: string;
-  date: string;
+  date: number;
   location: Location;
 };
 

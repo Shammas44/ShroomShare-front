@@ -13,6 +13,12 @@ import { Location } from '@angular/common';
 import { User } from 'src/app/models/users';
 import { FiltersModalMyMushroomComponent } from 'src/app/filters/filters-modal-my-mushroom/filters-modal-my-mushroom.component';
 import { setApiParams } from '../../../utils/modal-utility-functions';
+import { IonModal } from '@ionic/angular';
+import { ViewChild } from '@angular/core';
+import { OverlayEventDetail } from '@ionic/core/components';
+import { Modal } from 'src/app/filters/modal';
+import { ModifyMushroomModalComponent } from './../../../modify-mushroom-modal/modify-mushroom-modal.component';
+import { Mushroom } from 'src/app/models/mushrooms';
 
 @Component({
   selector: 'app-my-mushrooms',
@@ -22,10 +28,19 @@ import { setApiParams } from '../../../utils/modal-utility-functions';
 export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit {
   storageRequestParamKey: string = storageKeys.filterModalMyMushrooms;
   user: User | undefined = undefined;
+  mushroom: MushroomWithPic;
+  test = 'OUI';
+  master = 'Master';
 
   ngOnInit() {
     this.initalItemSetting();
   }
+
+  modifymushroom: boolean = false;
+  currentMushroom: any = {
+    id: 'Bonjour',
+    test2: 'test',
+  };
 
   constructor(
     private api: ShroomShareApiService,
@@ -55,6 +70,13 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
     }
   }
 
+  async Modal2() {
+    const mondal = await this.modalCtrl.create({
+      component: Modal,
+    });
+    this.modal.present();
+  }
+
   getItems$(filters: MushroomsFilter): Observable<PaginatedResponse<MushroomWithPic>> {
     filters.userIds = this.user?.id;
     return this.api.getMushrooms$(filters) as Observable<PaginatedResponse<MushroomWithPic>>;
@@ -66,10 +88,45 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
       return;
     });
   }
+  @ViewChild(IonModal) modal: IonModal;
 
-  modifyItem(id: string) { }
+  message = ``;
+  name: string;
+
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  confirm() {
+    this.modal.dismiss(this.name, 'confirm');
+  }
+
+  onWillDismiss(event: Event) {
+    const ev = event as CustomEvent<OverlayEventDetail<string>>;
+    if (ev.detail.role === 'confirm') {
+      this.message = `Hello, ${ev.detail.data}!`;
+    }
+  }
+
+  async modifyItem(id: string, currentmushroom: MushroomWithPic) {
+    const modalModify = await this.modalCtrl.create({
+      component: ModifyMushroomModalComponent,
+      componentProps: {
+        mushroom: currentmushroom,
+      },
+    });
+
+    console.log(modalModify);
+    await modalModify.present();
+    // this.modifymushroom = true;
+    // this.currentMushroom = mushroom;
+    // console.log(mushroom);
+    // this.modal.present;
+
+    // console.log('bonjour');
+  }
 
   fromModaResponseToApiParams(data: TmpState): MushroomsFilter {
-    return setApiParams(data)
+    return setApiParams(data);
   }
 }

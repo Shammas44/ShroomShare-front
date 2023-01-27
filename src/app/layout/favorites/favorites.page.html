@@ -1,6 +1,7 @@
 <ion-content>
   <div class="favourites-top-div">
     <h2>Utilisateurs</h2>
+    <ion-searchbar (ionChange)="onInputChange($event)" [value]="search"></ion-searchbar>
   </div>
   <h3 class="favorites-subtitle">Favoris</h3>
   <ion-list [inset]="true">

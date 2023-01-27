@@ -27,9 +27,10 @@ export class MushroomCardComponent implements OnInit {
   ngOnInit() {
     this._favoritesList$ = this.favoriteStorage.favoriesList$;
 
-    // this._favoritesList$.subscribe((a) => {
-    //   console.log('oui', a);
-    // });
+    this._favoritesList$.subscribe((a) => {
+      console.log('oui', a);
+    });
+    this.isFav();
 
     // console.log('le mushroom', this.mushroom?.user?.id);
     // this._favoritesList$.subscribe((FavoriteList) => {
@@ -48,19 +49,25 @@ export class MushroomCardComponent implements OnInit {
   }
 
   async addToFavorites(mushroom: null | MushroomWithPic) {
-    this.favoriteStorage.addFavorite2({
-      id: mushroom?.user?.id,
-      username: mushroom?.user?.username,
-    });
-    this.isfav = true;
+    if (!this.isfav) {
+      this.favoriteStorage.addFavorite2({
+        id: mushroom?.user?.id,
+        username: mushroom?.user?.username,
+      });
+      this.isfav = true;
 
-    const toast = await this.toastController.create({
-      message: `${mushroom?.user?.username} has been added to favorites`,
-      duration: 1500,
-      position: 'bottom',
-    });
+      const toast = await this.toastController.create({
+        message: `${mushroom?.user?.username} has been added to favorites`,
+        duration: 1500,
+        position: 'bottom',
+      });
 
-    await toast.present();
+      await toast.present();
+    } else {
+      this.isfav = false;
+      const id = this.mushroom?.user?.id;
+      this.favoriteStorage.deleteFavorite2(id);
+    }
   }
 
   getPicture(picture: string | MushroomPicture) {
@@ -72,5 +79,16 @@ export class MushroomCardComponent implements OnInit {
 
   navToWiki() {
     this.route.navigate(['wiki']);
+  }
+  isFav() {
+    console.log('oui?????');
+    this._favoritesList$.subscribe((r) => {
+      r.forEach((element) => {
+        if (element.id === this.mushroom?.user?.id) {
+          this.isfav = true;
+          console.log("c'est true");
+        }
+      });
+    });
   }
 }

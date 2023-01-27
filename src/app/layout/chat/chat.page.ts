@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Message } from '../../models/message';
 import { AuthService } from 'src/app/auth/auth.service';
-
+import { environment } from 'src/environments/environment';
 import { webSocketResponse } from 'src/app/models/webSocketResponse';
 import { ViewDidEnter } from '@ionic/angular';
 
@@ -32,13 +32,14 @@ export class ChatPage implements ViewDidEnter {
     this.language = 'fr';
     this.currentUserId = this.getBaseUserId();
     this.currentUserName = 'base string';
-    this.socketServerUrl = 'ws://shroom-share.onrender.com/';
+    this.socketServerUrl = environment.webcocketUrl;
   }
 
   ionViewDidEnter(): void {
     this.socket = this.createBaseWebSocket();
     //For unknown reason, the first webSocket created does not recieve messages, so two are created in a row to fix it.
     this.socket = this.createBaseWebSocket();
+    // TODO: display popup if socket === undefined
   }
 
   scrollToBottomChat() {
@@ -96,17 +97,21 @@ export class ChatPage implements ViewDidEnter {
     }
   }
 
-  createBaseWebSocket(): WebSocket {
-    const socket = new WebSocket(
-      `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
-    ); // Ouverture de la connexion
-    socket.addEventListener('open', (event) => {});
-    // Ecoute des nouveaux messages du serveur
-    socket.addEventListener('message', (event) => {
-      console.log('Voici un message du serveur', event.data);
-      this.handleServerMessage(JSON.parse(event.data));
-    });
-    return socket;
+  createBaseWebSocket(): WebSocket | undefined {
+    try {
+      const socket = new WebSocket(
+        `${this.socketServerUrl}?language=${this.language}&id=${this.currentUserId}`
+      ); // Ouverture de la connexion
+      socket.addEventListener('open', (event) => {});
+      // Ecoute des nouveaux messages du serveur
+      socket.addEventListener('message', (event) => {
+        console.log('Voici un message du serveur', event.data);
+        this.handleServerMessage(JSON.parse(event.data));
+      });
+      return socket;
+    } catch (error) {
+      return undefined;
+    }
   }
 
   async onSubmit(form: NgForm) {

@@ -56,7 +56,7 @@ export class ShroomShareApiService {
   }
 
   getSpecy$(specyId: String): Observable<Specy> {
-    const url = `${API_URL}/species:${specyId}`;
+    const url = `${API_URL}/species${specyId}`;
     return this.http.get<SpecyResponse>(url).pipe(map((res) => res.specy));
   }
 
@@ -81,7 +81,7 @@ export class ShroomShareApiService {
   }
 
   modifyMushroom$(mushroomId: String, body: ModifyMushroomRequest): Observable<Mushroom> {
-    const url = `${API_URL}/mushrooms:${mushroomId}`;
+    const url = `${API_URL}/mushrooms${mushroomId}`;
     return this.http.patch<MushroomResponse>(url, body).pipe(map((res) => res.mushroom));
   }
 
@@ -102,7 +102,7 @@ export class ShroomShareApiService {
   }
 
   getUser$(userId: String): Observable<User> {
-    const url = `${API_URL}/users:${userId}`;
+    const url = `${API_URL}/users${userId}`;
     return this.http.get<UserResponse>(url).pipe(map((res) => res.user));
   }
 

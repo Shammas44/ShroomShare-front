@@ -17,6 +17,7 @@ import { NavController } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-modify-mushroom-modal',
@@ -47,7 +48,8 @@ export class ModifyMushroomModalComponent implements OnInit {
     private apiService: ShroomShareApiService,
     private formBuilder: FormBuilder,
     private toastController: ToastController,
-    private route: Router
+    private route: Router,
+    private modalCtrl: ModalController
   ) {
     this.presentToast = getPresentToastFunc(this.toastController);
   }
@@ -97,7 +99,8 @@ export class ModifyMushroomModalComponent implements OnInit {
   cancel() {
     // this.modal.dismiss(null, 'cancel');
     // return this.modalCtrl.dismiss(null, modalRole.cancel);
-    this.route.navigate(['profil']);
+    // this.route.navigate(['profil']);
+    return this.modalCtrl.dismiss(null, 'cancel');
   }
 
   modifyMushroom(form: FormGroup) {
@@ -121,14 +124,13 @@ export class ModifyMushroomModalComponent implements OnInit {
           message: this.MSG.SUCCES_MUSHROOM_MODIFICATION,
           icon: ToastTypes.success,
         });
-        this.route.navigate(['profil']);
+        this.cancel();
       },
       error: () => {
         this.presentToast({
           message: this.MSG.ERROR_MUSHROOM_MODIFICATION,
           icon: ToastTypes.error,
         });
-        this.route.navigate(['profil']);
       },
     });
   }

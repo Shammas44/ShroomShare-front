@@ -5,6 +5,8 @@ import { StorageService } from './../../localStorage/local-storage.service';
 import { ToastController } from '@ionic/angular';
 import { Favorite } from 'src/app/models/favorite';
 import { Observable } from 'rxjs';
+import { getPresentToastFunc, ToastTypes } from 'src/app/utils/utility-functions';
+import { ToastOptions } from 'src/app/utils/utility-functions';
 
 @Component({
   selector: 'app-mushroom-card',
@@ -12,12 +14,15 @@ import { Observable } from 'rxjs';
   styleUrls: ['./../card.component.scss'],
 })
 export class MushroomCardComponent implements OnInit {
+  presentToast: (options: ToastOptions | string) => void;
   @Input() mushroom: MushroomWithPic | null = null;
   showFullText: boolean = false;
 
   _favoritesList$: Observable<Favorite[]>;
 
-  constructor(private favoriteStorage: StorageService, private toastController: ToastController) {}
+  constructor(private favoriteStorage: StorageService, private toastController: ToastController) {
+    this.presentToast = getPresentToastFunc(this.toastController);
+  }
   isfav = false;
   ngOnInit() {
     this._favoritesList$ = this.favoriteStorage.favoriesList$;
@@ -26,17 +31,6 @@ export class MushroomCardComponent implements OnInit {
       console.log('oui', a);
     });
     this.isFav();
-
-    // console.log('le mushroom', this.mushroom?.user?.id);
-    // this._favoritesList$.subscribe((FavoriteList) => {
-    //   FavoriteList.forEach((favorite: any) => {
-    //     if (favorite.id == this.mushroom?.user?.id) {
-    //       console.log("C'est fav");
-    //       this.isfav = true;
-    //     }
-    //   });
-    // });
-    // console.log('isfav?', this.isfav);
   }
 
   onToggleTextExpand() {
@@ -51,17 +45,19 @@ export class MushroomCardComponent implements OnInit {
       });
       this.isfav = true;
 
-      const toast = await this.toastController.create({
-        message: `${mushroom?.user?.username} has been added to favorites`,
-        duration: 1500,
-        position: 'bottom',
+      this.presentToast({
+        message: `${mushroom?.user?.username} a été ajouté a vos faovris`,
+        icon: ToastTypes.success,
       });
-
-      await toast.present();
     } else {
       this.isfav = false;
       const id = this.mushroom?.user?.id;
       this.favoriteStorage.deleteFavorite2(id);
+
+      this.presentToast({
+        message: `${mushroom?.user?.username} a été retiré de vos faovris`,
+        icon: ToastTypes.success,
+      });
     }
   }
 
@@ -73,12 +69,10 @@ export class MushroomCardComponent implements OnInit {
   }
 
   isFav() {
-    console.log('oui?????');
     this._favoritesList$.subscribe((r) => {
       r.forEach((element) => {
         if (element.id === this.mushroom?.user?.id) {
           this.isfav = true;
-          console.log("c'est true");
         }
       });
     });

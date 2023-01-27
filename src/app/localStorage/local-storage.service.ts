@@ -71,7 +71,7 @@ export class StorageService {
       .subscribe();
   }
 
-  deleteFavorite2(id: string) {
+  deleteFavorite2(id: any) {
     this._favoriteList$.subscribe((values) => {
       console.log(values);
     });

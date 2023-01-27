@@ -1,5 +1,5 @@
-<ion-content>
 
+<ion-content class="ion-padding-left">
   <div class="wrapper">
     <h2>Mes champignons</h2>
     <div class="mushrooms-subtitle-and-icon">
@@ -11,7 +11,7 @@
     <div class="wrapper__list ion-content-scroll-host">
       <ion-list>
         <ion-item *ngFor="let mushroom of items" class="ion-no-padding">
-          <app-my-mushroom-card [mushroom]="mushroom" (delete)="deleteItem($event)" (modify)="modifyItem($event)">
+          <app-my-mushroom-card [mushroom]="mushroom" (delete)="deleteItem($event)" (modify)="modifyItem($event, mushroom)">  
           </app-my-mushroom-card>
         </ion-item>
       </ion-list>
@@ -19,6 +19,27 @@
         <ion-infinite-scroll-content></ion-infinite-scroll-content>
       </ion-infinite-scroll>
     </div>
+    <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancel()">Cancel</ion-button>
+            </ion-buttons>
+            <ion-title>Welcome</ion-title>
+            <ion-buttons slot="end">
+              <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-item>
+            <ion-label position="stacked">Enter your name</ion-label>
+            <ion-input type="text" placeholder="Your name" [(ngModel)]="name"></ion-input>
+          </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
   </div>
 
 </ion-content>

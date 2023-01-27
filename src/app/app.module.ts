@@ -10,6 +10,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { MarkerService } from './utils/marker.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,13 +20,14 @@ import { MarkerService } from './utils/marker.service';
     AppRoutingModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    LeafletModule
+    LeafletModule,
+    ReactiveFormsModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true },
-    MarkerService
+    MarkerService,
   ],
   bootstrap: [AppComponent],
-})// eslint-disable-line
+}) // eslint-disable-line
 export class AppModule {}

@@ -5,15 +5,18 @@ import { IonicModule } from '@ionic/angular';
 import { MyMushroomsPageRoutingModule } from './my-mushrooms-routing.module';
 import { MyMushroomsPage } from './my-mushrooms.page';
 import { CardModule } from '../../../cards/cards.module';
+import { ModifyMushroomModalComponent } from './../../../modify-mushroom-modal/modify-mushroom-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
     MyMushroomsPageRoutingModule,
-    CardModule
+    CardModule,
   ],
-  declarations: [MyMushroomsPage]
+  declarations: [MyMushroomsPage, ModifyMushroomModalComponent],
 })
 export class MyMushroomsPageModule {}

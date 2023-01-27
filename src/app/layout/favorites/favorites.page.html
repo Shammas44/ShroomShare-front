@@ -1,6 +1,7 @@
 <ion-content>
   <div class="favourites-top-div">
     <h2>Utilisateurs favoris</h2>
+    <ion-searchbar (ionChange)="onInputChange($event)" [value]="search"></ion-searchbar>
   </div>
   <ion-list [inset]="true">
     <ion-item *ngFor="let favorite of _favoritesList$ | async ">

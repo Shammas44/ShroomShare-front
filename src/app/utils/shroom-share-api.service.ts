@@ -81,7 +81,7 @@ export class ShroomShareApiService {
   }
 
   modifyMushroom$(mushroomId: String, body: ModifyMushroomRequest): Observable<Mushroom> {
-    const url = `${API_URL}/mushrooms${mushroomId}`;
+    const url = `${API_URL}/mushrooms/${mushroomId}`;
     return this.http.patch<MushroomResponse>(url, body).pipe(map((res) => res.mushroom));
   }
 

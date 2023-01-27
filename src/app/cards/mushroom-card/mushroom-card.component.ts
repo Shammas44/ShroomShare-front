@@ -71,12 +71,7 @@ export class MushroomCardComponent implements OnInit {
     }
     return picture?.value ?? '';
   }
-<<<<<<< HEAD
-=======
 
-  navToWiki() {
-    this.route.navigate(['wiki']);
-  }
   isFav() {
     console.log('oui?????');
     this._favoritesList$.subscribe((r) => {
@@ -88,5 +83,4 @@ export class MushroomCardComponent implements OnInit {
       });
     });
   }
->>>>>>> addMushroomImplementation
 }

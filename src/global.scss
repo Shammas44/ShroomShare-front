@@ -131,6 +131,19 @@
     display: grid;
   }
 
+  ion-action-sheet span {
+    font-family: var(--secondary-font);
+  }
+
+  .action-sheet-group.sc-ion-action-sheet-md:last-child {
+    border-top: 2px solid var(--grey-nuancy-2);
+  }
+
+  .action-sheet-group.sc-ion-action-sheet-md:last-child span {
+    color: var(--shroom-secondary);
+    font-weight:600;
+  }
+
   ion-datetime {
     border: 2px solid black;
     color: var(--black-nuancy-1);

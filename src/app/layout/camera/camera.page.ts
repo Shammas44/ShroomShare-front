@@ -8,13 +8,11 @@ import { SpeciesFilter } from 'src/app/models/species';
 import { Geolocation } from '@capacitor/geolocation';
 import { AddMushroomRequest } from 'src/app/models/mushrooms';
 import { NgForm } from '@angular/forms';
-import * as L from 'leaflet';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { ToastOptions, ToastTypes } from 'src/app/utils/utility-functions';
 import { getPresentToastFunc } from 'src/app/utils/utility-functions';
-
 import { Form } from '@angular/forms';
 
 @Component({
@@ -69,13 +67,13 @@ export class CameraPage implements OnInit {
   }
   takePicture() {
     this.pictureTaked = false;
-    this.pictureService.takePicture().subscribe(
-      (data) => {
+    this.pictureService.takePicture().subscribe({
+      next: (data) => {
         this.pictureTaked = true;
         this.pictureBase64 = `data:image/${data.format};base64,${data.base64String}`;
       },
-      (err) => (this.pictureTaked = false)
-    );
+      error: () => (this.pictureTaked = false),
+    });
   }
 
   public getSpecies(): Observable<Specy[]> {

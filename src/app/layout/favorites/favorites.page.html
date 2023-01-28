@@ -1,17 +1,23 @@
 <ion-content>
   <div class="favourites-top-div">
-    <h2>Utilisateurs favoris</h2>
-    <ion-searchbar (ionChange)="onInputChange($event)" [value]="search"></ion-searchbar>
+    <h2>Utilisateurs</h2>
+    <ion-searchbar (ionChange)="onInputChange($event)" [value]="search" placeholder="Rechercher un utilisateur"></ion-searchbar>
+    <ion-list>
+      <ion-item *ngFor="let result of resultList | async">
+        <ion-label>{{ result?.username }}</ion-label>
+        <ion-icon *ngIf="isFavorite(result) else heartoutline"  name="heart" (click)="deleteFavorite2(result)"></ion-icon>
+       <ng-template #heartoutline> <ion-icon  name="heart-outline" (click)="addToFavorite(result)"></ion-icon></ng-template>
+      </ion-item>
+    </ion-list>
   </div>
   <ion-list [inset]="true">
     <ion-item *ngFor="let favorite of _favoritesList$ | async ">
       <div class="wrapper__item">
         <ion-label>{{favorite.username}}</ion-label>
 
-        <ion-button (click)="deleteFavorite2(favorite.id)" fill="clear">
-          <ion-icon name="heart"></ion-icon>
-        </ion-button>
-      </div>
+      <ion-button (click)="deleteFavorite2(favorite)" fill="clear">
+        <ion-icon name="heart"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-list>
 

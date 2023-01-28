@@ -1,0 +1,46 @@
+@import '../../mixin';
+
+.wrapper {
+  display: grid;
+  grid-template-rows: 10% auto;
+  height: 100%;
+  justify-content: center;
+}
+
+.takepicture {
+  display: flex;
+  justify-content: center;
+}
+
+.wrapper__picture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  margin: 0 0 2rem 0;
+}
+
+img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 5px;
+  max-width: 50%;
+}
+
+form {
+  padding: 0 1.6rem;
+  text-align: center;
+}
+
+h2 {
+  @include font-h2(var(--black-nuancy-1), center);
+}
+
+ion-button[type='submit'] {
+  margin: 2rem 0;
+}
+
+ion-select,
+ion-textarea {
+  font-family: var(--secondary-font);
+}

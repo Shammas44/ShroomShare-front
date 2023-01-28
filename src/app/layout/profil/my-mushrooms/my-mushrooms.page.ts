@@ -16,9 +16,8 @@ import { setApiParams } from '../../../utils/modal-utility-functions';
 import { IonModal } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { OverlayEventDetail } from '@ionic/core/components';
-import { Modal } from 'src/app/filters/modal';
 import { ModifyMushroomModalComponent } from './../../../modify-mushroom-modal/modify-mushroom-modal.component';
-import { Mushroom } from 'src/app/models/mushrooms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-mushrooms',
@@ -29,29 +28,24 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
   storageRequestParamKey: string = storageKeys.filterModalMyMushrooms;
   user: User | undefined = undefined;
   mushroom: MushroomWithPic;
-  test = 'OUI';
-  master = 'Master';
 
   ngOnInit() {
     this.initalItemSetting();
   }
 
   modifymushroom: boolean = false;
-  currentMushroom: any = {
-    id: 'Bonjour',
-    test2: 'test',
-  };
 
   constructor(
     private api: ShroomShareApiService,
     storage: Storage,
     private modalCtrl: ModalController,
-    private location: Location
+    private location: Location,
+    private route: Router
   ) {
     super(storage);
     const user = this.location.getState() as User;
     this.user = user;
-    // TODO: handle the case when user is undefined
+    if (this.user === undefined) this.route.navigate(['/profil']);
   }
 
   async openModal() {
@@ -68,13 +62,6 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
       this.lastPage = 1;
       this.fetchItems(params);
     }
-  }
-
-  async Modal2() {
-    const mondal = await this.modalCtrl.create({
-      component: Modal,
-    });
-    this.modal.present();
   }
 
   getItems$(filters: MushroomsFilter): Observable<PaginatedResponse<MushroomWithPic>> {
@@ -108,23 +95,14 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
     }
   }
 
-  async modifyItem(id: string, currentmushroom: MushroomWithPic) {
+  async modifyItem(currentmushroom: MushroomWithPic) {
     const modalModify = await this.modalCtrl.create({
       component: ModifyMushroomModalComponent,
       componentProps: {
         mushroom: currentmushroom,
       },
     });
-
-    console.log(modalModify);
     await modalModify.present();
-    // await modalModify.dismiss();
-    // this.modifymushroom = true;
-    // this.currentMushroom = mushroom;
-    // console.log(mushroom);
-    // this.modal.present;
-
-    // console.log('bonjour');
   }
 
   fromModaResponseToApiParams(data: TmpState): MushroomsFilter {

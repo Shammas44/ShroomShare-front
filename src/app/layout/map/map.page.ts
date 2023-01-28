@@ -64,7 +64,6 @@ export class MapPage {
   }
 
   receiveMap(map: any) {
-    console.log({ map });
     map.map as L.Map;
     map.layer as L.FeatureGroup;
     this.map = map.map;
@@ -85,11 +84,9 @@ export class MapPage {
       .then((res) => {
         this.filters = res;
         if (this.filters === null) throw Error();
-        console.log({ filters: this.filters });
         updateMap(this.filters);
       })
       .catch(() => {
-        console.log('error');
         const options: MapMushroomsFilter = {
           radius: 30000,
           longitude: position.lon,

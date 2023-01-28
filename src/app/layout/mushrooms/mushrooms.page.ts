@@ -40,7 +40,6 @@ export class MushroomsPage
 
   ionViewDidEnter(): void {
     const id = this.location.getState() as SpecyId;
-    console.log({ id });
     if (id.id) {
       this.oldItems = this.items;
       this.items = [];
@@ -72,7 +71,6 @@ export class MushroomsPage
       const params = this.fromModaResponseToApiParams(data);
       this.items = [];
       this.storage.set(this.storageRequestParamKey, params);
-      console.log({ filters: params });
       this.filters = params;
       this.currentPage = 1;
       this.lastPage = 2;

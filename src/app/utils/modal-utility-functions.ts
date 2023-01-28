@@ -57,6 +57,5 @@ export function setApiParams(data: TmpState): MushroomsFilter {
     params.latitude = data.city.coordinates.lat;
     params.longitude = data.city.coordinates.lon;
   }
-  console.log({ params });
   return params;
 }

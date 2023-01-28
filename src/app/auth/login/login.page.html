@@ -38,11 +38,9 @@
           <ion-button type="submit" size="large" [disabled]="loginForm.invalid" color="secondary">
             <span class="big-button-text">Connexion</span>
           </ion-button>
-
-          <!-- Error message displayed if the login is invalid -->
-          <ion-text color="danger" *ngIf="loginError">Le nom d'utilisateur ou le mot de passe est incorrect.</ion-text>
-
         </div>
+        <!-- Error message displayed if the login is invalid -->
+        <ion-text color="danger" *ngIf="loginError">Le nom d'utilisateur ou le mot de passe est incorrect.</ion-text>
 
       </form>
     </div>

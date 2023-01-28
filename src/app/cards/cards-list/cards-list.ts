@@ -46,7 +46,6 @@ export abstract class CardList<Item> {
   protected getSubscriber(callback?: Function) {
     return {
       next: (res: PaginatedResponse<Item>) => {
-        console.log({ res });
         this.lastPage = res.lastPage;
         for (const item of res.items as Item[]) {
           this.items.push(item);
@@ -60,7 +59,6 @@ export abstract class CardList<Item> {
   }
 
   protected fetchItems(params: PaginatedFilters): Observable<PaginatedResponse<Item>> | undefined {
-    console.log('fetch');
     if (this.currentPage > this.lastPage) {
       this.loadingMessage = MSG.noMoreResults;
       return;

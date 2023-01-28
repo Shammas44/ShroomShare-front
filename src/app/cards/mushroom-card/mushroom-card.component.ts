@@ -26,10 +26,6 @@ export class MushroomCardComponent implements OnInit {
   isfav = false;
   ngOnInit() {
     this._favoritesList$ = this.favoriteStorage.favoriesList$;
-
-    this._favoritesList$.subscribe((a) => {
-      console.log('oui', a);
-    });
     this.isFav();
   }
 
@@ -70,11 +66,13 @@ export class MushroomCardComponent implements OnInit {
 
   isFav() {
     this._favoritesList$.subscribe((r) => {
-      r.forEach((element) => {
-        if (element.id === this.mushroom?.user?.id) {
-          this.isfav = true;
-        }
-      });
+      if (r !== null) {
+        r.forEach((element) => {
+          if (element.id === this.mushroom?.user?.id) {
+            this.isfav = true;
+          }
+        });
+      }
     });
   }
 }

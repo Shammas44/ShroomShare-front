@@ -8,7 +8,6 @@ import { PickerCityState, PickerState } from '../models/picker';
 import { Storage } from '@ionic/storage';
 import { FiltersModalState, StateParams } from './Filters-modal-state';
 import { UsageMap, TmpState } from '../models/filters';
-import { RangeCustomEvent } from '@ionic/angular';
 import { RangeValue } from '@ionic/core';
 
 const currentDate = new Date();
@@ -16,7 +15,7 @@ const previousYearDate = new Date();
 previousYearDate.setFullYear(currentDate.getFullYear() - 1);
 
 export abstract class Modal {
-  protected states: FiltersModalState;
+  protected states!: FiltersModalState;
   protected tmpState: TmpState;
   abstract cancel(): Promise<boolean>;
   abstract confirm(): Promise<boolean>;
@@ -36,6 +35,10 @@ export abstract class Modal {
     this.tmpState = tmpState;
     this.currentDate = new Date().toISOString();
     this.setTmpState();
+  }
+
+  setState(params: StateParams[]) {
+    this.states = new FiltersModalState(this.storage, params);
   }
 
   private setTmpState() {
@@ -73,7 +76,6 @@ export abstract class Modal {
 
   onChoosenCity(state: PickerCityState) {
     this.tmpState.city = state;
-    console.log({ state });
   }
 
   onRadiusChange(e: Event) {

@@ -1,22 +1,17 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
-import { Mushroom } from '../models/mushrooms';
+import { Component, OnInit, Input } from '@angular/core';
 import { MushroomWithPic } from 'src/app/models/mushrooms';
 import { PictureService } from 'src/app/picture/picture.service';
 import { Observable, map } from 'rxjs';
 import { Specy } from '../models/species';
 import { ShroomShareApiService } from '../utils/shroom-share-api.service';
-import { SpeciesFilter } from '../models/species';
 import { PaginatedResponse } from '../models/response';
 import { FormGroup, FormControl, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { ModifyMushroomRequest } from '../models/mushrooms';
 import { ToastOptions, ToastTypes } from '../utils/utility-functions';
 import { getPresentToastFunc } from 'src/app/utils/utility-functions';
 import { ToastController } from '@ionic/angular';
-import { MyMushroomsPage } from '../layout/profil/my-mushrooms/my-mushrooms.page';
-import { NavController } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
-import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -48,22 +43,21 @@ export class ModifyMushroomModalComponent implements OnInit {
     private apiService: ShroomShareApiService,
     private formBuilder: FormBuilder,
     private toastController: ToastController,
-    private route: Router,
     private modalCtrl: ModalController
   ) {
     this.presentToast = getPresentToastFunc(this.toastController);
   }
 
   ngOnInit() {
-    this.mushroomForm = this.formBuilder.group({
-      description: ['', Validators.maxLength(800)],
-      specyId: [''],
-    });
-
     this.pictureBase64 = this.mushroom.picture.value;
     this.speciesList$ = this.getSpecies();
     this.currentspecy = this.mushroom.specy.name;
     this.currentDescription = this.mushroom.description;
+
+    this.mushroomForm = this.formBuilder.group({
+      description: [this.mushroom.description, Validators.maxLength(800)],
+      specyId: [this.mushroom.specy.id],
+    });
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -83,23 +77,12 @@ export class ModifyMushroomModalComponent implements OnInit {
   }
 
   public getSpecies(): Observable<Specy[]> {
-    let total;
-    this.apiService.countSpecies$().subscribe((res: any) => {
-      total = res;
-    });
-    this.apiService.countSpecies$().subscribe((result: any) => {
-      let filter: SpeciesFilter = { pageSize: result?.count };
-      this.apiService.getSpecies$(filter).subscribe((r: any) => {});
-    });
     return this.apiService
       .getSpecies$({ pageSize: 20 })
       .pipe(map<PaginatedResponse<any>, Specy[]>((PaginatedResponse) => PaginatedResponse.items));
   }
 
   cancel() {
-    // this.modal.dismiss(null, 'cancel');
-    // return this.modalCtrl.dismiss(null, modalRole.cancel);
-    // this.route.navigate(['profil']);
     return this.modalCtrl.dismiss(null, 'cancel');
   }
 

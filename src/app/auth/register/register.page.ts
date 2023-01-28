@@ -64,10 +64,8 @@ export class RegisterPage implements OnInit {
       email: this.email.value,
       password: this.password.value,
     };
-    console.log(request);
     this.auth.addUser$(request).subscribe({
       next: (msg) => {
-        console.log({msg})
         this.router.navigateByUrl('/');
       },
       error: (err) => {

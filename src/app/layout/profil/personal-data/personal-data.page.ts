@@ -104,7 +104,6 @@ export class PersonalDataPage implements OnInit {
       username: this.user?.username || '',
       password: this.oldPassword.value,
     };
-    console.log({ user });
     this.auth.logIn$(user).subscribe({
       next: () => {
         this.modifyUser();

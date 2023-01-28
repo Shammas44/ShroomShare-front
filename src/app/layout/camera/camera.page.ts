@@ -4,16 +4,13 @@ import { Observable, map } from 'rxjs';
 import { Specy } from 'src/app/models/species';
 import { ShroomShareApiService } from 'src/app/utils/shroom-share-api.service';
 import { PaginatedResponse } from 'src/app/models/response';
-import { SpeciesFilter } from 'src/app/models/species';
 import { Geolocation } from '@capacitor/geolocation';
 import { AddMushroomRequest } from 'src/app/models/mushrooms';
-import { NgForm } from '@angular/forms';
 import { FormGroup, FormControl, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { ToastOptions, ToastTypes } from 'src/app/utils/utility-functions';
 import { getPresentToastFunc } from 'src/app/utils/utility-functions';
-import { Form } from '@angular/forms';
 
 @Component({
   selector: 'app-camera',
@@ -77,14 +74,6 @@ export class CameraPage implements OnInit {
   }
 
   public getSpecies(): Observable<Specy[]> {
-    let total;
-    this.apiService.countSpecies$().subscribe((res: any) => {
-      total = res;
-    });
-    this.apiService.countSpecies$().subscribe((result: any) => {
-      let filter: SpeciesFilter = { pageSize: result?.count };
-      this.apiService.getSpecies$(filter).subscribe((r: any) => {});
-    });
     return this.apiService
       .getSpecies$({ pageSize: 20 })
       .pipe(map<PaginatedResponse<any>, Specy[]>((PaginatedResponse) => PaginatedResponse.items));

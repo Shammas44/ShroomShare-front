@@ -5,6 +5,9 @@ import { AuthService } from 'src/app/auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { webSocketResponse } from 'src/app/models/webSocketResponse';
 import { ViewDidEnter } from '@ionic/angular';
+import { ToastOptions, ToastTypes } from 'src/app/utils/utility-functions';
+import { getPresentToastFunc } from 'src/app/utils/utility-functions';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-chat',
@@ -12,6 +15,7 @@ import { ViewDidEnter } from '@ionic/angular';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements ViewDidEnter {
+  presentToast: (options: ToastOptions | string) => void;
   lastMessage: Message;
   messages: Message[];
   language: string;
@@ -20,7 +24,8 @@ export class ChatPage implements ViewDidEnter {
   socketServerUrl: string;
   socket?: WebSocket;
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private toastController: ToastController) {
+    this.presentToast = getPresentToastFunc(this.toastController);
     // appeler authservice à la place
     this.lastMessage = {
       value: '',
@@ -39,7 +44,12 @@ export class ChatPage implements ViewDidEnter {
     this.socket = this.createBaseWebSocket();
     //For unknown reason, the first webSocket created does not recieve messages, so two are created in a row to fix it.
     this.socket = this.createBaseWebSocket();
-    // TODO: display popup if socket === undefined
+    if (this.socket === undefined) {
+      this.presentToast({
+        message: "Erreur de connexion aux chat.",
+        icon: ToastTypes.error,
+      });
+    }
   }
 
   scrollToBottomChat() {
@@ -50,7 +60,6 @@ export class ChatPage implements ViewDidEnter {
   }
 
   onLanguageChange(form: NgForm) {
-    console.log(`change language for: ${this.language}`);
     const ok = this.updateCurrentUser();
     if (ok) {
       this.socket = this.createBaseWebSocket();
@@ -81,7 +90,6 @@ export class ChatPage implements ViewDidEnter {
   }
 
   handleServerMessage(message: webSocketResponse) {
-    console.log('message from server recieved to handle', message);
     if (message.message !== undefined) {
       const newMessage = {
         value: message.message,
@@ -105,7 +113,6 @@ export class ChatPage implements ViewDidEnter {
       socket.addEventListener('open', (event) => {});
       // Ecoute des nouveaux messages du serveur
       socket.addEventListener('message', (event) => {
-        console.log('Voici un message du serveur', event.data);
         this.handleServerMessage(JSON.parse(event.data));
       });
       return socket;
@@ -115,7 +122,6 @@ export class ChatPage implements ViewDidEnter {
   }
 
   async onSubmit(form: NgForm) {
-    console.log('submit message');
     const ok = this.updateCurrentUser();
     if (ok && this.socket) {
       if (

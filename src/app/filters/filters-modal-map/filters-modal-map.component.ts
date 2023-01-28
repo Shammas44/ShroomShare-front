@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FilterForm, storageKeys } from '../../models/standard';
+import { storageKeys } from '../../models/standard';
 import { ShroomShareApiService } from '../../utils/shroom-share-api.service';
 import { Observable } from 'rxjs';
 import { User, UserFilter } from '../../models/users';
@@ -16,7 +16,8 @@ import {
   getDefaultUsageState,
   getDate,
 } from '../../utils/modal-utility-functions';
-import { PickerCityState } from 'src/app/models/picker';
+import { PickerCityState, PickerState } from 'src/app/models/picker';
+import { StorageService } from 'src/app/localStorage/local-storage.service';
 
 const allFavorites = [
   { username: 'John', id: '...', admin: false },
@@ -25,22 +26,11 @@ const allFavorites = [
 ] as User[];
 
 const defaultRadius = 1000;
-const defaultState = () => getDefaultState(allFavorites);
 const defaultCity = (): PickerCityState => {
   return { search: '', items: [] };
 };
 const d = getDate();
-
-const params: StateParams[] = [
-  { key: 'users', storageKey: storageKeys.filterModalUsers, defaultValue: defaultState },
-  { key: 'species', storageKey: storageKeys.filterModalSpecies, defaultValue: defaultState },
-  { key: 'usages', storageKey: storageKeys.filterModalUsages, defaultValue: getDefaultUsageState },
-  { key: 'start', storageKey: storageKeys.filterModalStart, defaultValue: () => d.prevYearDateIso },
-  { key: 'end', storageKey: storageKeys.filterModalEnd, defaultValue: () => d.currentDateIso },
-  { key: 'radius', storageKey: storageKeys.filterModalRadius, defaultValue: () => defaultRadius },
-  { key: 'city', storageKey: storageKeys.filterModalCity, defaultValue: defaultCity },
-];
-
+const defaultState = (favorite = allFavorites) => getDefaultState(favorite);
 const tmpState: TmpState = {
   users: null,
   species: null,
@@ -49,6 +39,38 @@ const tmpState: TmpState = {
   start: d.prevYearDateIso,
   end: d.currentDateIso,
   city: defaultCity(),
+};
+
+const params = (defaultState: () => PickerState): StateParams[] => {
+  return [
+    { key: 'users', storageKey: storageKeys.filterModalUsers, defaultValue: defaultState },
+    {
+      key: 'species',
+      storageKey: storageKeys.filterModalSpecies,
+      defaultValue: defaultState,
+    },
+    {
+      key: 'usages',
+      storageKey: storageKeys.filterModalUsages,
+      defaultValue: getDefaultUsageState,
+    },
+    {
+      key: 'start',
+      storageKey: storageKeys.filterModalStart,
+      defaultValue: () => d.prevYearDateIso,
+    },
+    {
+      key: 'end',
+      storageKey: storageKeys.filterModalEnd,
+      defaultValue: () => d.currentDateIso,
+    },
+    {
+      key: 'radius',
+      storageKey: storageKeys.filterModalRadius,
+      defaultValue: () => defaultRadius,
+    },
+    { key: 'city', storageKey: storageKeys.filterModalCity, defaultValue: defaultCity },
+  ];
 };
 
 @Component({
@@ -64,11 +86,25 @@ export class FiltersModalMapComponent extends Modal implements OnInit {
   constructor(
     private modalCtrl: ModalController,
     private api: ShroomShareApiService,
+    private fav: StorageService,
     storage: Storage
   ) {
-    super(storage, params, tmpState);
+    super(storage, params(defaultState), tmpState);
     this.getUsers = this.getUsersFunc(this.api);
     this.getSpecies = this.getSpeciesFunc(this.api);
+    this.fav.getFavorites().subscribe({
+      next: (list) => {
+        if (list !== null) {
+          this.allFavorites = list as User[];
+          const state = () => getDefaultState(list);
+          this.setState(params(state));
+        } else {
+          this.allFavorites = [];
+          const state = () => getDefaultState([]);
+          this.setState(params(state));
+        }
+      },
+    });
   }
 
   async ngOnInit() {

@@ -1,47 +1,51 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Modifier un champignon</ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content>
-  <form [formGroup]="mushroomForm" (ngSubmit)="modifyMushroom(mushroomForm)">
-    <ion-item>
-        <ion-label>Image</ion-label>
-        <br><br>
-        <img [src]="pictureBase64" />
-        <br><br>
-        
-          
-      </ion-item> 
-      <ion-button (click)="takePicture()">Reprendre la photo</ion-button>
-    <ion-item>
-      <ion-label>Espèce:</ion-label>
-      
-      <ion-select class="form-control" interface="popover" placeholder="{{currentspecy}}" ngModel name="Species" formControlName="specyId">
-        <ion-select-option *ngFor="let species of speciesList$ | async " [value]="species.id" >{{species.name}}</ion-select-option>
-      </ion-select>
-      
-    </ion-item>
-    <div *ngIf="f['specyId'].errors">
-    <ion-item lines="none" *ngIf="f['specyId'].touched && f['specyId'].errors['required']">
-      <ion-text color="danger">Vous devez sélectionner une espèce</ion-text>
-    </ion-item>
-  </div>
-    <ion-item>
-      <ion-label>Description</ion-label>
-      <ion-textarea value="{{currentDescription}}" ngModel class="form-control" name="Description" formControlName="description" [autoGrow]="true" ></ion-textarea>
-    </ion-item>
-    <div *ngIf="f['description'].errors">
-   <ion-item lines="none" *ngIf="f['description'].errors['maxlength']">
-      <ion-text color="danger">La description est trop longue</ion-text>
-    </ion-item>
-    </div>
+  <div class="wrapper">
 
-    <ion-button type="submit"  size="large" color="primary" [disabled]="f['description'].errors || !f['specyId'].touched && !f['description'].touched && !modifyPicture">Enregistrer</ion-button>
-    <ion-button size="large" color="secondary" (click)="cancel()">Annuler</ion-button>
-    <!-- <ion-button size="medium" color="secondary" (click)="cancel2()">Annuler2</ion-button> -->
-    <!-- <button ion-button type="submit" block>Add mushroom</button> -->
-  <!-- </form> -->
-  
-</form>
+    <h2>Modifier un champignon</h2>
+    <form [formGroup]="mushroomForm" (ngSubmit)="modifyMushroom(mushroomForm)">
+
+      <!-- picture -->
+      <div class="wrapper__picture">
+        <img [src]="pictureBase64" alt="champignon" />
+        <ion-button (click)="takePicture()">Reprendre la photo</ion-button>
+      </div>
+
+      <!-- species -->
+      <ion-item>
+        <ion-select class="form-control" interface="action-sheet" placeholder="{{currentspecy}}" ngModel name="Species"
+          formControlName="specyId">
+          <ion-select-option *ngFor="let species of speciesList$ | async " [value]="species.id">{{species.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <!-- errors species -->
+      <div *ngIf="f['specyId'].errors">
+        <ion-item lines="none" *ngIf="f['specyId'].touched && f['specyId'].errors['required']">
+          <ion-text color="danger">Vous devez sélectionner une espèce</ion-text>
+        </ion-item>
+      </div>
+
+      <!-- description -->
+      <ion-item>
+        <ion-label>Description</ion-label>
+        <ion-textarea ngModel class="form-control" name="Description" formControlName="description" [autoGrow]="true">
+        </ion-textarea>
+      </ion-item>
+
+      <!-- errors description -->
+      <div *ngIf="f['description'].errors">
+        <ion-item lines="none" *ngIf="f['description'].errors['maxlength']">
+          <ion-text color="danger">La description est trop longue</ion-text>
+        </ion-item>
+      </div>
+
+      <!-- submit -->
+      <ion-button type="submit" size="large" color="primary"
+        [disabled]="f['description'].errors || !f['specyId'].touched && !f['description'].touched && !modifyPicture">
+        Enregistrer</ion-button>
+      <ion-button size="large" color="secondary" (click)="cancel()">Annuler</ion-button>
+
+    </form>
+  </div>
 </ion-content>

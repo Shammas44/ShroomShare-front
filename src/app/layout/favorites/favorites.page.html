@@ -1,27 +1,48 @@
 <ion-content>
-  <div class="favourites-top-div">
-    <h2>Utilisateurs</h2>
-    <ion-searchbar (ionChange)="onInputChange($event)" [value]="search" placeholder="Rechercher un utilisateur"></ion-searchbar>
-    <ion-list>
-      <ion-item *ngFor="let result of resultList | async">
-        <ion-label>{{ result?.username }}</ion-label>
-        <ion-icon *ngIf="isFavorite(result) else heartoutline"  name="heart" (click)="deleteFavorite2(result)"></ion-icon>
-       <ng-template #heartoutline> <ion-icon  name="heart-outline" (click)="addToFavorite(result)"></ion-icon></ng-template>
-      </ion-item>
-    </ion-list>
+  <div class="wrapper">
+    <h2>Utilisateurs favoris</h2>
+    <ion-searchbar (ionChange)="onInputChange($event)" [value]="search" placeholder="Rechercher un utilisateur">
+    </ion-searchbar>
+
+    <ion-accordion-group #accordionGroup [multiple]="true">
+      <!-- All items -->
+      <ion-accordion value="all">
+        <ion-item slot="header" color="light" lines="none">
+          <ion-label>Résultat de la recherche</ion-label>
+        </ion-item>
+        <div slot="content">
+          <ion-list>
+            <ion-item *ngFor="let result of resultList | async">
+              <ion-label>{{ result?.username }}</ion-label>
+              <ion-icon *ngIf="isFavorite(result) else heartoutline" name="heart" (click)="deleteFavorite2(result)">
+              </ion-icon>
+              <ng-template #heartoutline>
+                <ion-icon name="heart-outline" (click)="addToFavorite(result)"></ion-icon>
+              </ng-template>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+      <!-- Favorites items -->
+      <ion-accordion value="favorites">
+        <ion-item slot="header" color="light" lines="none">
+          <ion-label>Mes favoris</ion-label>
+        </ion-item>
+        <div slot="content">
+          <ion-list>
+            <ion-item *ngFor="let favorite of favoritesList$ | async">
+              <ion-label>{{favorite.username}}</ion-label>
+              <ion-button (click)="deleteFavorite2(favorite)" fill="clear">
+                <ion-icon name="heart"></ion-icon>
+              </ion-button>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
+
+    <ng-template #noFavs>Vous n'avez aucun favoris, il faut cliquer sur les cartes pour en ajouter.</ng-template>
+
   </div>
-  <ion-list [inset]="true">
-    <ion-item *ngFor="let favorite of _favoritesList$ | async ">
-      <div class="wrapper__item">
-        <ion-label>{{favorite.username}}</ion-label>
-
-      <ion-button (click)="deleteFavorite2(favorite)" fill="clear">
-        <ion-icon name="heart"></ion-icon>
-      </ion-button>
-    </ion-item>
-  </ion-list>
-
-  <ng-template #noFavs>Vous n'avez aucun favoris, il faut cliquer sur les cartes pour en ajouter.</ng-template>
-
-
 </ion-content>

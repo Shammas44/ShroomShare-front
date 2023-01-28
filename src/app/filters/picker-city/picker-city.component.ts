@@ -76,7 +76,6 @@ export class PickerCityComponent implements OnInit {
   onCheck(city: City) {
     const coordinates = { lat: +city.lat, lon: +city.lon };
     this.state.coordinates = coordinates
-    console.log({ coordinates });
     this.accordionGroup.value = [];
     this.emitValues();
   }

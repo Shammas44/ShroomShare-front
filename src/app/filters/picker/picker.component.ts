@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonAccordionGroup } from '@ionic/angular';
 import { findIndexByProperty, findByProperty } from '../../utils/utility-functions';
 import { Observable, map } from 'rxjs';

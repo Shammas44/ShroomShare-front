@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StorageService } from 'src/app/localStorage/local-storage.service';
-import { concat, delay, Observable, of } from 'rxjs';
+import { IonAccordionGroup } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { Favorite } from 'src/app/models/favorite';
-
-import { AlertController, ModalController, ToastController } from '@ionic/angular';
-
+import { AlertController, ToastController } from '@ionic/angular';
 import { ShroomShareApiService } from 'src/app/utils/shroom-share-api.service';
 import { PaginatedResponse } from 'src/app/models/response';
 import { User } from 'src/app/models/users';
@@ -19,63 +18,50 @@ import { ToastTypes } from 'src/app/utils/utility-functions';
   styleUrls: ['./favorites.page.scss'],
 })
 export class FavoritesPage implements OnInit {
+  @ViewChild('accordionGroup', { static: true }) accordionGroup!: IonAccordionGroup;
   presentToast: (options: ToastOptions | string) => void;
-  //FavoritesList$: Observable<any[]>;
-  favoriteslist$: Observable<Favorite[]>;
-  _favoritesList$: Observable<Favorite[]>;
-  searchInput: string;
-  usersList: any;
-  searchItems: Observable<PaginatedResponse<User>>;
+  favoritesList$: Observable<Favorite[]>;
   resultList: Observable<User[]>;
   search: string = '';
 
   constructor(
     private favoriteStorage: StorageService,
-
     private alertController: AlertController,
     private api: ShroomShareApiService,
     private toastController: ToastController
   ) {
     this.presentToast = getPresentToastFunc(this.toastController);
+    this.favoritesList$ = this.favoriteStorage.getFavorites();
   }
 
   onInputChange(event: Event) {
     const e = event as CustomEvent;
-    this.searchInput = e.detail.value;
-    console.log(this.searchInput);
-    this.searchItems = this.api.getUsers$({ search: this.searchInput });
-    this.resultList = this.api
-      .getUsers$({ search: this.searchInput })
-      .pipe(map<PaginatedResponse<User>, User[]>((PaginatedResp) => PaginatedResp.items));
+    const accordionGroup = this.accordionGroup?.value?.includes('favorites') ? ['favorites'] : [];
+    let searchInput = e.detail.value;
+    this.resultList = new Observable<[]>();
+    if (searchInput === '') {
+      if (this.accordionGroup) this.accordionGroup.value = accordionGroup;
+    } else {
+      this.resultList = this.api
+        .getUsers$({ search: searchInput })
+        .pipe(map<PaginatedResponse<User>, User[]>((PaginatedResp) => PaginatedResp.items));
+    }
+    this.resultList.subscribe({
+      next: (users) => {
+        if (users !== null) {
+          if (users.length > 0) this.accordionGroup.value = [...accordionGroup, 'all'];
+        }
+      },
+    });
   }
 
   ngOnInit() {
-    //this.favoriteslist$ = this.favoriteStorage.getFavorites();
-    this._favoritesList$ = this.favoriteStorage.favoriesList$;
-    console.log('dans le OnInit', this._favoritesList$);
-    this.getAllUser();
-    // console.log('usrelis', this.usersList);
-
-    //console.log('fav2', this.favoriteslist$);
-  }
-
-  getAllUser() {
-    const filter = { search: 'user01' };
-    // this.api.
-    this.usersList = this.api.getUsers$(filter).subscribe((data) => {
-      console.log('userlist data', data);
-    });
+    this.accordionGroup.value = ['favorites'];
   }
 
   isFavorite(user: User): boolean {
     let isfav = false;
-    this._favoritesList$.subscribe((values) => {
-      values.forEach((element) => {
-        if (element.id === user.id) {
-          isfav = true;
-        }
-      });
-    });
+    // this.favoriteStorage.isFaovrite(user.id,user.username)
     return isfav;
   }
 
@@ -85,7 +71,7 @@ export class FavoritesPage implements OnInit {
       username: user?.username,
     });
     this.presentToast({
-      message: `${user?.username} a été ajouté a vos faovris`,
+      message: `${user?.username} a été ajouté a vos favoris`,
       icon: ToastTypes.success,
     });
   }
@@ -107,7 +93,7 @@ export class FavoritesPage implements OnInit {
           handler: () => {
             this.favoriteStorage.deleteFavorite2(favorite.id);
             this.presentToast({
-              message: `${favorite.username} a été retiré de vos faovris`,
+              message: `${favorite.username} a été retiré de vos favoris`,
               icon: ToastTypes.success,
             });
           },

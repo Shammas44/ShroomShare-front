@@ -87,5 +87,4 @@ Vous pouvez directement à partir de l'appplication prendre en photo ce que vous
 
 Sur la carte, vous pouvez voir les emplacements où les utilisateurs ont photographié des champignons. En cliquant sur un emplacement, vous pouvez voir la photo et la description du champignon. Vous pouvez également utiliser des filtres pour afficher les champignons que vous souhaitez voir, avec pratiquement les mêmes options de filtrage que sur la page des champignons, à la seule différence qu'il y a un filtre de ville supplémentaire.
 
-<img src="/pictures/filtres.png" width="400" height="800">
-<img src="/pictures/map.png" width="400" height="800">
+<img src="/pictures/filtres.png" width="400" height="800"> <img src="/pictures/map.png" width="400" height="800">

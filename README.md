@@ -6,10 +6,6 @@ Tout d'abord ils doivent créer un compte ou se connecter à leur compte existan
 
  <img src="/pictures/login.png" width="400" height="800"> <img src="/pictures/register.png" width="400" height="800">
  
-| ![Login](/pictures/login.png) | ![Register](/pictures/register.png)
-
-
-
 Les utilisateurs de l'application peuvent trouver des champignons dans la nature correspondant aux espèces disponibles. 
 Lorsqu'ils le font, ils peuvent alors les photographier, les localiser, les décrire et envoyer ces informations dans l'application. 
 Ensuite, tous les utilisateurs peuvent savoir que cette espèce particulière peut être trouvée à l'emplacement où l'utilisateur a pris la photo. Ils peuvent utiliser des filtres pour améliorer leur recherche. A partir de là, ils peuvent s'orienté grâce à la map où il est spécifiquement mis où sont des points de récoltes selon les champignons de tous les utilisateurs.

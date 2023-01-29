@@ -18,6 +18,8 @@ import { ViewChild } from '@angular/core';
 import { OverlayEventDetail } from '@ionic/core/components';
 import { ModifyMushroomModalComponent } from './../../../modify-mushroom-modal/modify-mushroom-modal.component';
 import { Router } from '@angular/router';
+import { map } from 'rxjs';
+import { MushroomPicture } from 'src/app/models/mushrooms';
 
 @Component({
   selector: 'app-my-mushrooms',
@@ -28,6 +30,7 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
   storageRequestParamKey: string = storageKeys.filterModalMyMushrooms;
   user: User | undefined = undefined;
   mushroom: MushroomWithPic;
+  mushroomModif: boolean = false;
 
   ngOnInit() {
     this.initalItemSetting();
@@ -75,25 +78,6 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
       return;
     });
   }
-  @ViewChild(IonModal) modal: IonModal;
-
-  message = ``;
-  name: string;
-
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-  }
-
-  confirm() {
-    this.modal.dismiss(this.name, 'confirm');
-  }
-
-  onWillDismiss(event: Event) {
-    const ev = event as CustomEvent<OverlayEventDetail<string>>;
-    if (ev.detail.role === 'confirm') {
-      this.message = `Hello, ${ev.detail.data}!`;
-    }
-  }
 
   async modifyItem(currentmushroom: MushroomWithPic) {
     const modalModify = await this.modalCtrl.create({
@@ -103,6 +87,30 @@ export class MyMushroomsPage extends CardList<MushroomWithPic> implements OnInit
       },
     });
     await modalModify.present();
+    const { data, role } = await modalModify.onWillDismiss();
+    if (role == 'cancel') {
+      const filter = { userIds: currentmushroom.user.id };
+
+      this.api.getMushrooms$(filter).subscribe((res) => {
+        let totalMushrooms = res.lastPage * res.items.length;
+        const filter2 = {
+          userIds: currentmushroom.user.id,
+          pageSize: totalMushrooms,
+          showPictures: true,
+        };
+        this.api.getMushrooms$(filter2).subscribe((res) => {
+          res.items.forEach((element) => {
+            this.items.forEach((item) => {
+              if (item.id === element.id) {
+                item.description = element.description;
+                item.picture = element.picture as any;
+                item.specy = element.specy;
+              }
+            });
+          });
+        });
+      });
+    }
   }
 
   fromModaResponseToApiParams(data: TmpState): MushroomsFilter {

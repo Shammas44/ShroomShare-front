@@ -31,7 +31,9 @@ export class ModifyMushroomModalComponent implements OnInit {
   modifyPicture: Boolean = false;
   modifyDesc: Boolean = false;
   currentspecy: string;
+  currentSpecyId: string;
   currentDescription: string;
+  Description: string;
 
   mushroomForm: FormGroup = new FormGroup({
     description: new FormControl(''),
@@ -52,7 +54,9 @@ export class ModifyMushroomModalComponent implements OnInit {
     this.pictureBase64 = this.mushroom.picture.value;
     this.speciesList$ = this.getSpecies();
     this.currentspecy = this.mushroom.specy.name;
+    this.currentSpecyId = this.mushroom.specy.id;
     this.currentDescription = this.mushroom.description;
+    this.Description = this.mushroom.description;
 
     this.mushroomForm = this.formBuilder.group({
       description: [this.mushroom.description, Validators.maxLength(800)],
@@ -88,6 +92,7 @@ export class ModifyMushroomModalComponent implements OnInit {
 
   modifyMushroom(form: FormGroup) {
     if (form.value.specyId) {
+      this.currentSpecyId = form.value.specyId;
     }
     if (form.value.description != this.currentDescription) {
       this.currentDescription = form.value.description;
@@ -96,7 +101,7 @@ export class ModifyMushroomModalComponent implements OnInit {
     const id = this.mushroom.id;
 
     const mushroom: ModifyMushroomRequest = {
-      specy_id: this.currentspecy,
+      specy_id: this.currentSpecyId,
       picture: this.pictureBase64,
       description: this.currentDescription,
     };

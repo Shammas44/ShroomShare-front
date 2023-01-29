@@ -41,11 +41,8 @@ export class CameraPage implements OnInit {
   isLocated: boolean;
   locationSelected: JSON;
   picture: string | undefined;
-  notNow: Boolean;
   date: number = Date.now();
   dateFormat: Date = new Date(this.date);
-  SpeciesSelect: Boolean;
-  isDone: Boolean;
 
   ngOnInit() {
     this.MushroomForm2 = this.formBuilder.group({
@@ -113,6 +110,7 @@ export class CameraPage implements OnInit {
           message: 'Le cahmpignon a été ajouté avec succès',
           icon: ToastTypes.success,
         });
+        this.pictureTaked = false;
         this.route.navigate(['profil/my-mushrooms']);
       },
       error: () => {
@@ -120,26 +118,9 @@ export class CameraPage implements OnInit {
           message: "Echec de l'ajout, Quelque chose s'est mal passée.",
           icon: ToastTypes.success,
         });
+        this.pictureTaked = false;
         this.route.navigate(['mushrooms']);
       },
     });
-    // this.takePicture();
-  }
-
-  onSubmit() {
-    this.submitted = true;
-
-    if (this.MushroomForm2.invalid) {
-      return;
-    }
-  }
-
-  onReset() {
-    this.submitted = false;
-    this.MushroomForm2.reset();
-  }
-
-  userSetDate() {
-    this.notNow = true;
   }
 }

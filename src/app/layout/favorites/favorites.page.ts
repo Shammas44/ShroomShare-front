@@ -23,6 +23,7 @@ export class FavoritesPage implements OnInit {
   favoritesList$: Observable<Favorite[]>;
   resultList: Observable<User[]>;
   search: string = '';
+  currentFavList: Favorite[];
 
   constructor(
     private favoriteStorage: StorageService,
@@ -57,12 +58,13 @@ export class FavoritesPage implements OnInit {
 
   ngOnInit() {
     this.accordionGroup.value = ['favorites'];
+    this.favoritesList$.subscribe((res) => {
+      this.currentFavList = res;
+    });
   }
 
-  isFavorite(user: User): boolean {
-    let isfav = false;
-    // this.favoriteStorage.isFaovrite(user.id,user.username)
-    return isfav;
+  isFavorite(user: User) {
+    return this.currentFavList.some((r) => r.id === user.id);
   }
 
   addToFavorite(user: User) {
@@ -70,6 +72,7 @@ export class FavoritesPage implements OnInit {
       id: user?.id,
       username: user?.username,
     });
+    this.currentFavList.push({ id: user?.id, username: user?.username });
     this.presentToast({
       message: `${user?.username} a été ajouté a vos favoris`,
       icon: ToastTypes.success,
@@ -92,6 +95,8 @@ export class FavoritesPage implements OnInit {
           cssClass: 'alert-button-delete',
           handler: () => {
             this.favoriteStorage.deleteFavorite2(favorite.id);
+            let index = this.currentFavList.indexOf(favorite);
+            this.currentFavList.splice(index, 1);
             this.presentToast({
               message: `${favorite.username} a été retiré de vos favoris`,
               icon: ToastTypes.success,

@@ -53,8 +53,8 @@ Vous pouvez accéder à vos données personnelles et à vos champignons créés.
 
 Vous pouvez discuter avec les autres utilisateurs. Vous pouvez changer de canal, vous avez le choix entre français, italien, allemand et anglais.
 
-
-<img src="/pictures/chat.png" width="400" height="800">
+  
+  <img src="/pictures/chat.png" width="400" height="800">
 
 ### Logo :
 

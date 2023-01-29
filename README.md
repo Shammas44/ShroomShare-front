@@ -41,8 +41,8 @@ Vous pouvez accéder à vos données personnelles et à vos champignons créés.
 				
     - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la         photographie, l'espèce, la description et l'usage (comestible ou         non-comestible). Il est possible de filtrer les champignons selon : l'espèce, l'utilisation, la proximité et la           période de temps.
      
-     ![Modify](/pictures/modify.png)
      ![My Mushrooms](/pictures/my-mushrooms.png)
+     ![Modify](/pictures/modify.png)
 
 ### Chat :
 

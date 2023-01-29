@@ -5,7 +5,6 @@ Cette application permet aux administrateurs de créer des espèces, qui sont di
 Tout d'abord ils doivent créer un compte ou se connecter à leur compte existant pour accéder à l'application.
 
 ![Login](/pictures/login.png)
-
 ![Register](/pictures/register.png)
 
 Les utilisateurs de l'application peuvent trouver des champignons dans la nature correspondant aux espèces disponibles. 
@@ -40,11 +39,9 @@ Vous pouvez accéder à vos données personnelles et à vos champignons créés.
 
   - Mes champignons :
 				
-    - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la         photographie, l'espèce, la description et l'usage (comestible ou non-comestible). Il est
-      possible de filtrer les champignons selon : l'espèce, l'utilisation, la proximité et la           période de temps.
-      
-     ![Modify](/pictures/modify.png)
+    - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la         photographie, l'espèce, la description et l'usage (comestible ou         non-comestible). Il est possible de filtrer les champignons selon : l'espèce, l'utilisation, la proximité et la           période de temps.
      
+     ![Modify](/pictures/modify.png)
      ![My Mushrooms](/pictures/my-mushrooms.png)
 
 ### Chat :
@@ -92,5 +89,4 @@ Vous pouvez directement à partir de l'appplication prendre en photo ce que vous
 Sur la carte, vous pouvez voir les emplacements où les utilisateurs ont photographié des champignons. En cliquant sur un emplacement, vous pouvez voir la photo et la description du champignon. Vous pouvez également utiliser des filtres pour afficher les champignons que vous souhaitez voir, avec pratiquement les mêmes options de filtrage que sur la page des champignons, à la seule différence qu'il y a un filtre de ville supplémentaire.
 
 ![Filtres](/pictures/filtres.png)
-
 ![Map](/pictures/map.png)

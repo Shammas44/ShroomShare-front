@@ -5,7 +5,7 @@ Cette application permet aux administrateurs de créer des espèces, qui sont di
 Tout d'abord ils doivent créer un compte ou se connecter à leur compte existant pour accéder à l'application.
 
 
- <img src="/pictures/login.png" width="400" height="800"> <img src="/pictures/register.png" width="400" height="800">
+<img src="/pictures/login.png" width="400" height="800"> <img src="/pictures/register.png" width="400" height="800">
  
  
 Les utilisateurs de l'application peuvent trouver des champignons dans la nature correspondant aux espèces disponibles. 
@@ -39,7 +39,7 @@ Vous pouvez accéder à vos données personnelles et à vos champignons créés.
    
     
      
-    <img src="/pictures/userdata.png" width="400" height="800">
+<img src="/pictures/userdata.png" width="400" height="800">
     
 
   - Mes champignons :
@@ -47,14 +47,14 @@ Vous pouvez accéder à vos données personnelles et à vos champignons créés.
     - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la         photographie, l'espèce, la description et l'usage (comestible ou         non-comestible). Il est possible de filtrer les champignons selon : l'espèce, l'utilisation, la proximité et la période de temps.
       
       
-     <img src="/pictures/my-mushrooms.png" width="400" height="800"> <img src="/pictures/modify.png" width="400" height="800">
+<img src="/pictures/my-mushrooms.png" width="400" height="800"> <img src="/pictures/modify.png" width="400" height="800">
 
 ### Chat :
 
 Vous pouvez discuter avec les autres utilisateurs. Vous pouvez changer de canal, vous avez le choix entre français, italien, allemand et anglais.
 
   
-  <img src="/pictures/chat.png" width="400" height="800">
+<img src="/pictures/chat.png" width="400" height="800">
 
 ### Logo :
 

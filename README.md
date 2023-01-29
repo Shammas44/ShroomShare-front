@@ -22,31 +22,31 @@ Dans le header, il y a le logo de l'application accompagné des icônes des favo
 ### Favoris :
 
 Vous pouvez gérer vos favoris à votre guiseison. Il est possible de rechercher des utilisateurs pour les ajouter à la liste. Vous pouvez consulter votre liste de favoris et supprimer ceux que vous ne souhaitez plus conserver.
-
-
+ 
+ 
 <img src="/pictures/favoris.png" width="400" height="800">
 
 ### Profil :
 
 Vous pouvez accéder à vos données personnelles et à vos champignons créés. Vous pouvez également vous déconnecter et supprimer votre compte.
-
-
+ 
+ 
 <img src="/pictures/profil.png" width="400" height="800">
 
   - Données personnelles :
 				
     - Vous pouvez modifier votre nom d'utilisateurs, votre e-mail et votre password.
    
-   
     
+     
     <img src="/pictures/userdata.png" width="400" height="800">
     
 
   - Mes champignons :
 				
     - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la         photographie, l'espèce, la description et l'usage (comestible ou         non-comestible). Il est possible de filtrer les champignons selon : l'espèce, l'utilisation, la proximité et la période de temps.
-     
-     
+      
+      
      <img src="/pictures/my-mushrooms.png" width="400" height="800"> <img src="/pictures/modify.png" width="400" height="800">
 
 ### Chat :

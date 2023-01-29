@@ -4,7 +4,10 @@ L'application ShroomShare permet aux utilisateurs de localiser où ils récolten
 Cette application permet aux administrateurs de créer des espèces, qui sont différents types de champignons qui peuvent être trouvés dans la nature. 
 Tout d'abord ils doivent créer un compte ou se connecter à leur compte existant pour accéder à l'application.
 
+ <img src="/pictures/login.png" width="500" height="600"> 
 | ![Login](/pictures/login.png) | ![Register](/pictures/register.png)
+
+
 
 Les utilisateurs de l'application peuvent trouver des champignons dans la nature correspondant aux espèces disponibles. 
 Lorsqu'ils le font, ils peuvent alors les photographier, les localiser, les décrire et envoyer ces informations dans l'application. 

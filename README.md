@@ -32,13 +32,14 @@ Vous pouvez accéder à vos données personnelles et à vos champignons créés.
   - Données personnelles :
 				
     - Vous pouvez modifier votre nom d'utilisateurs, votre e-mail et votre password.
+   
     
     <img src="/pictures/userdata.png" width="400" height="800">
     
 
   - Mes champignons :
 				
-    - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la         photographie, l'espèce, la description et l'usage (comestible ou         non-comestible). Il est possible de filtrer les champignons selon : l'espèce, l'utilisation, la proximité et la           période de temps.
+    - Vous pouvez voir vos champignons, les modifier et les supprimer. Vous pouvez modifiez la         photographie, l'espèce, la description et l'usage (comestible ou         non-comestible). Il est possible de filtrer les champignons selon : l'espèce, l'utilisation, la proximité et la période de temps.
      
      <img src="/pictures/my-mushrooms.png" width="400" height="800"> <img src="/pictures/modify.png" width="400" height="800">
 

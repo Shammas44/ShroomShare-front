@@ -29,8 +29,7 @@
       <!-- description -->
       <ion-item>
         <ion-label>Description</ion-label>
-        <ion-textarea ngModel class="form-control" name="Description" formControlName="description" [autoGrow]="true">
-        </ion-textarea>
+        <ion-textarea [(ngModel)] = "Description" class="form-control" name="Description" formControlName="description" ></ion-textarea>
       </ion-item>
 
       <!-- errors description -->

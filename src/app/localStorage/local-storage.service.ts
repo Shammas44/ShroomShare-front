@@ -29,11 +29,11 @@ export class StorageService {
     this.#storage.subscribe((storage) => storage.remove(key));
   }
 
-  isFavorite(id: string | undefined): any {
+  isFavorite(id: string | undefined) {
     let isfav = false;
     this.getFavorites().subscribe((FavoriteList) => {
       FavoriteList.forEach((favorite: Favorite) => {
-        if (favorite.id == id) {
+        if (favorite.id === id) {
           isfav = true;
         }
       });
@@ -67,25 +67,6 @@ export class StorageService {
       if (index > -1) {
         favoritesList.splice(index, 1);
         this.set('favorites', favoritesList).subscribe();
-      }
-    });
-  }
-
-  isFaovrite(id: string, username: string) {
-    return this._favoriteList$.subscribe((value) => value.includes({ id, username }));
-  }
-
-  public addFavorite(value: any) {
-    //let favoritesList = this.getFavorites().subscribe();
-    this.getFavorites().subscribe((val) => {
-      if (val == null) {
-        this.set('favorites', [value]).subscribe();
-      } else {
-        let listfilter = val.filter((x: any) => x.id === value.id);
-        if (listfilter.length == 0) {
-          val.push(value);
-          this.set('favorites', val).subscribe();
-        }
       }
     });
   }

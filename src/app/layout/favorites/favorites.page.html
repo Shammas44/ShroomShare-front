@@ -30,7 +30,7 @@
         </ion-item>
         <div slot="content">
           <ion-list>
-            <ion-item *ngFor="let favorite of favoritesList$ | async">
+            <ion-item *ngFor="let favorite of currentFavList">
               <ion-label>{{favorite.username}}</ion-label>
               <ion-button (click)="deleteFavorite2(favorite)" fill="clear">
                 <ion-icon name="heart"></ion-icon>
